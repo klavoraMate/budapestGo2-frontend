@@ -1,0 +1,49 @@
+.purchase{
+    display:flow-root;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.canvas {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    column-gap: 20px;
+    row-gap: 10px;
+    margin: 100px;   
+}
+
+.ticket {
+    display: inline-grid;
+    background-color: rgba(0, 0, 0, 0.431);
+    color: aliceblue;
+    width: 400px;
+    height: 200px;
+    align-content: space-around;
+    border: 1px solid #e6e6e6;
+	border-radius: 4px;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.751),
+	            0 25px 30px 0 rgba(0, 0, 0, 0.719);
+
+}
+.ticket:hover{
+	cursor: pointer;
+}
+label {
+    margin: 5px;
+}
+button {
+    margin: 100px; 
+    width: 100px;
+    height: 50px;
+	display: block;
+	padding: 10px;
+	border-radius: 3px;
+	background: #716c71;
+	font-size: 14px;
+	font-weight: 700;
+	color: white;
+	cursor: pointer;
+}
