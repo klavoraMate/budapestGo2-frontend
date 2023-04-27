@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [emailCookie, setEmailCookie] = useState('');
-    const [privilegeCookie, setPrivilegeCookie] = useState('');
     const isMounted = useRef(true);
+    const navigate = useNavigate()
+
+    const navigateTo = (urlEnd) => {
+        navigate(urlEnd);
+    };
 
     useEffect(() => {
         return () => {
@@ -21,10 +25,10 @@ function LoginPage() {
         setPassword(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        fetch('/client/login', {
+        const response = await fetch('/client/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,17 +38,15 @@ function LoginPage() {
                 password: password
             }),
             credentials: 'include'
-        })
-            .then(response => {
-                if (isMounted.current) {
-                    setEmailCookie(document.emailCookie)
-                    setPrivilegeCookie(document.privilegeCookie)
-                    console.log(`Email cookie value: ${emailCookie}`);
-                    console.log(`Privilege cookie value: ${privilegeCookie}`);
-                }
-            })
-            .catch(error => console.error(error));
-    };
+        });
+
+        if (response.ok) {
+            navigateTo("/");
+        }
+
+    }
+
+
 
     return (
         <div>
