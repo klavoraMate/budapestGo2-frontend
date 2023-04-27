@@ -19,7 +19,7 @@ function StopModify() {
 
   return (
     <>
-      <h1>Update Stop</h1>
+      <h1>Update stop</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Name:
