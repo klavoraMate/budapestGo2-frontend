@@ -41,7 +41,6 @@ function LoginPage() {
         });
 
         if (response.ok) {
-            // Redirect to Home after successful login
             navigateTo("/");
         }
 
