@@ -15,16 +15,16 @@ const RouteCreate = () => {
   const [listOfAssignedStop] = useState([]);
   const routeNameField = useRef();
   const stopDropDown = useRef();
-  const {data} = useMultiFetch();
+  const { data } = useMultiFetch();
   useEffect(() => {
-    const url = '/stop/all';
-    (async () => setListOfStops(await data(url)))();
+    const stopURL = '/stop/all';
+    (async () => setListOfStops(await data(stopURL)))();
   }, [data])
 
   const addStopToList = () => {
     const nameOfRoute = routeNameField.current.value;
     const nameofStop = stopDropDown.current.value;
-    if (!listOfAssignedStop.includes(nameofStop)){
+    if (!listOfAssignedStop.includes(nameofStop)) {
       listOfAssignedStop.push(nameofStop)
       console.log(nameofStop + ' assigned to ' + nameOfRoute + ' current length of route is: ' + listOfAssignedStop.length);
     }
@@ -33,8 +33,21 @@ const RouteCreate = () => {
     }
   }
 
-  const createRoute = () => {
-
+  const createRoute = async () => {
+    const nameOfRoute = routeNameField.current.value;
+    const routeURL = '/route/add';
+    const scheduleURL = '/schedule/add';
+    const routeObject = {
+      name: nameOfRoute
+    }
+    await data(routeURL, 'POST', routeObject);
+    listOfAssignedStop.forEach((nameofStop) => {
+      const scheduleObject = {
+        routeName: nameOfRoute,
+        stopName: nameofStop
+      }
+      data(scheduleURL, 'POST', scheduleObject);
+    });
   }
 
   return (
@@ -47,7 +60,7 @@ const RouteCreate = () => {
       <div className='stopPanel'>
         <p>Assign selected stop to route</p>
         <select ref={stopDropDown}>
-          {listOfStops&&listOfStops.map((stop) => <option key={stop.name}>{stop.name}</option>)}
+          {listOfStops && listOfStops.map((stop) => <option key={stop.name}>{stop.name}</option>)}
         </select>
         <button onClick={() => addStopToList()}>Assign stop</button>
       </div>
