@@ -1,6 +1,4 @@
-import React from 'react'
-
-function RouteCreate() {
+const RouteCreate = () => {
   return (
     <div>
       <h2>Create new transportation route</h2>
