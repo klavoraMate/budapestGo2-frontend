@@ -1,20 +1,25 @@
-
+import{ getCookie } from "../cookie";
 import React, {useEffect, useState} from "react";
 import {PassList} from "./PassList";
 
 
 function PassPage() {
     const [passes, setPasses] = useState([]);
-    
+    const [isFetching, setIsFetching] = useState(true);
     const fetchActiveData = async () => {
-      const data = await fetch("/pass/active", Cookies.get("id")); 
+      setIsFetching(false);
+      const data = await fetch(`/pass/active/2`); 
       const dataJSON = await data.json();
       setPasses(dataJSON);
+      console.log(dataJSON);
+    
     };
     const fetchExpiredData = async () => {
-        const data = await fetch("/pass/expired", Cookies.get("id"));
+        setIsFetching(true);
+        const data = await fetch(`/pass/expired/${getCookie("id")}`);
         const dataJSON = await data.json();
         setPasses(dataJSON);
+        setIsFetching(false);
     };
     useEffect(() => {
         fetchActiveData();
@@ -34,8 +39,13 @@ function PassPage() {
                 >
                     Expired passes
                 </button>
-            </div>
-  {/*           <PassList questionData={passes}/> */}
+            </div>{isFetching ? (
+        <div className="w-full flex justify-center items-center">
+          <p>Loading...</p>
+        </div>
+      ) : (
+        <PassList questionData={passes} />
+      )}
         </div>
     );
 }
