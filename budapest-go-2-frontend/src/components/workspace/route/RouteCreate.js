@@ -3,13 +3,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 
-/*
-A route-hoz hozza adando stop-ok bekerulnek az assignStopList-be,
-a createRoute gomb megnyomasaval POST-oljuk route tablere az uj route-ot,
-az uj route nevet eltaroljuk es schedule table-hez adjuk annyi route-stop
-part amennyi assigned stop elem van a listaban.
-*/
-
 const RouteCreate = () => {
   const [listOfStops, setListOfStops] = useState();
   const [listOfAssignedStop] = useState([]);
