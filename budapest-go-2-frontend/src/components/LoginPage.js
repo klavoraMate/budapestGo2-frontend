@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import useFetch from "../components/api/useFetch"
 import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
@@ -28,16 +29,17 @@ function LoginPage() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await fetch('/client/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            }),
-        });
+        const response = await
+            await fetch('/client/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+            });
 
         if (response.ok) {
             navigateTo("/");
