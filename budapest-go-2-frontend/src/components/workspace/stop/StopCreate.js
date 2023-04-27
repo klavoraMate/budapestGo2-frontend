@@ -1,24 +1,20 @@
 import React from 'react'
+import useMultiFetch from '../../api/useMultiFetch';
 
 
 function StopCreate() {
-
+  const { data } = useMultiFetch();
 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { name, latitude, longitude } = event.target.elements;
-    fetch('/stop/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        latitude: latitude,
-        longitude: longitude,
-        name: name
-      }),
-    });
+    const stopObject = {
+      latitude: latitude.value,
+      longitude: longitude.value,
+      name: name.value
+    }
+    data('/stop/add', 'POST', stopObject);
 
   }
 
@@ -43,7 +39,6 @@ function StopCreate() {
         <br />
         <input type="submit" value="Submit" />
       </form>
-      <div>stopCreate</div>
     </>
   )
 }
