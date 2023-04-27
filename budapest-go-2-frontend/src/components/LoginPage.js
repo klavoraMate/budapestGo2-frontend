@@ -41,7 +41,7 @@ function LoginPage() {
             });
 
         if (response.ok) {
-            navigateTo("/");
+            navigateTo("/workspace");
         }
 
     }
