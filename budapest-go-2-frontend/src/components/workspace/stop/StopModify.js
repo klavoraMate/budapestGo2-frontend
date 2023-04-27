@@ -1,8 +1,14 @@
 import React from 'react'
 import useMultiFetch from '../../api/useMultiFetch';
+import { useState, useEffect } from 'react';
 
 function StopModify() {
   const { data } = useMultiFetch();
+  const [listOfStops, setListOfStops] = useState();
+  useEffect(() => {
+    const stopURL = '/stop/all';
+    (async () => setListOfStops(await data(stopURL)))();
+  }, [])
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -13,9 +19,7 @@ function StopModify() {
       name: name.value
     }
     data('/stop/', 'PUT', stopObject);
-
   }
-
 
   return (
     <>
@@ -23,7 +27,9 @@ function StopModify() {
       <form onSubmit={handleSubmit}>
         <label>
           Name:
-          <input type="text" name="name" />
+          <select name='name'>
+            {listOfStops&&listOfStops.map((stop) => <option key={stop.name}>{stop.name}</option>)}
+          </select>
         </label>
         <br />
         <label>
