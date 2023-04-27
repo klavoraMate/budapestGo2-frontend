@@ -28,14 +28,14 @@ const Home = () => {
     }, []);
 
     return (
-        <>
+        <div className='pageContent'>
             {emailCookie && <div>
                 <p>{emailCookie}</p>
                 <button onClick={() => handleLogout()}>Logout</button>
             </div>}
             <h1>Budapest Go 2</h1>
             <button className="login" onClick={() => navigateTo('./login')}>Login</button>
-        </>
+        </div>
     )
 }
 

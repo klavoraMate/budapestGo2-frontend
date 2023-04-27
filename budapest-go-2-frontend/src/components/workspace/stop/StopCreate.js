@@ -20,7 +20,7 @@ function StopCreate() {
 
 
   return (
-    <>
+    <div className='pageContent'>
       <h1>Update Stop</h1>
       <form onSubmit={handleSubmit}>
         <label>
@@ -40,7 +40,7 @@ function StopCreate() {
         <br />
         <input type="submit" value="Submit" />
       </form>
-    </>
+    </div>
   )
 }
 

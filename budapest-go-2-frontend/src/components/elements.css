@@ -1,0 +1,24 @@
+button {
+  border: none;
+  border-radius: 12px;
+  background-color: #FFFFFF;
+  color: #5E276F;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #5E276F;
+  color: #FFFFFF;
+}
+
+button:active {
+  color: #9B9B9B;
+}
+.pageContent {
+  position: relative;
+  top: 100px;
+}

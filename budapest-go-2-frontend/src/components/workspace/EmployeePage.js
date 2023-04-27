@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 function EmployeePage() {
   const navigate = useNavigate()
   return (
-    <div className='managemantPanel'>
+    <div className='pageContent'>
       <div className='routeGroup'>
         <label>Manage routes</label>
         <button onClick={() => navigate('/route/add')}>Add new routes</button>

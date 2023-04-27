@@ -10,9 +10,11 @@ import RouteCreate from './components/workspace/route/RouteCreate';
 import RouteModify from './components/workspace/route/RouteModify';
 import StopCreate from './components/workspace/stop/StopCreate';
 import StopModify from './components/workspace/stop/StopModify';
+import NavigationBar from './components/NavigationBar';
 
 function App() {
   return (<Router>
+    <NavigationBar/>
     <Routes>
       <Route path='/' element={<Home />} />
       <Route path='/login' element={<LoginPage />} />

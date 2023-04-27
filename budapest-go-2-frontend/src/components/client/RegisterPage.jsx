@@ -48,7 +48,7 @@ function RegisterPage (){
             .catch(error => console.error(error));
     };
     return (
-      <div>
+      <div className="pageContent">
         <div>Register!</div>
         <div hidden = {hidden}>Email already registered</div>
         <div className="flex justify-center flex-col items-center text-2xl ">
