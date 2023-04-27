@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from './components/LoginPage';
+import RegisterPage from './components/client/RegisterPage';
+import PassPage from './components/pass/PassPage';
+import PassPurchasePage from './components/pass/PassPurchasePage';
 import Home from './components/Home';
 import EmployeePage from './components/workspace/EmployeePage';
 import RouteCreate from './components/workspace/route/RouteCreate';
@@ -18,11 +21,10 @@ function App() {
       <Route path='/route/edit' element={<RouteModify/>}/>
       <Route path='/stop/add' element={<StopCreate/>}/>
       <Route path='/stop/edit' element={<StopModify/>}/>
+      <Route path='/register' element={<RegisterPage/>} />
+      <Route path='/pass' element={<PassPage/>} />
+      <Route path='/purchase' element={<PassPurchasePage/>} />
     </Routes>
-  </Router >);
+  </Router>);
 }
-
-
-
-
 export default App;
