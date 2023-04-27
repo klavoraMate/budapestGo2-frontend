@@ -38,7 +38,7 @@ const RouteCreate = () => {
   }
 
   return (
-    <div>
+    <div className='pageContent'>
       <h2>Create new transportation route</h2>
       <div className='routeDetail'>
         <p>Set name of new route:</p>
