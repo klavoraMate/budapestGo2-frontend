@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { getCookie, deleteCookie } from "./cookie";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -10,19 +11,28 @@ const Home = () => {
         navigate(urlEnd);
     };
 
+    const handleLogout = () => {
+        deleteCookie("email");
+        deleteCookie("privilege");
+        setEmailCookie(null);
+        setPrivilegeCookie(null)
+    }
+
     useEffect(() => {
-        const cookies = document.cookie.split("; ");
-        const emailCookie = cookies.find((cookie) => cookie.startsWith("email="));
-        const privilegeCookie = cookies.find((cookie) => cookie.startsWith("privilege="));
-        if (emailCookie && privilegeCookie) {
-            setEmailCookie(emailCookie.split("=")[1]);
-            setPrivilegeCookie(privilegeCookie.split("=")[1]);
+        const email = getCookie("email");
+        const privilege = getCookie("privilege");
+        if (email && privilege) {
+            setEmailCookie(email);
+            setPrivilegeCookie(privilege);
         }
     }, []);
 
     return (
         <>
-            {emailCookie && <p>{emailCookie}</p>}
+            {emailCookie && <div>
+                <p>{emailCookie}</p>
+                <button onClick={() => handleLogout()}>Logout</button>
+            </div>}
             <h1>Budapest Go 2</h1>
             <button className="login" onClick={() => navigateTo('./login')}>Login</button>
         </>
