@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect } from "react";
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [emailCookie, setEmailCookie] = useState('');
+    const [privilegeCookie, setPrivilegeCookie] = useState('');
     const isMounted = useRef(true);
 
     useEffect(() => {
@@ -35,8 +37,8 @@ function LoginPage() {
         })
             .then(response => {
                 if (isMounted.current) {
-                    const emailCookie = response.headers.get('email');
-                    const privilegeCookie = response.headers.get('privilege');
+                    setEmailCookie(document.emailCookie)
+                    setPrivilegeCookie(document.privilegeCookie)
                     console.log(`Email cookie value: ${emailCookie}`);
                     console.log(`Privilege cookie value: ${privilegeCookie}`);
                 }
