@@ -21,6 +21,7 @@ function StopCreate() {
 
   return (
     <>
+      <h1>Update Stop</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Name:
