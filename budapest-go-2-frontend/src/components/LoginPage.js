@@ -22,7 +22,7 @@ function LoginPage() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        fetch('http://localhost:8080/client/login', {
+        fetch('/client/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
