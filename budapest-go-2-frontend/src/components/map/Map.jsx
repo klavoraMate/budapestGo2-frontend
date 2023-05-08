@@ -1,7 +1,14 @@
 import {useEffect, useState} from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import "./leaflet.css";
+import "../../Static/map/leaflet.css";
 import useMultiFetch from "../api/useMultiFetch";
+import L from "leaflet";
+const getIcon = () => {
+    return L.icon({
+        iconUrl: '../../Static/images/marker-icon.png',
+        iconSize: [25, 41]
+    })
+}
 const Map = () => {
     const { data } = useMultiFetch();
     const [listOfStops, setListOfStops] = useState();
@@ -20,7 +27,7 @@ const Map = () => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-            {listOfStops&&listOfStops.map(stop => <Marker position={[stop.latitude, stop.longitude]} name={"sdf"}>
+            {listOfStops&&listOfStops.map(stop => <Marker icon={getIcon()} position={[stop.latitude, stop.longitude]}>
                 <Popup>
                     {stop.name}
                 </Popup>
