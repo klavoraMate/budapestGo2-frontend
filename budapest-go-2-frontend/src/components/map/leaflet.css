@@ -1,5 +1,25 @@
 /* required styles */
+.mapContent{
+	position: relative;
+	top: 39px;
+}
+.searchBar {
+	position: relative;
+	z-index: 3;
+	transform: translate(620px, 60px);
 
+	border: black;
+	border-radius: 12px;
+	background-color: #FFFFFF;
+	color: #5E276F;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 12px 24px;
+	cursor: text;
+	transition: all 0.2s ease-in-out;
+	width: 300px;
+	box-shadow: 0 2px 4px rgba(1, 1, 1, 1);
+}
 .leaflet-pane,
 .leaflet-tile,
 .leaflet-marker-icon,
@@ -16,6 +36,9 @@
 	}
 .leaflet-container {
 	overflow: hidden;
+	width: 100%;
+	height: 89vh;
+	z-index: 1;
 	}
 .leaflet-tile,
 .leaflet-marker-icon,
