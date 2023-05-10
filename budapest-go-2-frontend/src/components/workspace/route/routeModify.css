@@ -1,0 +1,16 @@
+.listPanel {
+    display: flex;
+    flex-direction: row;
+    width: 700px;
+}
+.element {
+    flex: 1;
+
+}
+.pagePanel {
+    display: flex;
+    flex-direction: row;
+}
+.pageElement {
+    flex: 1;
+}
