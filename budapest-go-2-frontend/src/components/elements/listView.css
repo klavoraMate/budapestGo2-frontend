@@ -1,0 +1,16 @@
+.listBody {
+    width: 300px;
+    height: 200px;
+    border-style: solid;
+    border-width: thin;
+}
+.column {
+    height: 30px;
+}
+.option {
+    background-color: transparent;
+}
+.selectedOption {
+    background-color: #5E276F;
+    color: azure;
+}
