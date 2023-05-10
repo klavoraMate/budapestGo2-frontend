@@ -1,22 +1,23 @@
-const useMultiFetch = () => {
-  const data = async (url, method, bodyObject) => {
-    try {
-      const response = await fetch((!(url[0] === "/") ? "/" : "") + url, {
-        method: (method ?? "GET"),
-        body: JSON.stringify(bodyObject),
-        headers: {
-          "Content-Type": "application/json"
+const useFetch = () => {
+    const postAsync = async (url, answerObject, method) => {
+      try {
+        const response = await fetch((!(url[0] === "/") ? "/" : "") + url, {
+          method: (method ?? "GET"),
+          body: JSON.stringify(answerObject),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+        if (!response.ok) {
+          console.log(answerObject);
+          throw new Error(`Failed to ${method} to table: ${url}`);
         }
-      });
-      if (!response.ok) {
-        console.log(bodyObject);
-        throw new Error(`Failed to ${method} on ${url}`);
+        const id = await response.json();
+        return id;
+      } catch (error) {
+        console.error(error);
       }
-      return await response.json();
-    } catch (error) {
-      console.error(error);
-    }
+    };
+    return { postAsync };
   };
-  return { data };
-};
-export default useMultiFetch;
+  export default useFetch;
