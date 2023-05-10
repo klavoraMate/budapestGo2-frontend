@@ -3,9 +3,10 @@
     display:flex;
 }
 #passContent{
-    display:flex;
-    column-gap: 20px;
-    row-gap: 0px;
+    margin-top: 20px;
+    margin-left: 60px;
+    column-count: 4;
+    column-gap: 20px;   
 }
 #noData{
     display:grid;
@@ -17,4 +18,17 @@
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.751),
 	            0 25px 30px 0 rgba(0, 0, 0, 0.719);
             
+}
+#video{
+    scale:0.5;
+    max-width: 100px;
+    max-height: 100px;    
+}
+#loading{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#loading-text{
+    
 }

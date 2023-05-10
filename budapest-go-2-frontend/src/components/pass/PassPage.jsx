@@ -8,16 +8,19 @@ function PassPage() {
     const navigate = useNavigate();
     const [passes, setPasses] = useState([]);
     const [isFetching, setIsFetching] = useState(true);
-  
+    const [isActive, setIsActive] = useState(true);  
+   
     async function fetchActiveData() {
       setIsFetching(true);
-      const data = await fetch(`/pass/active/2`);
+      setIsActive(true);
+      const data = await fetch(`/pass/active/${getCookie("id")}`);
       setPasses(await data.json());
       setIsFetching(false);
     };
   
     const fetchExpiredData = async () => {
       setIsFetching(true);
+      setIsActive(false);
       const data = await fetch(`/pass/expired/${getCookie("id")}`);
       const dataJSON = await data.json();
       setPasses(await dataJSON);
@@ -50,12 +53,14 @@ function PassPage() {
         </div>
         
         {isFetching ? (
-          <div>
-            <p>Loading...</p>
+          <div id="loading">
+            <p id="loading-text">Loading...</p>
           </div>
         ) : passes.length > 0 ? (
         <div  id="passContent">
-            <PassList passData={passes} />
+            <PassList passData={passes}
+                      active={isActive}
+             />
         </div>
           ) : ( <div id="noData">
           <p>No data</p>

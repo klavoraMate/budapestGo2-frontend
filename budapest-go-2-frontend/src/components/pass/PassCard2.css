@@ -1,0 +1,139 @@
+@import url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/library.css");
+@import url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/variables.css");
+
+:root {
+--barcode: white;
+--grey: #7b0263;
+--ticket-body: #161616;
+}
+
+body {
+font-family: "Montserrat", "Helvetica Neue", "Open Sans", "Arial";
+font-weight: 300;
+}
+
+.container-fluid {
+text-align: center;
+width: 100%;
+}
+
+.ticket {
+border-radius: 4px;
+display: inline-block;
+max-width: 320px;
+text-align: left;
+text-transform: uppercase;
+width: 100%;
+}
+
+.box{
+   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.751),
+   0 25px 30px 0 rgba(0, 0, 0, 0.719); 
+}
+
+.ticket.light {
+background-color: white;
+color: var(--ticket-body);
+}
+
+.ticket.light .ticket-body {
+border-color: var(--ticket-body);
+}
+
+.ticket-head {
+background-position: center;
+background-size: cover;
+border-radius: 4px 4px 0 0;
+color: white;
+height: 140px;
+margin-left: -1px;
+margin-right: -1px;
+position: relative;
+}
+
+.ticket-head .from-to {
+text-align: center;
+font-size: 24px;
+font-weight: 600;
+width: 100%;
+z-index: 2;
+}
+
+.ticket-head .icon {
+display: inline-block;
+margin: 0 40px;
+transform: rotate(135deg) translate(25%, 25%);
+}
+
+.ticket-body {
+padding: 15px 45px;
+height: 270px;
+position: relative;
+}
+
+.ticket-body p {
+color: var(--grey);
+font-size: 12px;
+}
+
+.ticket-body .flight-info {
+margin-top: 15px;
+}
+
+.ticket-body .flight-date {
+font-size: 12px;
+margin-top: 15px;
+}
+
+.ticket-body::before,
+.ticket-body::after {
+background-color: var(--body);
+border-radius: 100%;
+content: "";
+height: 15px;
+position: absolute;
+top: 100%;
+width: 20px;
+}
+
+.ticket-body::before {
+left: 0;
+transform: translate(-70%, -45%);
+}
+
+.ticket-body::after {
+right: 0;
+transform: translate(70%, -45%);
+}
+
+.layer {
+    transition: all 0.2s ease;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 4px 4px 0 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+ }
+ 
+ p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+ }
+
+#expired{
+background-color: lightgray;
+color: rgb(137, 134, 134);
+filter: blur(0.4px);
+}
+.active{
+   color: chartreuse;
+}
+.inActive{
+   color: rgb(194, 4, 4);
+}
+#passCard{
+   margin-bottom: 50px;
+}

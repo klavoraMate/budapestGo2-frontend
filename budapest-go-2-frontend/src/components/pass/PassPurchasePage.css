@@ -3,14 +3,14 @@
     margin: 0;
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 45%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
 .canvas {
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    column-gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 180px;
     row-gap: 10px;
     margin: 100px;   
 }
@@ -23,9 +23,6 @@
     align-content: space-around;
     border: 1px solid #e6e6e6;
 	border-radius: 4px;
-    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.751),
-	            0 25px 30px 0 rgba(0, 0, 0, 0.719);
-
 }
 .ticket:hover{
 	cursor: pointer;
@@ -34,7 +31,6 @@ label {
     margin: 5px;
 }
 #button {
-    /* margin: 100px;  */
     width: 100px;
     height: 50px;
 	display: block;
@@ -45,4 +41,52 @@ label {
 	font-weight: 700;
 	color: black;
 	cursor: pointer;
+}
+#cart{
+    width: 100px;
+    height: 20px;
+    border: 4px;
+    border-style:outset;
+    border-radius: 4px;
+    border-color: #5E276F;
+    margin-left: 100px;
+	border-radius: 3px;
+	font-size: 14px;
+	font-weight: 700;
+	color: black;
+    visibility: hidden;
+}
+@media screen and (max-width: 960px) {
+    #button,#cart {
+        
+        width: 100%;
+        max-width: 200px;
+        margin: auto;
+        font-size: 1rem;
+    }
+    .ticket:hover{
+        transform: scale(1.05);
+    }
+    .ticket {
+        display: flex;
+        grid-column:inherit;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 150px;
+        }
+    .canvas {
+        scale: 0.7;
+        display: flex;
+        grid-column: 1;
+        flex-wrap:wrap;
+        justify-content: center;
+        padding-right: 120px;
+        gap: 170px;
+        padding-top: 600px;
+        margin: auto;
+    }
+    #buttonHolder{
+        margin-top: -100px;
+    }   
 }

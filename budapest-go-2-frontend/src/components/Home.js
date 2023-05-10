@@ -6,7 +6,7 @@ const Home = () => {
     const navigate = useNavigate();
     const [emailCookie, setEmailCookie] = useState(null);
     const [privilegeCookie, setPrivilegeCookie] = useState(null);
-
+    const [idCookie, setIdCookie] = useState(null);
     const navigateTo = (urlEnd) => {
         navigate(urlEnd);
     };
@@ -14,16 +14,21 @@ const Home = () => {
     const handleLogout = () => {
         deleteCookie("email");
         deleteCookie("privilege");
+        deleteCookie("id");
         setEmailCookie(null);
-        setPrivilegeCookie(null)
+        setPrivilegeCookie(null);
+        setIdCookie(null);
     }
 
     useEffect(() => {
         const email = getCookie("email");
         const privilege = getCookie("privilege");
+        const id = getCookie("id");
         if (email && privilege) {
+            console.log(id);
             setEmailCookie(email);
             setPrivilegeCookie(privilege);
+            setIdCookie(id);
         }
     }, []);
 

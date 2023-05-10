@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import useMultiFetch from '../api/useMultiFetch';
 function RegisterPage (){
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
     const [hidden, setHidden] = useState(true);
     const isMounted = useRef(true);
     useEffect(() => {
@@ -19,12 +21,15 @@ function RegisterPage (){
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
-    const handleSubmit = (e) => {
+    const HandleSubmit = async (e) => {
         e.preventDefault();
-        CreateClient(email,password);
+        await postRegistration(email,password);
     }
-    const CreateClient =(email, password)=>{
-        fetch('/client/register', {
+    
+    
+   const postRegistration = async(email, password)=>{
+    console.log(password,email);
+    fetch('/client/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,25 +39,24 @@ function RegisterPage (){
                 password: password
             }),
         })
-            .then(response => {
-                let data = response.json;
-                if (response.status === 200) {
-                    console.log("Client created.");
-                    navigate("/");
-                }else{
-                    setHidden(false);
-                    console.log("Client with that email registered.")
-                }
-                return data;
-            })
-            .catch(error => console.error(error));
+        .then(response => {
+            if (response.status === 200) {
+                setHidden(false);
+                response.text().then(messages => setMessage(messages));
+                navigate("/");
+            } else {
+                setHidden(false);
+                response.text().then(errorMessage => setMessage(errorMessage));
+            }
+        })
+        .catch(error => console.error(error));
     };
     return (
       <div className="pageContent">
         <div>Register!</div>
-        <div hidden = {hidden}>Email already registered</div>
+        <div hidden = {hidden}>{message}</div>
         <div className="flex justify-center flex-col items-center text-2xl ">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={HandleSubmit}>
                 <div>
                     <label htmlFor="email">Email:</label>
                     <input type="text" id="email" value={email} onChange={handleEmailChange} />
