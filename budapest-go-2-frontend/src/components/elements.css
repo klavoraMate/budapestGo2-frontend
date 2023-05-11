@@ -1,5 +1,4 @@
 button {
-  border: none;
   border-radius: 12px;
   background-color: #FFFFFF;
   color: #5E276F;
@@ -8,6 +7,8 @@ button {
   padding: 12px 24px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  border-style: solid;
+  border-width: thin;
 }
 
 button:hover {
