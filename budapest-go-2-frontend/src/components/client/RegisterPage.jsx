@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useMultiFetch from '../api/useMultiFetch';
+
 function RegisterPage (){
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -53,7 +53,7 @@ function RegisterPage (){
     };
     return (
       <div className="pageContent">
-        <div>Register!</div>
+        <h1>Register</h1>
         <div hidden = {hidden}>{message}</div>
         <div className="flex justify-center flex-col items-center text-2xl ">
         <form onSubmit={HandleSubmit}>
@@ -66,6 +66,11 @@ function RegisterPage (){
                     <input type="password" id="password" value={password} onChange={handlePasswordChange} />
                 </div>
                 <button type="submit">Register</button>
+                <h3 className="register"
+                onClick={() =>  navigate("/login")}
+                >
+                Registered already?
+            </h3>
           </form>
         </div>
       </div>
