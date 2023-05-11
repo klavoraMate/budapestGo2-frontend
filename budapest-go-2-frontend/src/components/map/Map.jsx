@@ -1,11 +1,11 @@
 import {useEffect, useState} from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import "../../Static/map/leaflet.css";
+import "./leaflet.css";
 import useMultiFetch from "../api/useMultiFetch";
 import L from "leaflet";
 const getIcon = () => {
     return L.icon({
-        iconUrl: '../../Static/images/marker-icon.png',
+        iconUrl: process.env.PUBLIC_URL + '/map/marker-icon.png',
         iconSize: [25, 41]
     })
 }
@@ -18,7 +18,7 @@ const Map = () => {
         const stopURL = '/stop/all';
         const routeURL = '/route/all';
         (async () => setListOfStops(await data(stopURL), setListOfRoutes(await data(routeURL))))();
-    }, [])
+    }, [data])
   return (
       <div className={"mapContent"}>
           <input className={"searchBar"} type={"text"} placeholder={"Search routes, lines, stops or spots"}/>
