@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
+import{getCookie,isCookieAdequette} from "../components/cookie";
 import { useNavigate } from "react-router-dom";
-
+import  "./LoginPage.css";
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -41,7 +42,12 @@ function LoginPage() {
             });
 
         if (response.ok) {
-            navigateTo("/workspace");
+            if(isCookieAdequette("EMPLOYEE")){
+                navigateTo("/workspace")
+            }
+            if(isCookieAdequette("CUSTOMER")){
+                navigateTo("/map");  
+            }
         }
 
     }
@@ -62,7 +68,11 @@ function LoginPage() {
                 </div>
                 <button type="submit">Login</button>
             </form>
-            <h5 onClick={() =>  navigateTo("/register")}>Not registered yet?</h5>
+            <h5 className="register"
+             onClick={() =>  navigateTo("/register")}
+             >
+                Not registered yet?
+            </h5>
         </div>
     );
 }
