@@ -1,14 +1,17 @@
 #pass{
     margin-top: 100px;
-    display:flex;
+    
+    display:grid;
 }
 #passContent{
-    display:flex;
-    column-gap: 20px;
-    row-gap: 0px;
+    margin-top: 50px;
+    margin-left: 60px;
+    column-count: 3;
+    column-gap: 0px;
 }
+
 #noData{
-    display:grid;
+    /* display:grid;
     height: 50px;
     width: 150%;
     margin: 10px;     
@@ -16,5 +19,14 @@
 	border-radius: 1px;
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.751),
 	            0 25px 30px 0 rgba(0, 0, 0, 0.719);
-            
+     */        
+}
+
+#loading{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#loading-text{
+    
 }

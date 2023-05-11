@@ -1,52 +1,77 @@
 import "./PassPurchasePage.css";
+import { useEffect, useState } from "react";
 import{ getCookie } from "../cookie";
 import { useNavigate } from "react-router-dom";
-
+import { Pass } from "./Pass";
 function PassPurchasePage() {
     const navigate = useNavigate();
-    let passToPurchase = "";
-    const handleSubmit = async () => {
-        fetch('/pass/register', {
+    const [isFetching, setIsFetching] = useState(true);
+    const [passCategories, setPassCategories] = useState([]);
+    const [ passToPurchase, setPassToPurchase ]= useState("");
+    let displayedCategory = [];
+    const HandleSubmit = async () => {
+     
+           let data = {clientId:getCookie("id"),passType:passToPurchase};
+        //useMultiFetch('/pass/register','POST',data);
+       fetch('/pass/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 clientId:getCookie("id"),
-                passType:passToPurchase
+                passDuration:passToPurchase[0],
+                passCategory:passToPurchase[1]
             }),
-        });
+        }); 
     };
+    
     function purchasePass(passtype){
-        passToPurchase = passtype;
+        let passToPurchaseData = passtype.split(',');
+        document.getElementById("cart").style.visibility = "visible";
+        setPassToPurchase(passToPurchaseData);
+        console.log(passToPurchase[0]);
+        console.log(passToPurchase[1]);
+        console.log(getCookie("id"));
     }
+        const GetCategories = async () => {
+        const data = await fetch("/category/all");
+        setPassCategories(await data.json());
+        setIsFetching(false);
+    }  
+
+    useEffect(() => {
+        if(isFetching){
+        GetCategories();
+        }
+    }, [passToPurchase]);
 
     return (
         <div className="purchase">
             <div className="canvas">
-                <div className="ticket"
-                    onClick={() => purchasePass("DAILY") }
+                 {passCategories && passCategories.map((passType) => {
+                      if(!displayedCategory.includes(passType.category)) {
+                        displayedCategory.push(passType.category);
+                        return(
+                    <div 
+                    key={passType.id} 
+                    className="ticket"
+                    onClick={(e)=> purchasePass(e.target.textContent)}
                 >
-                    <h2>Daily Pass</h2> 
-                    <h3>300 Ft</h3>
-                </div>
-                <div className="ticket"
-                    onClick={() => purchasePass("WEEKLY") }
-                >
-                    <h2>Weekly Pass</h2> 
-                    <h3>2000 Ft</h3>
-                </div>
-                <div className="ticket"
-                     onClick={() => purchasePass("MONTHLY") }
-                >
-                    <h2>Monthly Pass</h2> 
-                    <h3>9000 Ft</h3>
-                </div>
+                    <Pass 
+                    category = {passType.category}
+                    categoryData = {passCategories}
+                    /> 
+                </div>)
+                    }
+                })
+                }
             </div>
             <div id="buttonHolder">
+                <div id="cart" >1x {passToPurchase[1]}  {passToPurchase[0]}</div>
                 <button
                     id="button"
-                    onClick={()=>handleSubmit()}
+                    onClick={()=>HandleSubmit()}
                 >
                     Purchase
                 </button>

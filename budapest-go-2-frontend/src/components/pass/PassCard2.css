@@ -1,0 +1,172 @@
+@import url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/library.css");
+@import url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/variables.css");
+
+:root {
+--barcode: white;
+--grey: #7b0263;
+--ticket-body: #161616;
+}
+
+body {
+font-family: "Montserrat", "Helvetica Neue", "Open Sans", "Arial";
+font-weight: 300;
+}
+.row{
+   margin-bottom: 150px;
+}
+
+.ticket {
+border-radius: 4px;
+display: inline-block;
+max-width: 320px;
+text-align: left;
+text-transform: uppercase;
+width: 100%;
+
+}
+
+
+.ticket.light {
+background-color: white;
+color: var(--ticket-body);
+}
+
+.ticket.light .ticket-body {
+border-color: var(--ticket-body);
+}
+
+.ticket-head {
+background-position: center;
+background-size: cover;
+border-radius: 4px 4px 0 0;
+color: white;
+height: 140px;
+margin-left: -1px;
+margin-right: -1px;
+position: relative;
+}
+
+.ticket-head .from-to {
+text-align: center;
+font-size: 24px;
+font-weight: 600;
+width: 100%;
+z-index: 2;
+}
+
+.ticket-head .icon {
+display: inline-block;
+margin: 0 40px;
+transform: rotate(135deg) translate(25%, 25%);
+}
+
+.ticket-body {
+padding: 15px 45px;
+height: 270px;
+position: relative;
+}
+
+.ticket-body p {
+color: var(--grey);
+font-size: 12px;
+}
+
+.ticket-body .flight-info {
+margin-top: 15px;
+}
+
+.ticket-body .flight-date {
+font-size: 12px;
+margin-top: 15px;
+}
+
+.ticket-body::before,
+.ticket-body::after {
+background-color: var(--body);
+border-radius: 100%;
+content: "";
+height: 15px;
+position: absolute;
+top: 100%;
+width: 20px;
+}
+
+.ticket-body::before {
+left: 0;
+transform: translate(-70%, -45%);
+}
+
+.ticket-body::after {
+right: 0;
+transform: translate(70%, -45%);
+}
+#logos {
+   scale: 0.39;
+   padding-right: 900px;
+   margin-top: -100px;
+ }
+ #logos2 {
+   scale: 0.39;
+   background-color:rgba(255, 255, 255, 0.773);
+   padding-right: 650px;
+   margin-top: -40px;
+ }
+ .statusbox{
+   background-color:rgba(237, 235, 235, 0.999);
+   margin-top: -10px;
+ }
+ .headers{
+   padding-top:3px;
+   color: #161616;
+  background-color: rgba(255, 255, 255, 0.773);
+  margin-bottom: -10px;
+ }
+#content{
+   text-align: center;
+   background-color:  rgba(237, 235, 235, 0.999);
+}
+
+.layer {
+   
+    text-align:start;
+    border-radius: 5px;   
+    border-width: 1px;
+    border-style: solid;
+    border-color: #969696;
+    background-color: rgba(237, 235, 235, 0.999);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+ }
+ 
+ p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+ }
+
+#expired{
+background-color: rgba(255, 255, 255, 0.773);
+color: rgb(137, 134, 134);
+filter: blur(0.4px);
+}
+.active{
+   color: rgb(78, 154, 3);
+   background-color: chartreuse;
+   width: 23%;
+   border-radius: 5px;
+   margin-left: 5px;
+}
+.activebox{
+   background-color: chartreuse;
+   width: 23%;
+   border-radius: 3px;
+   margin-left: -1px;
+}
+.inActive{
+   color: rgb(194, 4, 4);
+}
+#passCard{
+   margin-bottom: 50px;
+}

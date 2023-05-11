@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
+import{getCookie,isCookieAdequette} from "../components/cookie";
 import { useNavigate } from "react-router-dom";
-
+import  "./LoginPage.css";
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -28,7 +29,7 @@ function LoginPage() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await
+        const response = 
             await fetch('/client/login', {
                 method: 'POST',
                 headers: {
@@ -41,7 +42,12 @@ function LoginPage() {
             });
 
         if (response.ok) {
-            navigateTo("/workspace");
+            if(isCookieAdequette("EMPLOYEE")){
+                navigateTo("/workspace")
+            }
+            else if(isCookieAdequette("CUSTOMER")){
+                navigateTo("/map");  
+            }
         }
 
     }
@@ -62,6 +68,11 @@ function LoginPage() {
                 </div>
                 <button type="submit">Login</button>
             </form>
+            <h3 className="register"
+             onClick={() =>  navigateTo("/register")}
+             >
+                Not registered yet?
+            </h3>
         </div>
     );
 }

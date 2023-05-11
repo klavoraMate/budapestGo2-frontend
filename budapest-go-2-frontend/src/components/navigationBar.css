@@ -24,3 +24,21 @@
   font-weight: bold;
   color: #333;
 }
+.logout{
+  position: absolute;
+  left: 89%;
+}
+.box{
+    background-color: white;
+    border-radius: 4px;
+    margin-top: 60px;
+    width: 120px;
+    height: 90px;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.751),
+    0 5px 3px 0 rgba(0, 0, 0, 0.719); 
+  
+}
+.logoutButton{
+  border-radius: 0px;
+  width: 100%;
+}

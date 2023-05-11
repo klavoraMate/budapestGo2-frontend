@@ -1,0 +1,13 @@
+ .row {
+    display: grid;
+    grid-template-columns: 1;
+    column-count: 1;
+    column-gap: 100px;
+    
+}
+
+@media screen and (max-width: 960px) {
+    .row {
+        column-count: 1;
+    }
+}

@@ -1,0 +1,27 @@
+
+ :root {
+    --size: 1;
+    --background: #000;
+    --whiteBackground:#ffff;
+     --color1: #d25778;
+    --color2: #ec585c;
+    --color3: #e7d155;
+    --color4: #56a8c6;
+    --color1: #5E276F;
+    --color2: #7d3293;
+    --color3: #8d38a7;
+    --color4: #973bb3;
+  }
+  .pass_visual{
+    border: 1px solid #5E276F;
+    border-radius: 5px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+.pass_category{
+  margin-top: 10px;
+}
+.category{
+  font-size: 1px;
+  color: white;
+}
