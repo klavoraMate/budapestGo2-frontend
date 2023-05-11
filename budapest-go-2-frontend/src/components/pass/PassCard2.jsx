@@ -2,7 +2,7 @@ import React from "react";
 import "./PassCard2.css";
 export const PassCard = ({key, passType,passCategory, expirationDate,active}) => {
     const expirateTime = new Date(expirationDate).toISOString().substring(0, 10).replace("T", " ");
-   
+    
     return (
       <div
       id="passCard"

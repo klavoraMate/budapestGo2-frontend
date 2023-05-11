@@ -11,11 +11,9 @@ body {
 font-family: "Montserrat", "Helvetica Neue", "Open Sans", "Arial";
 font-weight: 300;
 }
-
-/* .container-fluid {
-text-align: center;
-width: 100%;
-} */
+.row{
+   margin-bottom: 150px;
+}
 
 .ticket {
 border-radius: 4px;
@@ -24,12 +22,9 @@ max-width: 320px;
 text-align: left;
 text-transform: uppercase;
 width: 100%;
+
 }
 
-/* .box{
-   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.751),
-   0 25px 30px 0 rgba(0, 0, 0, 0.719); 
-} */
 
 .ticket.light {
 background-color: white;
@@ -132,6 +127,7 @@ transform: translate(70%, -45%);
 }
 
 .layer {
+   
     text-align:start;
     border-radius: 5px;   
     border-width: 1px;

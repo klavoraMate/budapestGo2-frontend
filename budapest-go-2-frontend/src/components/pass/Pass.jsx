@@ -3,6 +3,7 @@ import "./Pass.css";
 
 export const Pass = ({category, categoryData}) => {
   const[isHidden, setIsHidden] = useState(true);
+  
   useEffect(() => {
     
 }, [isHidden]);
@@ -12,14 +13,20 @@ return (<>
 </div>
 <div >
      {categoryData.map((element) => {
-      if(element.category === category){
+      if(element.category === category ){
       return(
       <div 
       style={{ display: isHidden ? "none" : "block" }}
-      className="pass_visual">
-        <div>{element.passDuration}</div>
-        <div>{element.price}</div>
-      </div>);}
+      className="pass_visual"
+      >
+        <div >
+          {element.passDuration} 
+          <h6 className="category">
+          ,{element.category},</h6>
+          {element.price}
+        </div>
+      </div>);
+    }
       else{
         return (<></>)
       }  

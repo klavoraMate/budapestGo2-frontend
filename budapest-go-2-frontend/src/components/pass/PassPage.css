@@ -1,12 +1,13 @@
 #pass{
     margin-top: 100px;
+    
     display:grid;
 }
 #passContent{
     margin-top: 50px;
     margin-left: 60px;
     column-count: 3;
-    column-gap: 100px;   
+    column-gap: 0px;
 }
 
 #noData{
