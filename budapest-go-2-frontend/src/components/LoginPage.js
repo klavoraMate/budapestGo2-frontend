@@ -62,6 +62,7 @@ function LoginPage() {
                 </div>
                 <button type="submit">Login</button>
             </form>
+            <h5 onClick={() =>  navigateTo("/register")}>Not registered yet?</h5>
         </div>
     );
 }
