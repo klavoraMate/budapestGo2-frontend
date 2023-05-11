@@ -29,7 +29,7 @@ function LoginPage() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await
+        const response = 
             await fetch('/client/login', {
                 method: 'POST',
                 headers: {
@@ -45,7 +45,7 @@ function LoginPage() {
             if(isCookieAdequette("EMPLOYEE")){
                 navigateTo("/workspace")
             }
-            if(isCookieAdequette("CUSTOMER")){
+            else if(isCookieAdequette("CUSTOMER")){
                 navigateTo("/map");  
             }
         }

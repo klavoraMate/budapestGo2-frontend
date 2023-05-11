@@ -23,6 +23,7 @@ function NavigationBar() {
     setEmailCookie(null);
     setPrivilegeCookie(null);
     setIdCookie(null);
+    navigate("/login");
 }
 
   useEffect(() => {

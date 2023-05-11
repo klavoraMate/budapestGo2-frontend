@@ -9,7 +9,7 @@ export const getCookie = (name) => {
     return null;
 };
 export const isCookieAdequette = (priviligeToCheck) => {
-    return getCookie("privilege") + "=" + decodeURIComponent(priviligeToCheck);
+    return getCookie("privilege") === decodeURIComponent(priviligeToCheck);
 }
 
 export const deleteCookie = (name) => {
