@@ -8,25 +8,36 @@ import Loading from "../../elements/loadingIndicator/Loading";
 function RouteModify() {
   const [listOfStops, setListOfStops] = useState([]);
   const [listOfRoutes, setListOfRoutes] = useState([]);
-  const [listOfAssignedStop] = useState([]);
+  const [listOfAssignedStop, setListOfAssignedStop] = useState([]);
   const routeDropdown = useRef();
   const routeNewName = useRef();
   const listViewAvailableStop = useRef();
   const listViewAssignedStop = useRef();
   const { data } = useMultiFetch();
+  const isDataLoaded = () => {
+    return listOfRoutes.length > 0 && listOfStops.length > 0;
+  };
 
   useEffect(() => {
     const stopURL = '/stop/all';
     const routeURL = '/route/all';
     (async () => setListOfStops(await data(stopURL), setListOfRoutes(await data(routeURL))))();
+    if (isDataLoaded() && listOfAssignedStop.length < 1)
+      loadAssignedStops(listOfRoutes[0]&&listOfRoutes[0].id);
   }, [data])
-
-  const isDataLoaded = () => {
-    return listOfRoutes.length > 0 && listOfStops.length > 0 && listOfAssignedStop !== undefined;
-  };
 
   const isRouteExistsByName = (oldName, newName) => {
     return listOfRoutes.filter((route) => route.name !== oldName).find((route) => route.name === newName);
+  }
+  const getModifiedRoute = () => listOfRoutes.filter((route) => route.name === routeDropdown.current.value)[0];
+  const changeRoute = () => {
+    routeNewName.current.value = routeDropdown.current.value;
+    const routeId = getModifiedRoute().id;
+    loadAssignedStops(routeId);
+  }
+  async function loadAssignedStops(routeId) {
+    const scheduleURL = '/schedule/stops-connected-to-route-id/' + routeId;
+    setListOfAssignedStop(await data(scheduleURL));
   }
 
   const addStopToList = () => {
@@ -51,17 +62,17 @@ function RouteModify() {
   }
 
   const updateRoute = async () => {
+    const routeId = getModifiedRoute().id;
     const nameOfRoute = routeNewName.current.value.trim();
     if (isRouteExistsByName(nameOfRoute))
       throw new Error("There is already exist a Route in this name");
 
-    const modifiedRoute = listOfRoutes.filter((route) => route.name === routeDropdown.current.value)[0];
 
-    await deleteSchedulesByRouteId(modifiedRoute.id);
+    await deleteSchedulesByRouteId(routeId);
 
     const routeURL = '/route/update';
     const routeObject = {
-      id: modifiedRoute.id,
+      id: routeId,
       name: nameOfRoute
     }
     await data(routeURL, 'PUT', routeObject);
@@ -70,13 +81,13 @@ function RouteModify() {
 
     listOfAssignedStop.forEach((stop) => {
       const scheduleObject = {
-        routeId: modifiedRoute.id,
+        routeId: routeId,
         stopId: stop.id
       }
       data(scheduleURL, 'POST', scheduleObject);
     });
   }
-if (isDataLoaded()) {
+  if (isDataLoaded()) {
   return (
       <div className='pageContent'>
         <h2>Modify transportation route</h2>
@@ -84,7 +95,7 @@ if (isDataLoaded()) {
           <div className='pageElement'>
             <div className='routeDetail'>
               <p>Select existing route:</p>
-              <select ref={routeDropdown} onChange={() => routeNewName.current.value = routeDropdown.current.value}>
+              <select ref={routeDropdown} onChange={() => changeRoute()}>
                 {listOfRoutes.map((route) => <option key={route.name}>{route.name}</option>)}
               </select>
               <p>Rename selected route</p>
@@ -110,7 +121,7 @@ if (isDataLoaded()) {
         </div>
       </div>
   )
-}else
+} else
     return <Loading/>
 }
 
