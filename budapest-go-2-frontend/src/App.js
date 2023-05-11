@@ -11,6 +11,7 @@ import RouteModify from './components/workspace/route/RouteModify';
 import StopCreate from './components/workspace/stop/StopCreate';
 import StopModify from './components/workspace/stop/StopModify';
 import NavigationBar from './components/NavigationBar';
+import Map from './components/map/Map';
 
 function App() {
   return (<Router>
@@ -26,6 +27,7 @@ function App() {
       <Route path='/register' element={<RegisterPage/>} />
       <Route path='/pass' element={<PassPage/>} />
       <Route path='/purchase' element={<PassPurchasePage/>} />
+      <Route path='/map' element={<Map/>}/>
     </Routes>
   </Router>);
 }
