@@ -1,5 +1,5 @@
 .purchase{
-    display:flow-root;
+     display:flow-root; 
     margin: 0;
     position: absolute;
     top: 50%;
@@ -8,10 +8,13 @@
     transform: translate(-50%, -50%);
 }
 .canvas {
-    margin: 100px;   
+    margin: 100px;
+       
 }
 
-.ticket {
+ .ticket {
+    grid-template-columns: 3;
+    column-gap: 300px;
     color: black;
     width: 400px;
     height: 25px;
@@ -21,7 +24,7 @@
     border-radius: 4px;
     box-shadow: 10 5px 6px 0 #5E276F,
     0 25px 30px 0 #5E276F;
-}
+} 
 .ticket:hover{
 	cursor: pointer;
 }
