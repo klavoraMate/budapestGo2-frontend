@@ -1,18 +1,28 @@
+import { useEffect, useState } from "react";
 import "./Pass.css";
 
 export const Pass = ({category, categoryData}) => {
-
-return (
-<div class="pass-ticket-visual_visual">
+  const[isHidden, setIsHidden] = useState(true);
+  useEffect(() => {
+    
+}, [isHidden]);
+return (<>
+<div className="pass_category" onClick={() => setIsHidden(!isHidden)}>
      {category}
-     {categoryData.forEach(element => {
-      if(element.category === category)
+</div>
+<div >
+     {categoryData.map((element) => {
+      if(element.category === category){
       return(
-      <div>
+      <div 
+      style={{ display: isHidden ? "none" : "block" }}
+      className="pass_visual">
         <div>{element.passDuration}</div>
         <div>{element.price}</div>
-      </div>)  
-     })};
-    
-</div>
+      </div>);}
+      else{
+        return (<></>)
+      }  
+     })}
+</div></>
 );}

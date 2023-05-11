@@ -10,7 +10,6 @@ export const PassList = ({ passData ,active}) => {
             <PassCard
               key={pass.id}
               passType={pass.passType}
-              startDate={pass.startDate}
               expirationDate={pass.expirationDate}
               active={active}
             />

@@ -8,21 +8,19 @@
     transform: translate(-50%, -50%);
 }
 .canvas {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    column-gap: 180px;
-    row-gap: 10px;
     margin: 100px;   
 }
 
 .ticket {
-    display: inline-grid;
     color: black;
     width: 400px;
-    height: 200px;
-    align-content: space-around;
-    border: 1px solid #e6e6e6;
-	border-radius: 4px;
+    height: 25px;
+    margin-bottom: 10px;
+    text-align: center;
+    border: 2px solid #e6e6e6;
+    border-radius: 4px;
+    box-shadow: 10 5px 6px 0 #5E276F,
+    0 25px 30px 0 #5E276F;
 }
 .ticket:hover{
 	cursor: pointer;
@@ -68,25 +66,21 @@ label {
         transform: scale(1.05);
     }
     .ticket {
-        display: flex;
+       /*  display: flex;
         grid-column:inherit;
-        flex-direction: column;
+        flex-direction: column; */
         align-items: center;
         justify-content: center;
-        height: 150px;
+        height: 50px;
         }
     .canvas {
         scale: 0.7;
-        display: flex;
         grid-column: 1;
-        flex-wrap:wrap;
         justify-content: center;
-        padding-right: 120px;
-        gap: 170px;
-        padding-top: 600px;
+        gap: 20px;
         margin: auto;
     }
     #buttonHolder{
-        margin-top: -100px;
+        
     }   
 }
