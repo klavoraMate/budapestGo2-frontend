@@ -13,6 +13,8 @@ function RouteModify() {
   const routeNewName = useRef();
   const listViewAvailableStop = useRef();
   const listViewAssignedStop = useRef();
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(true);
   const { data } = useMultiFetch();
   const isDataLoaded = () => {
     return listOfRoutes.length > 0 && listOfStops.length > 0;
@@ -21,23 +23,27 @@ function RouteModify() {
   useEffect(() => {
     const stopURL = '/stop/all';
     const routeURL = '/route/all';
-    (async () => setListOfStops(await data(stopURL), setListOfRoutes(await data(routeURL))))();
-    if (isDataLoaded() && listOfAssignedStop.length < 1)
+    if (isUpdated)
+      (async () => setListOfStops(await data(stopURL), setListOfRoutes(await data(routeURL), setIsUpdated(false))))();
+    if (isDataLoaded() && !isLoaded){
       loadAssignedStops(listOfRoutes[0]&&listOfRoutes[0].id);
-  }, [data])
+    }
+      console.log(routeDropdown.current)
+  }, [isUpdated])
 
   const isRouteExistsByName = (oldName, newName) => {
     return listOfRoutes.filter((route) => route.name !== oldName).find((route) => route.name === newName);
   }
   const getModifiedRoute = () => listOfRoutes.filter((route) => route.name === routeDropdown.current.value)[0];
   const changeRoute = () => {
-    routeNewName.current.value = routeDropdown.current.value;
+    routeNewName.current.value = "";
     const routeId = getModifiedRoute().id;
     loadAssignedStops(routeId);
   }
   async function loadAssignedStops(routeId) {
     const scheduleURL = '/schedule/stops-connected-to-route-id/' + routeId;
     setListOfAssignedStop(await data(scheduleURL));
+    setIsLoaded(true);
   }
 
   const addStopToList = () => {
@@ -46,6 +52,7 @@ function RouteModify() {
     if (listOfAssignedStop.every((stop) => (stop.id !== stopObject.id))) {
       listOfAssignedStop.push(stopObject)
     }
+    setIsUpdated(true);
   }
   const removeStopFromList = () => {
     const stopToRemove = listViewAssignedStop.current.selected;
@@ -54,6 +61,7 @@ function RouteModify() {
     if (index !== -1) {
       listOfAssignedStop.splice(index, 1);
     }
+    setIsUpdated(true);
   }
 
   const deleteSchedulesByRouteId = async (routeId) => {
@@ -63,7 +71,7 @@ function RouteModify() {
 
   const updateRoute = async () => {
     const routeId = getModifiedRoute().id;
-    const nameOfRoute = routeNewName.current.value.trim();
+    const nameOfRoute = routeNewName.current.value??routeDropdown.current.value;
     if (isRouteExistsByName(nameOfRoute))
       throw new Error("There is already exist a Route in this name");
 
@@ -86,40 +94,42 @@ function RouteModify() {
       }
       data(scheduleURL, 'POST', scheduleObject);
     });
+    setIsUpdated(true);
+    setIsLoaded(false);
   }
-  if (isDataLoaded()) {
+  if (isDataLoaded() && isLoaded) {
   return (
-      <div className='pageContent'>
-        <h2>Modify transportation route</h2>
-        <div className='pagePanel'>
-          <div className='pageElement'>
-            <div className='routeDetail'>
-              <p>Select existing route:</p>
-              <select ref={routeDropdown} onChange={() => changeRoute()}>
-                {listOfRoutes.map((route) => <option key={route.name}>{route.name}</option>)}
-              </select>
-              <p>Rename selected route</p>
-              <input ref={routeNewName} defaultValue={listOfRoutes[0].name}/>
-            </div>
-            <button onClick={() => updateRoute()}>Update route</button>
-          </div>
-
-          <div className='pageElement'>
-            <div className='listPanel'>
-              <div className='element'>
-                <p>Available stops</p>
-                <ListView key="available-stops" listElements={listOfStops.filter((x) => !listOfAssignedStop.map((y) => y.id).includes(x.id))} ref={listViewAvailableStop}/>
-                <button onClick={() => addStopToList()}>{'Assign (>)'}</button>
+        <div className='pageContent'>
+          <h2>Modify transportation route</h2>
+          <div className='pagePanel'>
+            <div className='pageElement'>
+              <div className='routeDetail'>
+                <p>Select existing route:</p>
+                <select ref={routeDropdown} onChange={() => changeRoute()}>
+                  {listOfRoutes.map((route) => <option key={route.name}>{route.name}</option>)}
+                </select>
+                <p>Rename selected route</p>
+                <input ref={routeNewName}/>
               </div>
-              <div className='element'>
-                <p>Assigned stops</p>
-                <ListView key="assigned-stops" listElements={listOfAssignedStop} ref={listViewAssignedStop}/>
-                <button onClick={() => removeStopFromList()}>{'Remove (<)'}</button>
+              <button onClick={() => updateRoute()}>Update</button>
+            </div>
+
+            <div className='pageElement'>
+              <div className='listPanel'>
+                <div className='element'>
+                  <p>Available stops</p>
+                  <ListView key="available-stops" listElements={listOfStops.filter((x) => !listOfAssignedStop.map((y) => y.id).includes(x.id))} ref={listViewAvailableStop}/>
+                  <button onClick={() => addStopToList()}>{'Assign'}</button>
+                </div>
+                <div className='element'>
+                  <p>Assigned stops</p>
+                  <ListView key="assigned-stops" listElements={listOfAssignedStop} ref={listViewAssignedStop}/>
+                  <button onClick={() => removeStopFromList()}>{'Remove'}</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
   )
 } else
     return <Loading/>

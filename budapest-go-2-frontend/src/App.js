@@ -5,7 +5,7 @@ import RegisterPage from './components/client/RegisterPage';
 import PassPage from './components/pass/PassPage';
 import PassPurchasePage from './components/pass/PassPurchasePage';
 import Home from './components/Home';
-import EmployeePage from './components/workspace/EmployeePage';
+import Workspace from './components/workspace/Workspace';
 import RouteCreate from './components/workspace/route/RouteCreate';
 import RouteModify from './components/workspace/route/RouteModify';
 import StopCreate from './components/workspace/stop/StopCreate';
@@ -19,7 +19,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Home />} />
       <Route path='/login' element={<LoginPage />} />
-      <Route path='/workspace'element={<EmployeePage/>}/>
+      <Route path='/workspace'element={<Workspace/>}/>
       <Route path='/route/add' element={<RouteCreate/>}/>
       <Route path='/route/edit' element={<RouteModify/>}/>
       <Route path='/stop/add' element={<StopCreate/>}/>

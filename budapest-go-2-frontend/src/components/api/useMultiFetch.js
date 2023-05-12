@@ -1,5 +1,5 @@
-const useFetch = () => {
-    const postAsync = async (url, answerObject, method) => {
+const useMultiFetch = () => {
+    const data = async (url, method, answerObject) => {
       try {
         const response = await fetch((!(url[0] === "/") ? "/" : "") + url, {
           method: (method ?? "GET"),
@@ -12,12 +12,15 @@ const useFetch = () => {
           console.log(answerObject);
           throw new Error(`Failed to ${method} to table: ${url}`);
         }
-        const id = await response.json();
-        return id;
+        try {
+          return await response.json();
+        } catch (error){
+          return error;
+        }
       } catch (error) {
         console.error(error);
       }
     };
-    return { postAsync };
+    return { data };
   };
-  export default useFetch;
+  export default useMultiFetch;

@@ -1,0 +1,30 @@
+.mapContent{
+    position: fixed;
+    top: 80px; /* Adjust this value to match the height of your navigation bar */
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.map {
+    height: calc(100vh - 80px);
+}
+
+.searchBar {
+    position: absolute;
+    z-index: 3;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: black;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    color: #5E276F;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 24px;
+    cursor: text;
+    transition: all 0.2s ease-in-out;
+    width: 340px;
+    box-shadow: 0 2px 4px rgba(1, 1, 1, 1);
+}

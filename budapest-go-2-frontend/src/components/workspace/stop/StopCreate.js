@@ -1,45 +1,41 @@
-import React from 'react'
+import { useRef } from 'react'
+import { useNavigate } from "react-router-dom";
 import useMultiFetch from '../../api/useMultiFetch';
 
-
 function StopCreate() {
+  const stopName = useRef();
+  const stopLatitude = useRef();
+  const stopLongitude = useRef();
+  const navigate = useNavigate();
   const { data } = useMultiFetch();
 
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const { name, latitude, longitude } = event.target.elements;
+  const createStop = async () => {
+    const stopURL = '/stop/add'
     const stopObject = {
-      latitude: latitude.value,
-      longitude: longitude.value,
-      name: name.value
+      name: stopName.current.value.trim(),
+      latitude: stopLatitude.current.value,
+      longitude: stopLongitude.current.value
     }
-    data('/stop/add', 'POST', stopObject);
-
+    await data(stopURL, 'POST', stopObject);
+    navigate('/workspace')
   }
-
 
   return (
     <div className='pageContent'>
-      <h1>Update Stop</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <input type="text" name="name" />
-        </label>
-        <br />
-        <label>
-          Latitude:
-          <input type="number" name="latitude" step="0.000001" />
-        </label>
-        <br />
-        <label>
-          Longitude:
-          <input type="number" name="longitude" step="0.000001" />
-        </label>
-        <br />
-        <input type="submit" value="Submit" />
-      </form>
+      <h2>Create transportation stop</h2>
+      <div className='pagePanel'>
+        <div className='pageElement'>
+          <div className='routeDetail'>
+            <p>Set name of new stop:</p>
+            <input ref={stopName}/>
+            <p>Set latitude:</p>
+            <input type="number" step="0.000001" ref={stopLatitude}/>
+            <p>Set longitude:</p>
+            <input type="number" step="0.000001" ref={stopLongitude}/>
+          </div>
+          <button onClick={() => createStop()}>Create</button>
+        </div>
+      </div>
     </div>
   )
 }
