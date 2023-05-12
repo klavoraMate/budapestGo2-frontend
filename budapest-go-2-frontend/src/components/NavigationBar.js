@@ -42,8 +42,10 @@ function NavigationBar() {
   return (
     <div className='navigationBar'>
       <img className='logo' src={process.env.PUBLIC_URL + '/logo.png'} alt="logo" />
-      {isCookieAdequette("EMPLOYEE") &&
-      <h2 className='workspaceLabel'>workspace</h2>} 
+      {isCookieAdequette("EMPLOYEE") ?
+      <h2 className='workspaceLabel'>workspace</h2> :
+        <h2 className='workspaceLabel'>navigation</h2>
+      }
       {getCookie("id") ? <div className='logout'
       >
                 <p 
