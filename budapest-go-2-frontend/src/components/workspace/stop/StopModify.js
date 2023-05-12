@@ -1,51 +1,66 @@
-import React from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import useMultiFetch from '../../api/useMultiFetch';
-import { useState, useEffect } from 'react';
+import Loading from "../../elements/loadingIndicator/Loading";
+import {useNavigate} from "react-router-dom";
 
 function StopModify() {
-  const { data } = useMultiFetch();
   const [listOfStops, setListOfStops] = useState();
+  const stopDropdown = useRef();
+  const stopNewName = useRef();
+  const stopLatitude = useRef();
+  const stopLongitude = useRef();
+  const navigate = useNavigate();
+  const {data} = useMultiFetch();
+
+
   useEffect(() => {
     const stopURL = '/stop/all';
     (async () => setListOfStops(await data(stopURL)))();
   }, [])
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const { name, latitude, longitude } = event.target.elements;
+  const isDataLoaded = () => {
+    return !!listOfStops;
+  };
+
+  const updateStop = async () => {
+    const stopURL = '/stop/update'
+    const selectedStop = listOfStops[stopDropdown.current.selectedIndex];
     const stopObject = {
-      latitude: latitude.value,
-      longitude: longitude.value,
-      name: name.value
+      id: selectedStop.id,
+      name: stopNewName.current.value.trim() && selectedStop.name,
+      latitude: stopLatitude.current.value && selectedStop.latitude,
+      longitude: stopLongitude.current.value && selectedStop.longitude
     }
-    data('/stop/', 'PUT', stopObject);
+    await data(stopURL, 'PUT', stopObject);
+    navigate('/workspace');
   }
 
-  return (
-    <div className='pageContent'>
-      <h1>Update Stop</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Name:
-          <select name='name'>
-            {listOfStops&&listOfStops.map((stop) => <option key={stop.name}>{stop.name}</option>)}
-          </select>
-        </label>
-        <br />
-        <label>
-          Latitude:
-          <input type="number" name="latitude" step="0.000001" />
-        </label>
-        <br />
-        <label>
-          Longitude:
-          <input type="number" name="longitude" step="0.000001" />
-        </label>
-        <br />
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
-  )
+  if (isDataLoaded()) {
+    return (
+      <div className='pageContent'>
+        <h2>Modify transportation stop</h2>
+        <div className='pagePanel'>
+          <div className='pageElement'>
+            <div className='routeDetail'>
+              <p>Select existing route:</p>
+              <select ref={stopDropdown}>
+                {listOfStops.map((stop) => <option key={stop.name}>{stop.name}</option>)}
+              </select>
+              <p>Rename selected route</p>
+              <input ref={stopNewName}/>
+              <p>Set latitude</p>
+              <input type="number" step="0.000001" ref={stopLatitude}/>
+              <p>Set longitude</p>
+              <input type="number" step="0.000001" ref={stopLongitude}/>
+            </div>
+            <button onClick={() => updateStop()}>Update</button>
+          </div>
+        </div>
+      </div>
+    )
+  } else {
+    return <Loading/>
+  }
 }
 
 export default StopModify
