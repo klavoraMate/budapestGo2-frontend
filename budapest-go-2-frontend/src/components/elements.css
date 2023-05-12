@@ -9,6 +9,7 @@ button {
   transition: all 0.2s ease-in-out;
   border-style: solid;
   border-width: thin;
+  margin: 10px 10px 10px 0;
 }
 
 button:hover {
@@ -21,5 +22,6 @@ button:active {
 }
 .pageContent {
   position: relative;
-  top: 100px;
+  top: 120px;
+  left: 50px;
 }
