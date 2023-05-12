@@ -38,7 +38,8 @@
     0 5px 3px 0 rgba(0, 0, 0, 0.719); 
   
 }
-.logoutButton{
-  border-radius: 0px;
+.logoutButton {
+  margin: 0 0 0 0;
+  border-radius: 0;
   width: 100%;
 }
