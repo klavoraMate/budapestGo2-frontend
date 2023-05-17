@@ -1,14 +1,15 @@
 import React from 'react'
 import './navigationBar.css'
 import './elements.css'
-import{ getCookie, deleteCookie, isCookieAdequette } from "../components/cookie";
+import { email, role } from "../components/token/TokenDecoder";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useRef } from 'react';
+
 function NavigationBar() {
   const navigate = useNavigate();
-  const [emailCookie, setEmailCookie] = useState(null);
-  const [privilegeCookie, setPrivilegeCookie] = useState(null);
+  const [logedIn, setLogedIn] = useState(false);
+  const [logedInEmail, setLogedInEmail] = useState(null);
+  const [privilege, setPrivilege] = useState(null);
   const [idCookie, setIdCookie] = useState(null);
   const [isHidden, setIsHidden] = useState(true);
   let url = window.location.href.split('/');
@@ -18,40 +19,38 @@ function NavigationBar() {
   };
 
   const handleLogout = () => {
-    deleteCookie("email");
-    deleteCookie("privilege");
-    deleteCookie("id");
-    setEmailCookie(null);
-    setPrivilegeCookie(null);
-    setIdCookie(null);
-    navigate("/login");
+   localStorage.clear();
+   setPrivilege(null);
+   setLogedInEmail(null);
+   navigate("/login");
 }
 
+
   useEffect(() => {
-      const email = getCookie("email");
-      const privilege = getCookie("privilege");
-      const id = getCookie("id");
-      if (email && privilege) {
-          console.log(id);
-          setEmailCookie(email);
-          setPrivilegeCookie(privilege);
-          setIdCookie(id);
-      }
-  }, []);
+
+       if (email() && role()) {
+        setLogedInEmail(email());
+        setPrivilege(role());
+        setLogedIn(true);
+      } 
+  },[email(), role()]);
 
   return (
     <div className='navigationBar'>
       <img className='logo' src={process.env.PUBLIC_URL + '/logo.png'} alt="logo" />
-      {isCookieAdequette("EMPLOYEE") ?
-      <h2 className='workspaceLabel'>workspace</h2> :
-        <h2 className='workspaceLabel'>navigation</h2>
+      {privilege && privilege === "EMPLOYEE" ?
+      <h2 className='workspaceLabel'>workspace</h2> 
+      :
+      privilege && privilege === "CUSTOMER" ?
+      <h2 className='workspaceLabel'>navigation</h2>
+      : <></>
       }
-      {getCookie("id") ? <div className='logout'
+      {logedInEmail != null ? <div className='logout'
       >
                 <p 
                   onMouseEnter={() => setIsHidden(!isHidden)}
                   style={{ display: !isHidden ? "none" : "block" }}
-                  >{getCookie("email")}</p>
+                  >{logedInEmail}</p>
                 <div style={{ display: isHidden ? "none" : "block" }}
                 onMouseLeave={() => setIsHidden(!isHidden)}
                 >
@@ -61,7 +60,7 @@ function NavigationBar() {
                 >
                   Logout
                 </button>
-                {isCookieAdequette("CUSTOMER") &&
+                {privilege && privilege === "CUSTOMER" &&
                 <button className='logoutButton' 
                 onClick={() => navigateTo("/pass")}
                 >

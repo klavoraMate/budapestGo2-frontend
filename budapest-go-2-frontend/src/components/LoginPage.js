@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import{getCookie,isCookieAdequette} from "../components/cookie";
+import { email, role } from "../components/token/TokenDecoder";
 import { useNavigate } from "react-router-dom";
 import  "./LoginPage.css";
 function LoginPage() {
@@ -30,7 +31,7 @@ function LoginPage() {
         event.preventDefault();
 
         const response =
-            await fetch('/client/login', {
+            await fetch('/authenticate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -42,10 +43,13 @@ function LoginPage() {
             });
 
         if (response.ok) {
-            if(isCookieAdequette("EMPLOYEE")){
-                navigate("/workspace")
+            const data = await response.json();
+            const token = data.token;
+            localStorage.setItem('token', token);
+            if(role() === "EMPLOYEE"){
+                navigate("/workspace");
             }
-            else if(isCookieAdequette("CUSTOMER")){
+            else if(role() === "CUSTOMER"){
                 navigate("/map");
             }
         }
