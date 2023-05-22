@@ -4,6 +4,7 @@ import useMultiFetch from '../../api/useMultiFetch';
 import ListView from '../../elements/listView/ListView';
 import './routeModify.css';
 import Loading from "../../elements/loadingIndicator/Loading";
+import {useNavigate} from "react-router-dom";
 
 function RouteModify() {
   const [listOfStops, setListOfStops] = useState([]);
@@ -15,6 +16,7 @@ function RouteModify() {
   const listViewAssignedStop = useRef();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isUpdated, setIsUpdated] = useState(true);
+  const navigate = useNavigate();
   const { data } = useMultiFetch();
   const isDataLoaded = () => {
     return listOfRoutes.length > 0 && listOfStops.length > 0;
@@ -94,8 +96,7 @@ function RouteModify() {
       }
       data(scheduleURL, 'POST', scheduleObject);
     });
-    setIsUpdated(true);
-    setIsLoaded(false);
+    navigate('/workspace');
   }
   if (isDataLoaded() && isLoaded) {
   return (
