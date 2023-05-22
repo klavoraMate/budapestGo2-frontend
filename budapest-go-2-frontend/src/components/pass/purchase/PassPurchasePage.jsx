@@ -2,7 +2,8 @@ import "./PassPurchasePage.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PassCategoryCard } from "./PassCategoryCard";
-import { id , token } from "../token/TokenDecoder";
+import { token } from "../token/TokenDecoder";
+import { email } from "../../token/TokenDecoder";
 function PassPurchasePage() {
     const navigate = useNavigate();
     const [isFetching, setIsFetching] = useState(true);
@@ -20,7 +21,7 @@ function PassPurchasePage() {
                 'Authorization': `Bearer ${token()}`,
             },
             body: JSON.stringify({
-                clientId:id(),
+                clientId:email(),
                 passDuration:passToPurchase[0],
                 passCategory:passToPurchase[1]
             }),

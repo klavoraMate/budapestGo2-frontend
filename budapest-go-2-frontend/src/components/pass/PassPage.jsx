@@ -1,8 +1,9 @@
 import "./PassPage.css";
 import React, {useEffect, useState} from "react";
 import {PassList} from "./PassList";
+import Loading from "../elements/loadingIndicator/Loading";
 import { useNavigate } from "react-router-dom";
-import { id, token } from "../token/TokenDecoder";
+import { email, token } from "../token/TokenDecoder";
 function PassPage() {
     const navigate = useNavigate();
     const [passes, setPasses] = useState([]);
@@ -12,7 +13,7 @@ function PassPage() {
     async function fetchActiveData() {
       setIsFetching(true);
       setIsActive(true);
-      const data = await fetch(`/pass/active/${id()}`, {
+      const data = await fetch(`/pass/active/${email()}`, {
         headers: {
           'Authorization': `Bearer ${token()}`,
         },
@@ -24,7 +25,7 @@ function PassPage() {
     const fetchExpiredData = async () => {
       setIsFetching(true);
       setIsActive(false);
-      const data = await fetch(`/pass/expired/${id()}`, {
+      const data = await fetch(`/pass/expired/${email()}`, {
         headers: {
           'Authorization': `Bearer ${token()}`,
         },
@@ -60,9 +61,7 @@ function PassPage() {
         </div>
         
         {isFetching ? (
-          <div id="loading">
-            <p id="loading-text">Loading...</p>
-          </div>
+           <Loading/>
         ) : passes.length > 0 ? (
         <div  id="passContent">
             <PassList passData={passes}

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./PassCategoryCard.css";
-import Loading from "../elements/loadingIndicator/Loading";
 export const PassCategoryCard = ({category, categoryData}) => {
   const[isHidden, setIsHidden] = useState(true);
   
@@ -10,8 +9,8 @@ export const PassCategoryCard = ({category, categoryData}) => {
   }
 
   useEffect(() => {
-    
 }, [isHidden]);
+
 return (<>
 <div className="pass_category" onClick={() => changeVisibility()}>
      {category}
@@ -23,7 +22,7 @@ return (<>
       <div 
       style={{ display: isHidden ? "none" : "block" }}
       className="pass_visual"
-      key={key+20}
+      key={key}
       >
         <div >
           {element.passDuration} 

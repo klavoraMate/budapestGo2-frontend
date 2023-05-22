@@ -4,8 +4,11 @@ import useMultiFetch from '../../api/useMultiFetch';
 import ListView from '../../elements/listView/ListView';
 import './routeModify.css';
 import Loading from "../../elements/loadingIndicator/Loading";
+import {useNavigate} from "react-router-dom";
+import { role } from '../token/TokenDecoder';
 
 function RouteModify() {
+  const navigate = useNavigate()
   const [listOfStops, setListOfStops] = useState([]);
   const [listOfRoutes, setListOfRoutes] = useState([]);
   const [listOfAssignedStop, setListOfAssignedStop] = useState([]);
@@ -21,6 +24,9 @@ function RouteModify() {
   };
 
   useEffect(() => {
+    if(role() !== "EMPLOYEE"){
+      navigate("/map");
+    }
     const stopURL = '/stop/all';
     const routeURL = '/route/all';
     if (isUpdated)

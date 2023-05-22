@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { token } from "../token/TokenDecoder";
 
 function RegisterPage (){
     const navigate = useNavigate();
@@ -9,6 +10,9 @@ function RegisterPage (){
     const [hidden, setHidden] = useState(true);
     const isMounted = useRef(true);
     useEffect(() => {
+        if(token() != null){
+            navigate("/home")
+        }
         return () => {
             isMounted.current = false;
         };
@@ -28,7 +32,6 @@ function RegisterPage (){
     
     
    const postRegistration = async(email, password)=>{
-    console.log(password,email);
     fetch('/register', {
             method: 'POST',
             headers: {

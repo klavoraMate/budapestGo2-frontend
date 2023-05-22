@@ -1,6 +1,7 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useNavigate } from "react-router-dom";
 import useMultiFetch from '../../api/useMultiFetch';
+import { role } from '../token/TokenDecoder';
 
 function StopCreate() {
   const stopName = useRef();
@@ -19,6 +20,12 @@ function StopCreate() {
     await data(stopURL, 'POST', stopObject);
     navigate('/workspace')
   }
+
+  useEffect(() => {
+    if(role() !== "EMPLOYEE"){
+      navigate("/map");
+    }
+  }, [])
 
   return (
     <div className='pageContent'>

@@ -1,6 +1,7 @@
 import useMultiFetch from "../../api/useMultiFetch";
 import { useEffect, useRef } from "react";
 import {useNavigate} from "react-router-dom";
+import { role } from '../token/TokenDecoder';
 
 const RouteCreate = () => {
   const routeNameField = useRef();
@@ -17,6 +18,12 @@ const RouteCreate = () => {
     navigate('/workspace');
   }
 
+  useEffect(() => {
+    if(role() !== "EMPLOYEE"){
+      navigate("/map");
+    }
+  }, [])
+  
   return (
     <div className='pageContent'>
       <h2>Create new transportation route</h2>
