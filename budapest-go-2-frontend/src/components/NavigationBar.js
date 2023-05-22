@@ -7,10 +7,8 @@ import { useState, useEffect } from "react";
 
 function NavigationBar() {
   const navigate = useNavigate();
-  const [logedIn, setLogedIn] = useState(false);
   const [logedInEmail, setLogedInEmail] = useState(null);
   const [privilege, setPrivilege] = useState(null);
-  const [idCookie, setIdCookie] = useState(null);
   const [isHidden, setIsHidden] = useState(true);
   let url = window.location.href.split('/');
   let currentUrl = url[url.length-1];
@@ -22,7 +20,7 @@ function NavigationBar() {
    localStorage.clear();
    setPrivilege(null);
    setLogedInEmail(null);
-   navigate("/login");
+   navigate("/");
 }
 
 
@@ -31,7 +29,6 @@ function NavigationBar() {
        if (email() && role()) {
         setLogedInEmail(email());
         setPrivilege(role());
-        setLogedIn(true);
       } 
   },[email(), role()]);
 

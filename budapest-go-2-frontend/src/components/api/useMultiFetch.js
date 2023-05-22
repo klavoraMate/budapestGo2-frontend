@@ -1,3 +1,4 @@
+import { token } from "../token/TokenDecoder";
 const useMultiFetch = () => {
     const data = async (url, method, answerObject) => {
       try {
@@ -5,7 +6,8 @@ const useMultiFetch = () => {
           method: (method ?? "GET"),
           body: JSON.stringify(answerObject),
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${token()}`,
           }
         });
         if (!response.ok) {

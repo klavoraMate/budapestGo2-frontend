@@ -6,6 +6,8 @@ import  "./LoginPage.css";
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+    const [hidden, setHidden] = useState(true);
     const isMounted = useRef(true);
     const navigate = useNavigate()
 
@@ -41,26 +43,31 @@ function LoginPage() {
                     password: password
                 }),
             });
-
-        if (response.ok) {
-            const data = await response.json();
-            const token = data.token;
-            localStorage.setItem('token', token);
-            if(role() === "EMPLOYEE"){
-                navigate("/workspace");
-            }
-            else if(role() === "CUSTOMER"){
-                navigate("/map");
-            }
-        }
-
-    }
-
-
+            if(response.ok){
+                const data = await response.json();
+                    console.log(data.token);
+                const token = data.token;
+                const id = data.id;
+                localStorage.setItem('token', token);
+                localStorage.setItem('id', id);
+                if(role() === "EMPLOYEE"){
+                    navigate("/workspace");
+                }
+                else if(role() === "CUSTOMER"){
+                    console.log("data");
+                    navigate("/map");
+             }
+                } else {
+                    setHidden(false);
+                    await response.text().then(errorMessage => setMessage(errorMessage));
+                }
+        };
+          
 
     return (
         <div className='pageContent'>
             <h1>Login</h1>
+            <div hidden = {hidden}>{message}</div>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="email">Email:</label>

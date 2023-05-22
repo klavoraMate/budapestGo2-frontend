@@ -29,7 +29,7 @@ function RegisterPage (){
     
    const postRegistration = async(email, password)=>{
     console.log(password,email);
-    fetch('/client/register', {
+    fetch('/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ function RegisterPage (){
                 </div>
                 <button type="submit">Register</button>
                 <h3 className="register"
-                onClick={() =>  navigate("/login")}
+                onClick={() =>  navigate("/")}
                 >
                 Registered already?
             </h3>
