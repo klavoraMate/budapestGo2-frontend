@@ -7,12 +7,12 @@ const useMultiFetch = () => {
           body: JSON.stringify(answerObject),
           headers: {
             "Content-Type": "application/json",
-            'Authorization': `Bearer ${token()}`,
+            "Authorization": `Bearer ${token()}`
           }
         });
         if (!response.ok) {
           console.log(answerObject);
-          throw new Error(`Failed to ${method} to table: ${url}`);
+          throw new Error(`Failed to ${method ?? "GET"} to table: ${url}`);
         }
         try {
           return await response.json();
