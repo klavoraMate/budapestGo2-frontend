@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react'
 import useMultiFetch from '../../api/useMultiFetch';
 import Loading from "../../elements/loadingIndicator/Loading";
 import {useNavigate} from "react-router-dom";
-
+import { role } from '../../token/TokenDecoder';
 function StopModify() {
   const [listOfStops, setListOfStops] = useState();
   const stopDropdown = useRef();
@@ -14,6 +14,9 @@ function StopModify() {
 
 
   useEffect(() => {
+    if(role() !== "EMPLOYEE"){
+      navigate("/");
+    }
     const stopURL = '/stop/all';
     (async () => setListOfStops(await data(stopURL)))();
   }, [])
@@ -35,7 +38,7 @@ function StopModify() {
     navigate('/workspace');
   }
 
-  if (isDataLoaded()) {
+  if (isDataLoaded() && role() === "EMPLOYEE") {
     return (
       <div className='pageContent'>
         <h2>Modify transportation stop</h2>

@@ -1,8 +1,8 @@
 import "./PassPurchasePage.css";
 import { useEffect, useState } from "react";
-import{ getCookie } from "../cookie";
 import { useNavigate } from "react-router-dom";
-import { Pass } from "./Pass";
+import { PassCategoryCard } from "./PassCategoryCard";
+import { id , token } from "../token/TokenDecoder";
 function PassPurchasePage() {
     const navigate = useNavigate();
     const [isFetching, setIsFetching] = useState(true);
@@ -11,15 +11,16 @@ function PassPurchasePage() {
     let displayedCategory = [];
     const HandleSubmit = async () => {
      
-           let data = {clientId:getCookie("id"),passType:passToPurchase};
+        //let data = {clientId:id(),passType:passToPurchase};
         //useMultiFetch('/pass/register','POST',data);
        fetch('/pass/register', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token()}`,
             },
             body: JSON.stringify({
-                clientId:getCookie("id"),
+                clientId:id(),
                 passDuration:passToPurchase[0],
                 passCategory:passToPurchase[1]
             }),
@@ -30,14 +31,21 @@ function PassPurchasePage() {
         let passToPurchaseData = passtype.split(',');
         document.getElementById("cart").style.visibility = "visible";
         setPassToPurchase(passToPurchaseData);
-        console.log(passToPurchase[0]);
-        console.log(passToPurchase[1]);
-        console.log(getCookie("id"));
     }
-        const GetCategories = async () => {
-        const data = await fetch("/category/all");
-        setPassCategories(await data.json());
-        setIsFetching(false);
+
+    const GetCategories = async () => {
+            try {
+            const response = await fetch('/category/all', {
+                headers: {
+                  'Authorization': `Bearer ${token()}`,
+                },
+              });
+              const data = await response.json();
+              setPassCategories(data);
+              setIsFetching(false);
+        } catch (error) {
+            console.error(error);
+        }
     }  
 
     useEffect(() => {
@@ -47,18 +55,18 @@ function PassPurchasePage() {
     }, [passToPurchase]);
 
     return (
-        <div className="purchase">
+        <div id="purchase">
             <div className="canvas">
-                 {passCategories && passCategories.map((passType) => {
+                 {passCategories && passCategories.map((passType,key) => {
                       if(!displayedCategory.includes(passType.category)) {
                         displayedCategory.push(passType.category);
                         return(
                     <div 
-                    key={passType.id} 
+                    key={key} 
                     className="ticket"
                     onClick={(e)=> purchasePass(e.target.textContent)}
-                >
-                    <Pass 
+                    >
+                    <PassCategoryCard 
                     category = {passType.category}
                     categoryData = {passCategories}
                     /> 

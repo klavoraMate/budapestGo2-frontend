@@ -1,5 +1,5 @@
-.purchase{
-     display:flow-root; 
+#purchase{
+    display:flow-root; 
     margin: 0;
     position: absolute;
     top: 50%;
@@ -8,8 +8,7 @@
     transform: translate(-50%, -50%);
 }
 .canvas {
-    margin: 100px;
-       
+    margin: 100px;      
 }
 
  .ticket {
@@ -59,7 +58,6 @@ label {
 }
 @media screen and (max-width: 960px) {
     #button,#cart {
-        
         width: 100%;
         max-width: 200px;
         margin: auto;

@@ -17,8 +17,8 @@ function App() {
   return (<Router>
     <NavigationBar/>
     <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/login' element={<LoginPage />} />
+      <Route path='/' element={<LoginPage />} />
+      <Route path='/Home' element={<Home />} />
       <Route path='/workspace'element={<Workspace/>}/>
       <Route path='/route/add' element={<RouteCreate/>}/>
       <Route path='/route/edit' element={<RouteModify/>}/>

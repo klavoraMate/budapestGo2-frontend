@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './workspace.css'
-
+import { role } from '../token/TokenDecoder';
 function Workspace() {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if(role() !== "EMPLOYEE"){
+      navigate("/map");
+    }
+  })
+  
   return (
     <div className='pageContent'>
       <div className='group'>
@@ -21,7 +28,6 @@ function Workspace() {
         </div>
       </div>
     </div>
-  )
-}
+    )}
 
 export default Workspace

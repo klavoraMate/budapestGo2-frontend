@@ -1,12 +1,12 @@
 import React from "react";
-import { PassCard } from "./PassCard2";
+import { PassCard } from "./PassCard";
 
 export const PassList = ({ passData ,active}) => {
   return (
     <div id="passListContainer">
-      {passData && passData.map((pass) => {
+      {passData && passData.map((pass,id) => {
         return (
-          <div className="row">
+          <div className="row" key={id}>
             <PassCard
               key={pass.id}
               passCategory ={pass.category}

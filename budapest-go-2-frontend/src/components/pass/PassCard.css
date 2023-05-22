@@ -162,7 +162,13 @@ filter: blur(0.4px);
    margin-left: -1px;
 }
 .inActive{
-   color: rgb(194, 4, 4);
+   color: rgb(114, 5, 5);
+}
+.inActivebox{
+   background-color: rgb(230, 7, 7);
+   width: 23%;
+   border-radius: 3px;
+   margin-left: -1px;
 }
 #passCard{
    margin-bottom: 50px;

@@ -1,9 +1,8 @@
 import "./PassPage.css";
-import{ getCookie } from "../cookie";
 import React, {useEffect, useState} from "react";
 import {PassList} from "./PassList";
 import { useNavigate } from "react-router-dom";
-
+import { id, token } from "../token/TokenDecoder";
 function PassPage() {
     const navigate = useNavigate();
     const [passes, setPasses] = useState([]);
@@ -13,7 +12,11 @@ function PassPage() {
     async function fetchActiveData() {
       setIsFetching(true);
       setIsActive(true);
-      const data = await fetch(`/pass/active/${getCookie("id")}`);
+      const data = await fetch(`/pass/active/${id()}`, {
+        headers: {
+          'Authorization': `Bearer ${token()}`,
+        },
+      });
       setPasses(await data.json());
       setIsFetching(false);
     };
@@ -21,14 +24,18 @@ function PassPage() {
     const fetchExpiredData = async () => {
       setIsFetching(true);
       setIsActive(false);
-      const data = await fetch(`/pass/expired/${getCookie("id")}`);
+      const data = await fetch(`/pass/expired/${id()}`, {
+        headers: {
+          'Authorization': `Bearer ${token()}`,
+        },
+      });
       const dataJSON = await data.json();
       setPasses(await dataJSON);
       setIsFetching(false);
     };
     
     useEffect(() => {
-        fetchActiveData()
+        fetchActiveData();
     }, []);
   
     return (
