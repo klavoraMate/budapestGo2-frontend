@@ -2,8 +2,10 @@ import "./PassPurchasePage.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PassCategoryCard } from "../passCard/PassCategoryCard";
-import { email ,token} from "../../token/TokenDecoder";
+import { email } from "../../token/TokenDecoder";
+import useMultiFetch from "../../api/useMultiFetch";
 function PassPurchasePage() {
+    const { data } = useMultiFetch();
     const navigate = useNavigate();
     const[isHidden, setIsHidden] = useState(true);
     const [isFetching, setIsFetching] = useState(true);
@@ -11,21 +13,8 @@ function PassPurchasePage() {
     const [ passToPurchase, setPassToPurchase ]= useState("");
     let displayedCategory = [];
     const HandleSubmit = async () => {
-     
-        //let data = {clientId:id(),passType:passToPurchase};
-        //useMultiFetch('/pass/register','POST',data);
-       fetch('/pass/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token()}`,
-            },
-            body: JSON.stringify({
-                email:email(),
-                passDuration:passToPurchase[0],
-                passCategory:passToPurchase[1]
-            }),
-        }); 
+        let request = {email:email(),passDuration:passToPurchase[0],passCategory:passToPurchase[1]};
+        await data('/pass/register','POST',request);
     };
     
     function purchasePass(passtype){
@@ -36,18 +25,12 @@ function PassPurchasePage() {
 
     function changeVisibility(){
         setIsHidden(!isHidden);
-       // isHidden ? document.getElementById("purchase").style.top = '60%': document.getElementById("purchase").style.top = '50%';
       }
 
     const GetCategories = async () => {
             try {
-            const response = await fetch('/category/all', {
-                headers: {
-                  'Authorization': `Bearer ${token()}`,
-                },
-              });
-              const data = await response.json();
-              setPassCategories(data);
+              const response = await data('/category/all');
+              setPassCategories(response);
               setIsFetching(false);
         } catch (error) {
             console.error(error);

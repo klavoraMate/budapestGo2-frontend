@@ -3,9 +3,11 @@ import React, {useEffect, useState} from "react";
 import {PassList} from "./PassList";
 import Loading from "../elements/loadingIndicator/Loading";
 import { useNavigate } from "react-router-dom";
-import { email, token } from "../token/TokenDecoder";
+import { email } from "../token/TokenDecoder";
+import useMultiFetch from "../api/useMultiFetch";
 function PassPage() {
     const navigate = useNavigate();
+    const { data } = useMultiFetch();
     const [passes, setPasses] = useState([]);
     const [isFetching, setIsFetching] = useState(true);
     const [isActive, setIsActive] = useState(true);  
@@ -13,24 +15,16 @@ function PassPage() {
     async function fetchActiveData() {
       setIsFetching(true);
       setIsActive(true);
-      const data = await fetch(`/pass/active/${email()}`, {
-        headers: {
-          'Authorization': `Bearer ${token()}`,
-        },
-      });
-      setPasses(await data.json());
+      const response = await data(`/pass/active/${email()}`);
+      setPasses(await response);
       setIsFetching(false);
     };
   
     const fetchExpiredData = async () => {
       setIsFetching(true);
       setIsActive(false);
-      const data = await fetch(`/pass/expired/${email()}`, {
-        headers: {
-          'Authorization': `Bearer ${token()}`,
-        },
-      });
-      const dataJSON = await data.json();
+      const response = await data(`/pass/expired/${email()}`);
+      const dataJSON = await response;
       setPasses(await dataJSON);
       setIsFetching(false);
     };
