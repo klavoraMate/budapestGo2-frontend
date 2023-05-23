@@ -101,8 +101,7 @@ function RouteModify() {
       }
       data(scheduleURL, 'POST', scheduleObject);
     });
-    setIsUpdated(true);
-    setIsLoaded(false);
+    navigate('/workspace');
   }
   if (isDataLoaded() && isLoaded) {
   return (
@@ -119,8 +118,8 @@ function RouteModify() {
                 <input ref={routeNewName}/>
                 <p>Change route category:</p>
                 <select ref={categoryDropdown} onChange={() => changeRoute()}>
-                  {listOfCategories.map((category) => 
-                  <option 
+                  {listOfCategories.map((category) =>
+                  <option
                   key={category}
                   >{category}</option>)}
                 </select>

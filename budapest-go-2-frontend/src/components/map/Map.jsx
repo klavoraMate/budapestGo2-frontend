@@ -52,7 +52,6 @@ const Map = () => {
     results.sort((a, b) => b[0] - a[0]);
 
     const route = results[0][1];
-    //console.log(route)
     const scheduleURL = '/schedule/stops-connected-to-route-id/' + route.id;
     event.target.value = route.name;
     (async () => setListOfStopsOfRoute(await data(scheduleURL)))();
