@@ -5,15 +5,17 @@ import ListView from '../../elements/listView/ListView';
 import './routeModify.css';
 import Loading from "../../elements/loadingIndicator/Loading";
 import {useNavigate} from "react-router-dom";
-import { role } from '../token/TokenDecoder';
+import { role } from '../../token/TokenDecoder';
 
 function RouteModify() {
   const navigate = useNavigate()
+  const listOfCategories = ["BUS","TRAM","METRO"];
   const [listOfStops, setListOfStops] = useState([]);
   const [listOfRoutes, setListOfRoutes] = useState([]);
   const [listOfAssignedStop, setListOfAssignedStop] = useState([]);
   const routeDropdown = useRef();
   const routeNewName = useRef();
+  const categoryDropdown = useRef();
   const listViewAvailableStop = useRef();
   const listViewAssignedStop = useRef();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -34,7 +36,6 @@ function RouteModify() {
     if (isDataLoaded() && !isLoaded){
       loadAssignedStops(listOfRoutes[0]&&listOfRoutes[0].id);
     }
-      console.log(routeDropdown.current)
   }, [isUpdated])
 
   const isRouteExistsByName = (oldName, newName) => {
@@ -116,6 +117,13 @@ function RouteModify() {
                 </select>
                 <p>Rename selected route</p>
                 <input ref={routeNewName}/>
+                <p>Change route category:</p>
+                <select ref={categoryDropdown} onChange={() => changeRoute()}>
+                  {listOfCategories.map((category) => 
+                  <option 
+                  key={category}
+                  >{category}</option>)}
+                </select>
               </div>
               <button onClick={() => updateRoute()}>Update</button>
             </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { PassCard } from "./PassCard";
+import { PassCard } from "./passCard/PassCard";
 
 export const PassList = ({ passData ,active}) => {
   return (

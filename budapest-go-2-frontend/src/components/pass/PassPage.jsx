@@ -42,18 +42,18 @@ function PassPage() {
     return (
       <div id="pass">
         <div>
-        <div>
-          <button
+        <div id="passbutton">
+          <button id="buttons"
             onClick={fetchActiveData}
           >
             Active passes
           </button>
-          <button
+          <button id="buttons"
             onClick={fetchExpiredData}
           >
             Expired passes
           </button>
-          <button
+          <button id="buttons"
             onClick={()=>navigate("/purchase")}
           >
             Purchase pass

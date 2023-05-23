@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import{getCookie,isCookieAdequette} from "../components/cookie";
-import { token, role } from "../components/token/TokenDecoder";
+import{getCookie,isCookieAdequette} from "../cookie";
+import { token, role } from "../token/TokenDecoder";
 import { useNavigate } from "react-router-dom";
 import  "./LoginPage.css";
 function LoginPage() {

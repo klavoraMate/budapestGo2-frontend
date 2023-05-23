@@ -1,6 +1,5 @@
 #pass{
     margin-top: 100px;
-    
     display:grid;
 }
 #passContent{
@@ -11,19 +10,46 @@
 }
 
 #noData{
-    /* display:grid;
-    height: 50px;
-    width: 150%;
-    margin: 10px;     
-    border: 1px solid #e6e6e6;
-	border-radius: 1px;
-    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.751),
-	            0 25px 30px 0 rgba(0, 0, 0, 0.719);
-     */        
+   
 }
 
 #loading{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+#buttons {
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    color: #5E276F;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border-style: solid;
+    border-width: thin;
+    margin: 10px 10px 10px 0;
+  }
+  
+ #buttons:hover {
+    background-color: #5E276F;
+    color: #FFFFFF;
+  }
+  
+  #buttons:active {
+    color: #9B9B9B;
+  }
+@media screen and (max-width: 960px) { 
+    #passContent {
+        column-count: 1;
+        margin-left: 10px;
+    }
+    #passbutton{
+        display:grid;
+        margin-left: 100px;
+    }
+    #buttons{
+        max-width: 100%;
+    }
 }

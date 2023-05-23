@@ -1,11 +1,11 @@
 import "./PassPurchasePage.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PassCategoryCard } from "./PassCategoryCard";
-import { token } from "../token/TokenDecoder";
-import { email } from "../../token/TokenDecoder";
+import { PassCategoryCard } from "../passCard/PassCategoryCard";
+import { email ,token} from "../../token/TokenDecoder";
 function PassPurchasePage() {
     const navigate = useNavigate();
+    const[isHidden, setIsHidden] = useState(true);
     const [isFetching, setIsFetching] = useState(true);
     const [passCategories, setPassCategories] = useState([]);
     const [ passToPurchase, setPassToPurchase ]= useState("");
@@ -21,7 +21,7 @@ function PassPurchasePage() {
                 'Authorization': `Bearer ${token()}`,
             },
             body: JSON.stringify({
-                clientId:email(),
+                email:email(),
                 passDuration:passToPurchase[0],
                 passCategory:passToPurchase[1]
             }),
@@ -33,6 +33,11 @@ function PassPurchasePage() {
         document.getElementById("cart").style.visibility = "visible";
         setPassToPurchase(passToPurchaseData);
     }
+
+    function changeVisibility(){
+        setIsHidden(!isHidden);
+       // isHidden ? document.getElementById("purchase").style.top = '60%': document.getElementById("purchase").style.top = '50%';
+      }
 
     const GetCategories = async () => {
             try {
@@ -53,30 +58,11 @@ function PassPurchasePage() {
         if(isFetching){
         GetCategories();
         }
-    }, [passToPurchase]);
+    }, [passToPurchase,isHidden]);
 
     return (
         <div id="purchase">
-            <div className="canvas">
-                 {passCategories && passCategories.map((passType,key) => {
-                      if(!displayedCategory.includes(passType.category)) {
-                        displayedCategory.push(passType.category);
-                        return(
-                    <div 
-                    key={key} 
-                    className="ticket"
-                    onClick={(e)=> purchasePass(e.target.textContent)}
-                    >
-                    <PassCategoryCard 
-                    category = {passType.category}
-                    categoryData = {passCategories}
-                    /> 
-                </div>)
-                    }
-                })
-                }
-            </div>
-            <div id="buttonHolder">
+              <div id="buttonHolder">
                 <div id="cart" >1x {passToPurchase[1]}  {passToPurchase[0]}</div>
                 <button
                     id="button"
@@ -90,7 +76,31 @@ function PassPurchasePage() {
                 >
                     Owned Passes
                 </button>
-                </div>
+            </div>
+            <div className="canvas">
+                 {passCategories && passCategories.map((passType,key) => {
+                      if(!displayedCategory.includes(passType.category)) {
+                        displayedCategory.push(passType.category);
+                        return(
+                    <div 
+                    key={key} 
+                    className="ticket"
+                    onClick={(e)=> purchasePass(e.target.textContent)}
+                    >
+                    <div className="pass_category"  onClick={() => changeVisibility()}>
+                        {passType.category}
+                    <PassCategoryCard 
+                    className="pass_visual"
+                    style={{ display: isHidden ? "none" : "block" }}
+                    category = {passType.category}
+                    categoryData = {passCategories}
+                    /> 
+                    </div>
+                </div>)
+                    }
+                })
+                }
+            </div>
         </div>
     );
 }
