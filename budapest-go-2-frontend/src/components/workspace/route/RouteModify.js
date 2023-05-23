@@ -13,6 +13,7 @@ function RouteModify() {
   const [listOfStops, setListOfStops] = useState([]);
   const [listOfRoutes, setListOfRoutes] = useState([]);
   const [listOfAssignedStop, setListOfAssignedStop] = useState([]);
+  const [routeCategory, setRouteCategory] = useState("");
   const routeDropdown = useRef();
   const routeNewName = useRef();
   const categoryDropdown = useRef();
@@ -35,6 +36,7 @@ function RouteModify() {
       (async () => setListOfStops(await data(stopURL), setListOfRoutes(await data(routeURL), setIsUpdated(false))))();
     if (isDataLoaded() && !isLoaded){
       loadAssignedStops(listOfRoutes[0]&&listOfRoutes[0].id);
+      setRouteCategory(listOfRoutes[0].category);
     }
   }, [isUpdated])
 
@@ -42,9 +44,11 @@ function RouteModify() {
     return listOfRoutes.filter((route) => route.name !== oldName).find((route) => route.name === newName);
   }
   const getModifiedRoute = () => listOfRoutes.filter((route) => route.name === routeDropdown.current.value)[0];
+
   const changeRoute = () => {
     routeNewName.current.value = "";
     const routeId = getModifiedRoute().id;
+    setRouteCategory(getModifiedRoute().category)
     loadAssignedStops(routeId);
   }
   async function loadAssignedStops(routeId) {
@@ -79,6 +83,7 @@ function RouteModify() {
   const updateRoute = async () => {
     const routeId = getModifiedRoute().id;
     const nameOfRoute = routeNewName.current.value??routeDropdown.current.value;
+    const categoryOfRoute = categoryDropdown.current.value;
     if (isRouteExistsByName(nameOfRoute))
       throw new Error("There is already exist a Route in this name");
 
@@ -88,7 +93,8 @@ function RouteModify() {
     const routeURL = '/route/update';
     const routeObject = {
       id: routeId,
-      name: nameOfRoute
+      name: nameOfRoute,
+      category:categoryOfRoute
     }
     await data(routeURL, 'PUT', routeObject);
 
@@ -116,11 +122,14 @@ function RouteModify() {
                 </select>
                 <p>Rename selected route</p>
                 <input ref={routeNewName}/>
-                <p>Change route category:</p>
-                <select ref={categoryDropdown} onChange={() => changeRoute()}>
+                <p>Current category:</p>
+                <p> {routeCategory}</p>
+                <p>Change route category to:</p>
+                <select ref={categoryDropdown} >
                   {listOfCategories.map((category) =>
                   <option
                   key={category}
+                  defaultValue={category === routeCategory}
                   >{category}</option>)}
                 </select>
               </div>
