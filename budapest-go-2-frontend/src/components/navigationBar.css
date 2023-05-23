@@ -43,3 +43,25 @@
   border-radius: 0;
   width: 100%;
 }
+
+
+@media screen and (max-width: 960px) {
+  .navigationBar{
+    width: 90%;
+  }
+  .logo{
+    scale: 0.7;
+    margin-left: -50px;
+    margin-right: -40px;
+  }
+ 
+  .logoutButton {
+    display: block;
+    text-decoration: none;
+  }
+
+  .logoutButton {
+    width: 100%;
+  }
+
+}
