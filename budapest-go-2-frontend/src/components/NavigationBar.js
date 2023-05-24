@@ -10,11 +10,6 @@ function NavigationBar() {
   const [logedInEmail, setLogedInEmail] = useState(null);
   const [privilege, setPrivilege] = useState(null);
   const [isHidden, setIsHidden] = useState(true);
-  let url = window.location.href.split('/');
-  let currentUrl = url[url.length-1];
-  const navigateTo = (urlEnd) => {
-      navigate(urlEnd);
-  };
 
   const handleLogout = () => {
    localStorage.clear();
@@ -59,7 +54,7 @@ function NavigationBar() {
                 </button>
                 {privilege && privilege === "CUSTOMER" &&
                 <button className='logoutButton' 
-                onClick={() => navigateTo("/pass")}
+                onClick={() => navigate("/pass")}
                 >
                   Pass
                 </button>}

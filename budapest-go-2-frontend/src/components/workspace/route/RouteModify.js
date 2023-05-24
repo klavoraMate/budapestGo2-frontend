@@ -5,41 +5,50 @@ import ListView from '../../elements/listView/ListView';
 import './routeModify.css';
 import Loading from "../../elements/loadingIndicator/Loading";
 import {useNavigate} from "react-router-dom";
+import { role } from '../../token/TokenDecoder';
 
 function RouteModify() {
+  const navigate = useNavigate()
+  const listOfCategories = ["BUS","TRAM","METRO"];
   const [listOfStops, setListOfStops] = useState([]);
   const [listOfRoutes, setListOfRoutes] = useState([]);
   const [listOfAssignedStop, setListOfAssignedStop] = useState([]);
+  const [routeCategory, setRouteCategory] = useState("");
   const routeDropdown = useRef();
   const routeNewName = useRef();
+  const categoryDropdown = useRef();
   const listViewAvailableStop = useRef();
   const listViewAssignedStop = useRef();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isUpdated, setIsUpdated] = useState(true);
-  const navigate = useNavigate();
   const { data } = useMultiFetch();
   const isDataLoaded = () => {
     return listOfRoutes.length > 0 && listOfStops.length > 0;
   };
 
   useEffect(() => {
+    if(role() !== "EMPLOYEE"){
+      navigate("/map");
+    }
     const stopURL = '/stop/all';
     const routeURL = '/route/all';
     if (isUpdated)
       (async () => setListOfStops(await data(stopURL), setListOfRoutes(await data(routeURL), setIsUpdated(false))))();
     if (isDataLoaded() && !isLoaded){
       loadAssignedStops(listOfRoutes[0]&&listOfRoutes[0].id);
+      setRouteCategory(listOfRoutes[0].category);
     }
-      console.log(routeDropdown.current)
   }, [isUpdated])
 
   const isRouteExistsByName = (oldName, newName) => {
     return listOfRoutes.filter((route) => route.name !== oldName).find((route) => route.name === newName);
   }
   const getModifiedRoute = () => listOfRoutes.filter((route) => route.name === routeDropdown.current.value)[0];
+
   const changeRoute = () => {
     routeNewName.current.value = "";
     const routeId = getModifiedRoute().id;
+    setRouteCategory(getModifiedRoute().category)
     loadAssignedStops(routeId);
   }
   async function loadAssignedStops(routeId) {
@@ -74,6 +83,7 @@ function RouteModify() {
   const updateRoute = async () => {
     const routeId = getModifiedRoute().id;
     const nameOfRoute = routeNewName.current.value??routeDropdown.current.value;
+    const categoryOfRoute = categoryDropdown.current.value;
     if (isRouteExistsByName(nameOfRoute))
       throw new Error("There is already exist a Route in this name");
 
@@ -83,7 +93,8 @@ function RouteModify() {
     const routeURL = '/route/update';
     const routeObject = {
       id: routeId,
-      name: nameOfRoute
+      name: nameOfRoute,
+      category:categoryOfRoute
     }
     await data(routeURL, 'PUT', routeObject);
 
@@ -111,6 +122,16 @@ function RouteModify() {
                 </select>
                 <p>Rename selected route</p>
                 <input ref={routeNewName}/>
+                <p>Current category:</p>
+                <p> {routeCategory}</p>
+                <p>Change route category to:</p>
+                <select ref={categoryDropdown} >
+                  {listOfCategories.map((category) =>
+                  <option
+                  key={category}
+                  defaultValue={category === routeCategory}
+                  >{category}</option>)}
+                </select>
               </div>
               <button onClick={() => updateRoute()}>Update</button>
             </div>

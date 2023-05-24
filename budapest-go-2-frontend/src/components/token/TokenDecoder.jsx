@@ -20,10 +20,12 @@ export const role = () => {
       }
     
 }
+
 export const token = () => {
     try {
         return localStorage.getItem('token');
     } catch (error) {
           return null;
-    }
+      }
+    
 }
