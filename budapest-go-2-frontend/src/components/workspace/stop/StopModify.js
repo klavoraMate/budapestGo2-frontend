@@ -27,18 +27,32 @@ function StopModify() {
     return !!listOfStops;
   };
 
+  const handleDeleteButtonClick = async () => {
+    await deleteStopById(selectedStop().id);
+    setIsDeletion(false);
+    navigate("/workspace")
+  }
+
+  const deleteStopById =  async (id) => {
+    const scheduleURL = '/stop/' + id;
+    await data(scheduleURL, 'DELETE');
+  }
+
+  const selectedStop = () => {
+    return listOfStops[stopDropdown.current.selectedIndex];
+  }
+
   const isHasValue = (inputField) => {
     return (inputField.current.value.length > 0);
   }
 
   const updateStop = async () => {
     const stopURL = '/stop/update'
-    const selectedStop = listOfStops[stopDropdown.current.selectedIndex];
     const stopObject = {
-      id: selectedStop.id,
-      name: isHasValue(stopNewName) ? stopNewName.current.value.trim() : selectedStop.name,
-      latitude: isHasValue(stopLatitude) ? stopLatitude.current.value : selectedStop.latitude,
-      longitude: isHasValue(stopLongitude) ? stopLongitude.current.value : selectedStop.longitude
+      id: selectedStop().id,
+      name: isHasValue(stopNewName) ? stopNewName.current.value.trim() : selectedStop().name,
+      latitude: isHasValue(stopLatitude) ? stopLatitude.current.value : selectedStop().latitude,
+      longitude: isHasValue(stopLongitude) ? stopLongitude.current.value : selectedStop().longitude
     }
     await data(stopURL, 'PUT', stopObject);
     navigate('/workspace');
