@@ -3,12 +3,14 @@ import useMultiFetch from '../../api/useMultiFetch';
 import Loading from "../../elements/loadingIndicator/Loading";
 import {useNavigate} from "react-router-dom";
 import { role } from '../../token/TokenDecoder';
+import ConfirmDialog from "../../elements/confirmDialog/ConfirmDialog";
 function StopModify() {
   const [listOfStops, setListOfStops] = useState();
   const stopDropdown = useRef();
   const stopNewName = useRef();
   const stopLatitude = useRef();
   const stopLongitude = useRef();
+  const [isDeletion, setIsDeletion] = useState(false);
   const navigate = useNavigate();
   const {data} = useMultiFetch();
 
@@ -57,6 +59,7 @@ function StopModify() {
               <input type="number" step="0.000001" ref={stopLongitude}/>
             </div>
             <button onClick={() => updateStop()}>Update</button>
+            {isDeletion ? <ConfirmDialog confirmString={stopDropdown.current.value} onClickMethod={() => {console.log("torles"); navigate("/workspace")}}/> : <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
           </div>
         </div>
       </div>

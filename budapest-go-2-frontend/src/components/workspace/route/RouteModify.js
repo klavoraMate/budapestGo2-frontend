@@ -6,6 +6,7 @@ import './routeModify.css';
 import Loading from "../../elements/loadingIndicator/Loading";
 import {useNavigate} from "react-router-dom";
 import { role } from '../../token/TokenDecoder';
+import ConfirmDialog from "../../elements/confirmDialog/ConfirmDialog";
 
 function RouteModify() {
   const navigate = useNavigate()
@@ -21,6 +22,7 @@ function RouteModify() {
   const listViewAssignedStop = useRef();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isUpdated, setIsUpdated] = useState(true);
+  const [isDeletion, setIsDeletion] = useState(false);
   const { data } = useMultiFetch();
   const isDataLoaded = () => {
     return listOfRoutes.length > 0 && listOfStops.length > 0;
@@ -147,6 +149,7 @@ function RouteModify() {
                   <p>Assigned stops</p>
                   <ListView key="assigned-stops" listElements={listOfAssignedStop} ref={listViewAssignedStop}/>
                   <button onClick={() => removeStopFromList()}>{'Remove'}</button>
+                  {isDeletion ? <ConfirmDialog confirmString={routeDropdown.current.value} onClickMethod={() => {console.log("torles"); navigate("/workspace")}}/> : <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
                 </div>
               </div>
             </div>
