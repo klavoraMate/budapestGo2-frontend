@@ -2,10 +2,9 @@ import './confirmDialog.css';
 import {useRef} from "react";
 const ConfirmDialog = ({category, confirmString, onClickMethod, onCloseMethod}) => {
     const confirmInput = useRef();
-    const confirmStringWithHyphen = confirmString.replaceAll(' ', '-').toLowerCase();
-    console.log(confirmString);
+    const confirmStringWithIdentifierAndHyphen = confirmString && `delete/${category.toLowerCase()}/${confirmString.replaceAll(' ', '-').toLowerCase()}`;
     const checkMatch = () => {
-        if (confirmInput.current.value === confirmStringWithHyphen) {
+        if (confirmInput.current.value === confirmStringWithIdentifierAndHyphen) {
             onClickMethod();
         }
     }
@@ -18,7 +17,7 @@ const ConfirmDialog = ({category, confirmString, onClickMethod, onCloseMethod}) 
                 <p className={"exitButton"} onClick={() => onCloseMethod()}>X</p>
                 <hr className={"separatorLine"}/>
                 <p className={"descTitle"}>You have to confirm deletion by typing</p>
-                <h3 className={"confirmString"}>"delete/{category.toLowerCase()}/{confirmStringWithHyphen}"</h3>
+                <h3 className={"confirmString"}>"{confirmStringWithIdentifierAndHyphen}"</h3>
                 <input className={"confirmInput"} onChange={() => checkMatch()} ref={confirmInput}/>
             </div>
         </>
