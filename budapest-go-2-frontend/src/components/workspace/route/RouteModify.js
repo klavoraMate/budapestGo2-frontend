@@ -14,7 +14,6 @@ function RouteModify() {
   const [listOfStops, setListOfStops] = useState([]);
   const [listOfRoutes, setListOfRoutes] = useState([]);
   const [listOfAssignedStop, setListOfAssignedStop] = useState([]);
-  const [routeCategory, setRouteCategory] = useState("");
   const routeDropdown = useRef();
   const routeNewName = useRef();
   const categoryDropdown = useRef();
@@ -23,10 +22,7 @@ function RouteModify() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isUpdated, setIsUpdated] = useState(true);
   const [isDeletion, setIsDeletion] = useState(false);
-  const { data } = useMultiFetch();
-  const isDataLoaded = () => {
-    return listOfRoutes.length > 0 && listOfStops.length > 0;
-  };
+  const { data, isLoading } = useMultiFetch();
 
   useEffect(() => {
     if(role() !== "EMPLOYEE"){
@@ -36,28 +32,27 @@ function RouteModify() {
     const routeURL = '/route/all';
     if (isUpdated)
       (async () => setListOfStops(await data(stopURL), setListOfRoutes(await data(routeURL), setIsUpdated(false))))();
-    if (isDataLoaded() && !isLoaded){
-      loadAssignedStops(listOfRoutes[0]&&listOfRoutes[0].id);
-      setRouteCategory(listOfRoutes[0].category);
+    if (isLoading && !isLoaded){
+      listOfRoutes[0]&&loadAssignedStops(listOfRoutes[0].id);
     }
-  }, [isUpdated])
+  }, [isUpdated]);
 
   const isRouteExistsByName = (oldName, newName) => {
     return listOfRoutes.filter((route) => route.name !== oldName).find((route) => route.name === newName);
   }
-  const getModifiedRoute = () => listOfRoutes.filter((route) => route.name === routeDropdown.current.value)[0];
+  const getModifiedRoute = () => {
+    return listOfRoutes[routeDropdown.current.selectedIndex];
+  };
 
   const handleDeleteButtonClick = async () => {
-    await deleteRouteById();
+    getModifiedRoute().id && await deleteRouteById(getModifiedRoute().id);
     setIsDeletion(false);
     navigate("/workspace")
   }
 
   const changeRoute = () => {
     routeNewName.current.value = "";
-    const routeId = getModifiedRoute().id;
-    setRouteCategory(getModifiedRoute().category)
-    loadAssignedStops(routeId);
+    getModifiedRoute().id && loadAssignedStops(getModifiedRoute().id);
   }
   async function loadAssignedStops(routeId) {
     const scheduleURL = '/schedule/stops-connected-to-route-id/' + routeId;
@@ -83,8 +78,8 @@ function RouteModify() {
     setIsUpdated(true);
   }
 
-  const deleteRouteById =  async () => {
-    const scheduleURL = '/route/' + getModifiedRoute().id;
+  const deleteRouteById =  async (id) => {
+    const scheduleURL = '/route/' + id;
     await data(scheduleURL, 'DELETE');
   }
 
@@ -122,7 +117,7 @@ function RouteModify() {
     });
     navigate('/workspace');
   }
-  if (isDataLoaded() && isLoaded) {
+  if (!isLoading) {
   return (
       <>
         <div className='pageContent'>
@@ -139,13 +134,11 @@ function RouteModify() {
                 <p>Change route category to:</p>
                 <select ref={categoryDropdown} >
                   {listOfCategories.map((category) =>
-                  <option
-                  key={category}
-                  selected={category === routeCategory}
-                  >{category}</option>)}
+                  <option key={category}>{category}</option>)}
                 </select>
               </div>
               <button onClick={() => updateRoute()}>Update</button>
+              {!isDeletion && <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
             </div>
 
             <div className='pageElement'>
@@ -164,7 +157,11 @@ function RouteModify() {
             </div>
           </div>
         </div>
-        {isDeletion ? <ConfirmDialog category={"Route"} confirmString={routeDropdown.current.value} onClickMethod={() => handleDeleteButtonClick()} onCloseMethod={setIsDeletion(false)}/> : <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
+        {isDeletion && <ConfirmDialog category={"Route"}
+                                     confirmString={routeDropdown.current.value}
+                                     onClickMethod={() => handleDeleteButtonClick()}
+                                     onCloseMethod={() => setIsDeletion(false)}/>
+        }
       </>
   )
 } else
