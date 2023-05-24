@@ -14,12 +14,24 @@ button {
 
 button:hover {
   background-color: #5E276F;
+  border-color: #ffffff;
   color: #FFFFFF;
 }
 
 button:active {
   color: #9B9B9B;
 }
+
+.alertButton {
+  color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.alertButton:hover {
+  background-color: #e74c3c;
+  color: #FFFFFF;
+}
+
 .pageContent {
   position: relative;
   top: 120px;
