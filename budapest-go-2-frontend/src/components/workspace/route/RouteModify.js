@@ -47,6 +47,12 @@ function RouteModify() {
   }
   const getModifiedRoute = () => listOfRoutes.filter((route) => route.name === routeDropdown.current.value)[0];
 
+  const handleDeleteButtonClick = async () => {
+    await deleteRouteById();
+    setIsDeletion(false);
+    navigate("/workspace")
+  }
+
   const changeRoute = () => {
     routeNewName.current.value = "";
     const routeId = getModifiedRoute().id;
@@ -75,6 +81,11 @@ function RouteModify() {
       listOfAssignedStop.splice(index, 1);
     }
     setIsUpdated(true);
+  }
+
+  const deleteRouteById =  async () => {
+    const scheduleURL = '/route/' + getModifiedRoute().id;
+    await data(scheduleURL, 'DELETE');
   }
 
   const deleteSchedulesByRouteId = async (routeId) => {
@@ -113,6 +124,7 @@ function RouteModify() {
   }
   if (isDataLoaded() && isLoaded) {
   return (
+      <>
         <div className='pageContent'>
           <h2>Modify transportation route</h2>
           <div className='pagePanel'>
@@ -124,8 +136,6 @@ function RouteModify() {
                 </select>
                 <p>Rename selected route</p>
                 <input ref={routeNewName}/>
-                <p>Current category:</p>
-                <p> {routeCategory}</p>
                 <p>Change route category to:</p>
                 <select ref={categoryDropdown} >
                   {listOfCategories.map((category) =>
@@ -149,12 +159,13 @@ function RouteModify() {
                   <p>Assigned stops</p>
                   <ListView key="assigned-stops" listElements={listOfAssignedStop} ref={listViewAssignedStop}/>
                   <button onClick={() => removeStopFromList()}>{'Remove'}</button>
-                  {isDeletion ? <ConfirmDialog confirmString={routeDropdown.current.value} onClickMethod={() => {console.log("torles"); navigate("/workspace")}}/> : <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {isDeletion ? <ConfirmDialog category={"Route"} confirmString={routeDropdown.current.value} onClickMethod={() => handleDeleteButtonClick()} onCloseMethod={setIsDeletion(false)}/> : <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
+      </>
   )
 } else
     return <Loading/>
