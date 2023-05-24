@@ -1,14 +1,8 @@
-
-  
-  h1 {
-    margin: 1rem auto 4rem;
-  }
-  
-  .news--image {
-    max-width: 100%;
+.news--image {
+max-width: 100%;
    /*  height: 16em; */
     object-fit: cover;
-  }
+}
   
   .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);

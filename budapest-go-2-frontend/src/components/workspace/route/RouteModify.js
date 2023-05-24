@@ -95,7 +95,7 @@ function RouteModify() {
 
   const updateRoute = async () => {
     const routeId = getModifiedRoute().id;
-    const nameOfRoute = routeNewName.current.value??routeDropdown.current.value;
+    const nameOfRoute = routeNewName.current.value.length > 0 ? routeNewName.current.value : routeDropdown.current.value;
     const categoryOfRoute = categoryDropdown.current.value;
     if (isRouteExistsByName(nameOfRoute))
       throw new Error("There is already exist a Route in this name");
@@ -141,7 +141,7 @@ function RouteModify() {
                   {listOfCategories.map((category) =>
                   <option
                   key={category}
-                  defaultValue={category === routeCategory}
+                  selected={category === routeCategory}
                   >{category}</option>)}
                 </select>
               </div>

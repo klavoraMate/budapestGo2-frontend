@@ -10,6 +10,8 @@ import RouteCreate from './components/workspace/route/RouteCreate';
 import RouteModify from './components/workspace/route/RouteModify';
 import StopCreate from './components/workspace/stop/StopCreate';
 import StopModify from './components/workspace/stop/StopModify';
+import { CategoryCreate } from './components/workspace/pass/CategoryCreate';
+import {CategoryModify} from './components/workspace/pass/CategoryModify';
 import NavigationBar from './components/NavigationBar';
 import Map from './components/map/Map';
 
@@ -24,6 +26,8 @@ function App() {
       <Route path='/route/edit' element={<RouteModify/>}/>
       <Route path='/stop/add' element={<StopCreate/>}/>
       <Route path='/stop/edit' element={<StopModify/>}/>
+      <Route path='/category/add' element={<CategoryCreate/>}/>
+      <Route path='/category/edit' element={<CategoryModify/>}/>
       <Route path='/register' element={<RegisterPage/>} />
       <Route path='/pass' element={<PassPage/>} />
       <Route path='/purchase' element={<PassPurchasePage/>} />

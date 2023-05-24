@@ -27,6 +27,13 @@ function Workspace() {
           <button onClick={() => navigate('/stop/edit')}>Modify stops</button>
         </div>
       </div>
+      <div className='group'>
+      <label>Manage pass categories</label>
+        <div className='groupContent'>
+          <button onClick={() => navigate('/category/add')}>Add new category</button>
+          <button onClick={() => navigate('/category/edit')}>Modify category</button>
+        </div>
+      </div>
     </div>
     )}
 
