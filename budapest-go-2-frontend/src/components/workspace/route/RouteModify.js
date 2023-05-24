@@ -129,13 +129,13 @@ function RouteModify() {
                 <select ref={routeDropdown} onChange={() => changeRoute()}>
                   {listOfRoutes.map((route) => <option key={route.name}>{route.name}</option>)}
                 </select>
-                <p>Rename selected route</p>
-                <input ref={routeNewName}/>
                 <p>Change route category to:</p>
                 <select ref={categoryDropdown} >
                   {listOfCategories.map((category) =>
                   <option key={category}>{category}</option>)}
                 </select>
+                <p>Rename selected route</p>
+                <input ref={routeNewName}/>
               </div>
               <button onClick={() => updateRoute()}>Update</button>
               {!isDeletion && <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
