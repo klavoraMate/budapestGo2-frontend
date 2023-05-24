@@ -78,10 +78,15 @@ function StopModify() {
                 <input type="number" step="0.000001" ref={stopLongitude}/>
               </div>
               <button onClick={() => updateStop()}>Update</button>
+              {!isDeletion && <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
             </div>
           </div>
         </div>
-        {isDeletion ? <ConfirmDialog category={"Stop"} confirmString={stopDropdown.current.value} onClickMethod={() => {console.log("torles"); setIsDeletion(false); navigate("/workspace")}}/> : <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
+        {isDeletion && <ConfirmDialog category={"Stop"}
+                                     confirmString={stopDropdown.current.value}
+                                     onClickMethod={() => handleDeleteButtonClick()}
+                                     onCloseMethod={() => setIsDeletion(false)}/>
+        }
       </>
     )
   } else {
