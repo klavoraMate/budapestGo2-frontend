@@ -42,27 +42,29 @@ function StopModify() {
 
   if (isDataLoaded() && role() === "EMPLOYEE") {
     return (
-      <div className='pageContent'>
-        <h2>Modify transportation stop</h2>
-        <div className='pagePanel'>
-          <div className='pageElement'>
-            <div className='routeDetail'>
-              <p>Select existing route:</p>
-              <select ref={stopDropdown}>
-                {listOfStops.map((stop) => <option key={stop.name}>{stop.name}</option>)}
-              </select>
-              <p>Rename selected route</p>
-              <input ref={stopNewName}/>
-              <p>Set latitude</p>
-              <input type="number" step="0.000001" ref={stopLatitude}/>
-              <p>Set longitude</p>
-              <input type="number" step="0.000001" ref={stopLongitude}/>
+      <>
+        <div className='pageContent'>
+          <h2>Modify transportation stop</h2>
+          <div className='pagePanel'>
+            <div className='pageElement'>
+              <div className='routeDetail'>
+                <p>Select existing route:</p>
+                <select ref={stopDropdown}>
+                  {listOfStops.map((stop) => <option key={stop.name}>{stop.name}</option>)}
+                </select>
+                <p>Rename selected route</p>
+                <input ref={stopNewName}/>
+                <p>Set latitude</p>
+                <input type="number" step="0.000001" ref={stopLatitude}/>
+                <p>Set longitude</p>
+                <input type="number" step="0.000001" ref={stopLongitude}/>
+              </div>
+              <button onClick={() => updateStop()}>Update</button>
             </div>
-            <button onClick={() => updateStop()}>Update</button>
-            {isDeletion ? <ConfirmDialog confirmString={stopDropdown.current.value} onClickMethod={() => {console.log("torles"); navigate("/workspace")}}/> : <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
           </div>
         </div>
-      </div>
+        {isDeletion ? <ConfirmDialog category={"Stop"} confirmString={stopDropdown.current.value} onClickMethod={() => {console.log("torles"); setIsDeletion(false); navigate("/workspace")}}/> : <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
+      </>
     )
   } else {
     return <Loading/>
