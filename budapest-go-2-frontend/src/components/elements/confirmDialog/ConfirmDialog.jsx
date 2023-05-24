@@ -15,7 +15,7 @@ const ConfirmDialog = ({category, confirmString, onClickMethod, onCloseMethod}) 
             <div className={"BlockLayer"}/>
             <div className={"ConfirmPanel"}>
                 <p className={"title"}>Delete {category}</p>
-                <p className={"exitButton"} onChange={() => onCloseMethod()}>X</p>
+                <p className={"exitButton"} onClick={() => onCloseMethod()}>X</p>
                 <hr className={"separatorLine"}/>
                 <p className={"descTitle"}>You have to confirm deletion by typing</p>
                 <h3 className={"confirmString"}>"delete/{category.toLowerCase()}/{confirmStringWithHyphen}"</h3>
