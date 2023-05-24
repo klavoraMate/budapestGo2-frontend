@@ -158,7 +158,7 @@ function RouteModify() {
           </div>
         </div>
         {isDeletion && <ConfirmDialog category={"Route"}
-                                     confirmString={routeDropdown.current.value}
+                                     confirmString={routeDropdown.current&&routeDropdown.current.value}
                                      onClickMethod={() => handleDeleteButtonClick()}
                                      onCloseMethod={() => setIsDeletion(false)}/>
         }
