@@ -25,14 +25,18 @@ function StopModify() {
     return !!listOfStops;
   };
 
+  const isHasValue = (inputField) => {
+    return (inputField.current.value.length > 0);
+  }
+
   const updateStop = async () => {
     const stopURL = '/stop/update'
     const selectedStop = listOfStops[stopDropdown.current.selectedIndex];
     const stopObject = {
       id: selectedStop.id,
-      name: stopNewName.current.value.trim() && selectedStop.name,
-      latitude: stopLatitude.current.value && selectedStop.latitude,
-      longitude: stopLongitude.current.value && selectedStop.longitude
+      name: isHasValue(stopNewName) ? stopNewName.current.value.trim() : selectedStop.name,
+      latitude: isHasValue(stopLatitude) ? stopLatitude.current.value : selectedStop.latitude,
+      longitude: isHasValue(stopLongitude) ? stopLongitude.current.value : selectedStop.longitude
     }
     await data(stopURL, 'PUT', stopObject);
     navigate('/workspace');
