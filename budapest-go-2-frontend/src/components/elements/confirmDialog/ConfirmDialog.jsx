@@ -1,23 +1,25 @@
 import './confirmDialog.css';
 import {useRef} from "react";
-const ConfirmDialog = ({subjectOfConfirmation, confirmString, onClickMethod}) => {
+const ConfirmDialog = ({category, confirmString, onClickMethod, onCloseMethod}) => {
     const confirmInput = useRef();
-    confirmString = confirmString.replaceAll(' ', '-');
+    const confirmStringWithHyphen = confirmString.replaceAll(' ', '-').toLowerCase();
     console.log(confirmString);
     const checkMatch = () => {
-        if (confirmInput.current.value === confirmString) {
+        if (confirmInput.current.value === confirmStringWithHyphen) {
             onClickMethod();
         }
     }
 
     return (
         <>
-            <div className={"BlockLayer"}>
-                <p>o</p>
-            </div>
+            <div className={"BlockLayer"}/>
             <div className={"ConfirmPanel"}>
-                <p>You have to confirm {subjectOfConfirmation} by typing "{confirmString}" to execute</p>
-                <input ref={confirmInput} onChange={() => checkMatch()}/>
+                <p className={"title"}>Delete {category}</p>
+                <p className={"exitButton"} onChange={() => onCloseMethod()}>X</p>
+                <hr className={"separatorLine"}/>
+                <p className={"descTitle"}>You have to confirm deletion by typing</p>
+                <h3 className={"confirmString"}>"delete/{category.toLowerCase()}/{confirmStringWithHyphen}"</h3>
+                <input className={"confirmInput"} onChange={() => checkMatch()} ref={confirmInput}/>
             </div>
         </>
     )
