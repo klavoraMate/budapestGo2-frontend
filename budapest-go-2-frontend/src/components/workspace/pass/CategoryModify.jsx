@@ -10,7 +10,7 @@ export const CategoryModify = () => {
     const [listOfCategories, setListOfCategories] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isUpdated, setIsUpdated] = useState(true);
-    const [currentValuesUpdated, setCurrentValuesUpdated] = useState(true);
+    const [currentValuesUpdated, setCurrentValuesUpdated] = useState('true');
     const [currentCategory, setCurrentCategory] = useState([]);
     const [currentDuration, setCurrentDuration] = useState([]);
     const [currentpassExpireInDay, setCurrentPassExpireInDay] = useState([]);
@@ -45,12 +45,12 @@ export const CategoryModify = () => {
     const getModifiedCategory = () => listOfCategories.filter((category) => category.id == categoryDropdown.current.value);
   
     const changeCategory = () => {
-      const categoryId = getModifiedCategory();
-      setCurrentValuesUpdated(!currentValuesUpdated);
-      setCurrentCategory(categoryId[0].category);      
-      setCurrentDuration(categoryId[0].passDuration);
-      setCurrentPassExpireInDay(categoryId[0].passExpireInDay);
-      setCurrentPrice(categoryId[0].price);
+      const selectedCategory = getModifiedCategory();
+      setCurrentValuesUpdated(selectedCategory);
+      setCurrentCategory(selectedCategory[0].category);      
+      setCurrentDuration(selectedCategory[0].passDuration);
+      setCurrentPassExpireInDay(selectedCategory[0].passExpireInDay);
+      setCurrentPrice(selectedCategory[0].price);
     
     }
   
