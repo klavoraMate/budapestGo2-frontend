@@ -14,6 +14,10 @@ const getIcon = (vehicleCategory) => {
   })
 }
 const calculateCenter = (positions) => {
+  const locationOfBudapest = [47.486208, 19.108459];
+  if (!positions || positions.length === 0)
+    return locationOfBudapest;
+
   let latitude = 0;
   let longitude = 0;
 
@@ -24,8 +28,12 @@ const calculateCenter = (positions) => {
 }
 
 const calculateZoom = (positions) => {
+  if (!positions || positions.length === 0)
+    return 10;
+
   const latitudes = positions.map((pos) => pos.latitude);
   const longitudes = positions.map((pos) => pos.longitude);
+  const zoomFactor = -0.1;
 
   const maxLat = Math.max(...latitudes);
   const minLat = Math.min(...latitudes);
@@ -35,25 +43,25 @@ const calculateZoom = (positions) => {
   const latDistance = Math.abs(maxLat - minLat);
   const lngDistance = Math.abs(maxLng - minLng);
 
-  const zoomFactor = -0.1;
-
   const distance = Math.max(latDistance, lngDistance);
+
   return Math.floor(Math.log2(360 / distance) + zoomFactor);
 };
-
 const MapPreview = ({positions, vehicleCategory}) => {
+console.log(positions)
   return (
     <div className={"MapPreviewContent"}>
-      <MapContainer className="map" center={calculateCenter(positions)} zoom={calculateZoom(positions)} scrollWheelZoom={true}>
+      <MapContainer className="map" center={() => calculateCenter(positions)} zoom={() => calculateZoom(positions)} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {positions&&positions.map(stop => <Marker key={stop.id} icon={getIcon(vehicleCategory)} position={[stop.latitude, stop.longitude]}>
-          <Popup>
-            {stop.name}
-          </Popup>
-        </Marker>)}
+        {positions&&positions.map(stop =>
+          <Marker key={stop.id} icon={getIcon(vehicleCategory)} position={[stop.latitude, stop.longitude]}>
+            <Popup>
+              {stop.name}
+            </Popup>
+          </Marker>)}
       </MapContainer>
     </div>
   )
