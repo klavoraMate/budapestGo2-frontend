@@ -4,11 +4,16 @@ import './leaflet.css';
 import './map.css'
 import useMultiFetch from "../api/useMultiFetch";
 import L from "leaflet";
-const getIcon = () => {
-    return L.icon({
-        iconUrl: process.env.PUBLIC_URL + '/map/marker-icon.png',
-        iconSize: [25, 41]
-    })
+const getIconPath = (vehicleCategory) => {
+  const iconName = "-marker-icon.png";
+  const publicPath = process.env.PUBLIC_URL + "/map/";
+  return publicPath + vehicleCategory.toLowerCase() + iconName;
+}
+const getIcon = (vehicleCategory) => {
+  return L.icon({
+    iconUrl: getIconPath(vehicleCategory),
+    iconSize: [25, 41]
+  })
 }
 const Map = () => {
     const { data } = useMultiFetch();
@@ -55,28 +60,29 @@ const Map = () => {
     const scheduleURL = '/schedule/stops-connected-to-route-id/' + route.id;
     event.target.value = route.name;
     (async () => setListOfStopsOfRoute(await data(scheduleURL)))();
-    for (let allStop = 0; allStop < listOfStops.length; allStop++){
+
+    /*for (let allStop = 0; allStop < listOfStops.length; allStop++){
       for (let selectedStop = 0; selectedStop < listOfStopsOfRoute.length; selectedStop++){
         console.log([listOfStops[allStop].id, listOfStopsOfRoute[selectedStop].id])
       }
-    }
+    }*/
   };
 
 
   return (
       <div className={"mapContent"}>
-          <input className={"searchBar"} type={"text"} placeholder={"Search routes, lines, stops or spots"} onKeyDown={(event) => (event.code === 'Enter') && search(event)}/>
+        <input className={"searchBar"} type={"text"} placeholder={"Search routes, lines, stops or spots"} onKeyDown={(event) => (event.code === 'Enter') && search(event)}/>
         <MapContainer className="map" center={locationOfBudapest} zoom={10} scrollWheelZoom={true}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-            {listOfStopsOfRoute&&listOfStopsOfRoute.map(stop => <Marker key={stop.id} icon={getIcon()} position={[stop.location.latitude, stop.location.longitude]}>
+            {listOfStopsOfRoute&&listOfStopsOfRoute.map(stop => <Marker key={stop.id} icon={getIcon(stop.category)} position={[stop.location.latitude, stop.location.longitude]}>
                 <Popup>
                     {stop.name}
                 </Popup>
             </Marker>)}
-      </MapContainer>
+        </MapContainer>
       </div>
   )
 }
