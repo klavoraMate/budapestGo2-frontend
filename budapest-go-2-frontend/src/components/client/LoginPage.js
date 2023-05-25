@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import{getCookie,isCookieAdequette} from "../cookie";
+import { getCookie, isCookieAdequette } from "../cookie";
 import { token, role } from "../token/TokenDecoder";
 import { useNavigate } from "react-router-dom";
-import  "./LoginPage.css";
+import useMultiFetch from "../api/useMultiFetch";
+import "./LoginPage.css";
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -10,13 +11,14 @@ function LoginPage() {
     const [hidden, setHidden] = useState(true);
     const isMounted = useRef(true);
     const navigate = useNavigate()
+    const { data } = useMultiFetch();
 
     const navigateTo = (urlEnd) => {
         navigate(urlEnd);
     };
 
     useEffect(() => {
-        if(token() != null){
+        if (token() != null) {
             navigate("/home")
         }
         return () => {
@@ -32,6 +34,11 @@ function LoginPage() {
         setPassword(event.target.value);
     };
 
+    const handleGoogleLogin = async (event) => {
+        const url = await data("/oauth2/authorizationPageUrl/google")
+        console.log(url);
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -46,28 +53,28 @@ function LoginPage() {
                     password: password
                 }),
             });
-            if(response.ok){
-                const data = await response.json();
-                const token = data.token;
-                localStorage.setItem('token', token);
-                if(role() === "EMPLOYEE"){
-                    navigate("/workspace");
-                }
-                else if(role() === "CUSTOMER"){
-                    console.log("data");
-                    navigate("/map");
-             }
-                } else {
-                    setHidden(false);
-                    await response.text().then(errorMessage => setMessage(errorMessage));
-                }
-        };
-          
+        if (response.ok) {
+            const data = await response.json();
+            const token = data.token;
+            localStorage.setItem('token', token);
+            if (role() === "EMPLOYEE") {
+                navigate("/workspace");
+            }
+            else if (role() === "CUSTOMER") {
+                console.log("data");
+                navigate("/map");
+            }
+        } else {
+            setHidden(false);
+            await response.text().then(errorMessage => setMessage(errorMessage));
+        }
+    };
+
 
     return (
         <div className='pageContent'>
             <h1>Login</h1>
-            <div hidden = {hidden}>{message}</div>
+            <div hidden={hidden}>{message}</div>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="email">Email:</label>
@@ -79,9 +86,10 @@ function LoginPage() {
                 </div>
                 <button type="submit">Login</button>
             </form>
+            <button onClick={handleGoogleLogin}>Sign in With Google</button>
             <h3 className="register"
-             onClick={() =>  navigateTo("/register")}
-             >
+                onClick={() => navigateTo("/register")}
+            >
                 Not registered yet?
             </h3>
         </div>
