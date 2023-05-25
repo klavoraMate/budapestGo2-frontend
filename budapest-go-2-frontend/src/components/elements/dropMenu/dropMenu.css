@@ -10,6 +10,7 @@
   border-radius: 0;
   width: 100%;
   height: fit-content;
+  border-width: 0;
 }
 
 .box {
@@ -25,4 +26,10 @@
 
 .title {
   margin-right: -100px;
+}
+
+.tag {
+  border-width: 1px;
+  border-style: dashed;
+  z-index: 4;
 }
