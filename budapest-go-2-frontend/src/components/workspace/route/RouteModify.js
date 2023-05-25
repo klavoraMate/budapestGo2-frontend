@@ -8,6 +8,8 @@ import {useNavigate} from "react-router-dom";
 import { role } from '../../token/TokenDecoder';
 import ConfirmDialog from "../../elements/dialogs/confirmDialog/ConfirmDialog";
 import InfoDialog from "../../elements/dialogs/infoDialog/InfoDialog";
+import MapPreview from "../../elements/mapPreview/MapPreview";
+import {get} from "leaflet/src/dom/DomUtil";
 
 function RouteModify() {
   const navigate = useNavigate()
@@ -28,13 +30,18 @@ function RouteModify() {
   useEffect(() => {
     if(role() !== "EMPLOYEE"){
       navigate("/map");
+      return;
     }
     const stopURL = '/stop/all';
     const routeURL = '/route/all';
     if (isUpdated)
-      (async () => setListOfStops(await data(stopURL), setListOfRoutes(await data(routeURL), setIsUpdated(false))))();
-    if (isLoading && !isLoaded){
-      listOfRoutes[0]&&loadAssignedStops(listOfRoutes[0].id);
+      (async () => {
+        setListOfStops(await data(stopURL));
+        setListOfRoutes(await data(routeURL));
+        setIsUpdated(false);
+      })();
+    if (!isLoaded){
+      listOfRoutes[0] && loadAssignedStops();
     }
   }, [isUpdated]);
 
@@ -42,8 +49,9 @@ function RouteModify() {
     return listOfRoutes.filter((route) => route.name !== oldName).find((route) => route.name === newName);
   }
   const getModifiedRoute = () => {
-    return listOfRoutes[routeDropdown.current.selectedIndex];
+    return listOfRoutes.find((route) => route.name === routeDropdown.current?.value) || listOfRoutes[0];
   };
+
 
   const handleDeleteButtonClick = async () => {
     getModifiedRoute().id && await deleteRouteById(getModifiedRoute().id);
@@ -52,11 +60,13 @@ function RouteModify() {
   }
 
   const changeRoute = () => {
-    routeNewName.current.value = "";
-    getModifiedRoute().id && loadAssignedStops(getModifiedRoute().id);
-  }
-  async function loadAssignedStops(routeId) {
-    const scheduleURL = '/schedule/stops-connected-to-route-id/' + routeId;
+    categoryDropdown.current.value = getModifiedRoute().category;
+    loadAssignedStops();
+  };
+
+  async function loadAssignedStops () {
+    //console.log(getModifiedRoute().id)
+    const scheduleURL = '/schedule/stops-connected-to-route-id/' + getModifiedRoute()?.id;
     setListOfAssignedStop(await data(scheduleURL));
     setIsLoaded(true);
   }
@@ -84,18 +94,17 @@ function RouteModify() {
     await data(scheduleURL, 'DELETE');
   }
 
-  const deleteSchedulesByRouteId = async (routeId) => {
-    const scheduleURL = '/schedule/connected-to-route-id/' + routeId;
+  const deleteSchedulesByRouteId = async () => {
+    const scheduleURL = '/schedule/connected-to-route-id/' + getModifiedRoute().id;
     await data(scheduleURL, 'DELETE');
   }
 
   const updateRoute = async () => {
     const routeId = getModifiedRoute().id;
     const nameOfRoute = routeNewName.current.value.length > 0 ? routeNewName.current.value : routeDropdown.current.value;
-    const categoryOfRoute = categoryDropdown.current.value;
+    const categoryOfRoute = categoryDropdown.current?.value;
     if (isRouteExistsByName(nameOfRoute))
       throw new Error("There is already exist a Route in this name");
-
 
     await deleteSchedulesByRouteId(routeId);
 
@@ -103,22 +112,25 @@ function RouteModify() {
     const routeObject = {
       id: routeId,
       name: nameOfRoute,
-      category:categoryOfRoute
+      category: categoryOfRoute
     }
     await data(routeURL, 'PUT', routeObject);
 
     const scheduleURL = '/schedule/add';
 
-    listOfAssignedStop.forEach((stop) => {
+    await Promise.all(listOfAssignedStop.map((stop) => {
       const scheduleObject = {
         routeId: routeId,
         stopId: stop.id
-      }
-      data(scheduleURL, 'POST', scheduleObject);
-    });
+      };
+      return data(scheduleURL, 'POST', scheduleObject);
+    }));
     navigate('/workspace');
   }
-  if (!isLoading) {
+  if (isLoading && !isLoaded){
+    return <Loading/>;
+  }
+  if (true)
     if (listOfRoutes.length !== 0) {
       return (
           <>
@@ -132,15 +144,19 @@ function RouteModify() {
                       {listOfRoutes.map((route) => <option key={route.name}>{route.name}</option>)}
                     </select>
                     <p>Change route category to:</p>
-                    <select ref={categoryDropdown} >
+                    <select ref={categoryDropdown}>
                       {listOfCategories.map((category) =>
-                      <option key={category}>{category}</option>)}
+                          <option key={category}>{category}</option>)}
                     </select>
                     <p>Rename selected route</p>
                     <input ref={routeNewName}/>
                   </div>
                   <button onClick={() => updateRoute()}>Update</button>
                   {!isDeletion && <button className={"alertButton"} onClick={() => setDeletion(true)}>Delete</button>}
+                  <br/>
+                  <h2>Route preview</h2>
+                  <h4>Showing assigned and not assigned stops</h4>
+                  {getModifiedRoute() && <MapPreview positions={listOfStops} vehicleCategory={getModifiedRoute().category}/>}
                 </div>
 
                 <div className='pageElement'>
@@ -160,17 +176,15 @@ function RouteModify() {
               </div>
             </div>
             {isDeletion && <ConfirmDialog category={"Route"}
-                                         confirmString={routeDropdown.current&&routeDropdown.current.value}
-                                         onClickMethod={() => handleDeleteButtonClick()}
-                                         onCloseMethod={() => setDeletion(false)}/>
+                                          confirmString={routeDropdown.current&&routeDropdown.current.value}
+                                          onClickMethod={() => handleDeleteButtonClick()}
+                                          onCloseMethod={() => setDeletion(false)}/>
             }
           </>
       )
     } else {
       return <InfoDialog title={"Route modification"} description={"There is no existing route in the database to modify."} buttonLabel={"Go Workspace"} onClickMethod={() => navigate("/workspace")} onCloseMethod={() => navigate("/workspace")}/>;
     }
-} else
-    return <Loading/>;
 }
 
 export default RouteModify
