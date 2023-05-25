@@ -1,13 +1,15 @@
-export default function News(props) {
+import { useNavigate } from "react-router-dom";
+import './News.css'
+export const News = ({data}) => {
+  const navigate = useNavigate();
     return (
-      <div className="card">
-        <img className="news--image" src={props.url} alt="news image" />
-        <h2>{props.title}</h2>
-        <p className="price">{props.price}</p>
-        <p>{props.description}</p>
+   <div className="card" key={data.id}>
+           <img className="news--image" id="previewImg" src={"data:image/png;base64,"+data.imgData} alt="news image" />
+        <h2>{data.title}</h2>
+        <p >{data.description}</p>
         <p> 
-          <button>Read more</button>
+          <button onClick={() => navigate(`/article/${data.title}`)}>Read more</button>
         </p> 
       </div>
     );
-  }
+}

@@ -25,8 +25,39 @@ export const NewsCreate = () => {
           await data(newsURL, 'POST', newsObject);
           navigate('/workspace');
         }
+   
+        async function getByteArray(event) {
+          let myFile = event.target.files[0];
+          let byteArray = await fileToByteArray(myFile);
+          //Do something with the byteArray
+          console.log(byteArray);
+          imgDataField = byteArray;
+      }
       
-    const    onImageChange = (event) => {
+      function fileToByteArray(file) {
+        return new Promise((resolve, reject) => {
+            try {
+                let reader = new FileReader();
+                let fileByteArray = [];
+                reader.readAsArrayBuffer(file);
+                reader.onloadend = (evt) => {
+                    if (evt.target.readyState == FileReader.DONE) {
+                        let arrayBuffer = evt.target.result,
+                        array = new Uint8Array(arrayBuffer);
+                        for (let i = 0; i < array.length; i++) {
+                            fileByteArray.push(array[i]);
+                        }
+                    }
+                    resolve(fileByteArray);
+                }
+            }
+            catch (e) {
+                reject(e);
+            } 
+        })
+    }
+
+/*     const    onImageChange = (event) => {
           const imageFile = URL.createObjectURL(event.target.files[0]);
           createImage(imageFile, convertImage);
         };
@@ -72,7 +103,7 @@ export const NewsCreate = () => {
         function convertArray(array) {
           return JSON.stringify(array).replace(/\[/g, '').replace(/\]/g, '');
         }
-
+ */
         useEffect(() => {
           if(role() !== "EMPLOYEE"){
             navigate("/map");
@@ -96,7 +127,7 @@ export const NewsCreate = () => {
             </div>
              <div className='routeDetail'>
               <p>Set picture of the article:</p>
-              <input type="file" onChange={(event) => onImageChange(event)}/>
+              <input type="file" onChange={(event) => getByteArray(event)}/>
               <label id="done">done</label>;
             </div> 
             <button onClick={() => createNews()}>Create</button>
