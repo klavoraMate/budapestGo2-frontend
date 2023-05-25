@@ -10,7 +10,11 @@ const DropMenu = ({title, content}) => {
         {!isHidden && <p>{title}</p>}
       </div>
       <div onMouseLeave={() => setIsHidden(false)}>
-        {isHidden && <div className={"box"}>{content.map((option) => <button onClick={option[1]} className={"menuButton"}>{option[0]}</button>)}</div>}
+        {isHidden && <div className={"box"}>{content.map((element) =>
+          element[1] ? <button onClick={element[1]} className={"menuButton"}>{element[0]}</button>
+            :            <div className={"tag"}><h4>{element[0]}</h4></div>
+        )
+        }</div>}
       </div>
     </div>
     )
