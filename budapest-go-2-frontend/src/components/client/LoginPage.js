@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import{getCookie,isCookieAdequette} from "../cookie";
 import { token, role } from "../token/TokenDecoder";
 import { useNavigate } from "react-router-dom";
-import  "./LoginPage.css";
+import  "./authentication.css";
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -81,7 +81,7 @@ function LoginPage() {
                 </div>
                 <button type="submit">Login</button>
             </form>
-            <h3 className="register"
+            <h3 className="link"
              onClick={() =>  navigateTo("/register")}
              >
                 Not registered yet?
