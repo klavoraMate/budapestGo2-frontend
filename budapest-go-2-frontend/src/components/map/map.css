@@ -26,5 +26,6 @@
     cursor: text;
     transition: all 0.2s ease-in-out;
     width: 340px;
+    height: 14px;
     box-shadow: 0 2px 4px rgba(1, 1, 1, 1);
 }
