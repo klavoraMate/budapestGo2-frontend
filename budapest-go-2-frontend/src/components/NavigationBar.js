@@ -10,20 +10,24 @@ function NavigationBar() {
   const [logedInEmail, setLogedInEmail] = useState(null);
   const [privilege, setPrivilege] = useState(null);
   const [isHidden, setIsHidden] = useState(true);
-
+  
   const handleLogout = () => {
    localStorage.clear();
    setPrivilege(null);
    setLogedInEmail(null);
    navigate("/");
 }
-
+  
 
   useEffect(() => {
 
        if (email() && role()) {
         setLogedInEmail(email());
         setPrivilege(role());
+        
+        const timeout = setTimeout(() => {
+          handleLogout();
+        }, 2 * 60 * 60 * 1000); 
       } 
   },[email(), role()]);
 
