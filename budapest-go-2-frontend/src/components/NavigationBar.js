@@ -20,22 +20,21 @@ function NavigationBar() {
   
 
   useEffect(() => {
-        
-    if(time()){
-          const targetDate = new Date(time());
-          const currentDate = new Date();
-          if (currentDate > targetDate) {
-            handleLogout();
-          }
+    if (email() && role()) {
+      setLogedInEmail(email());
+      setPrivilege(role());
+      
+      const targetDate = new Date(time());
+      const currentDate = new Date();
+      if (currentDate > targetDate) {
+          handleLogout();
+      }
+      const timeout = setTimeout(() => {
+          handleLogout();
+      }, 2 * 60 * 60 * 1000); 
     }
 
-       if (email() && role()) {
-        setLogedInEmail(email());
-        setPrivilege(role());
-        const timeout = setTimeout(() => {
-          handleLogout();
-        }, 2 * 60 * 60 * 1000); 
-      } 
+    
   },[email(), role()]);
 
   return (
