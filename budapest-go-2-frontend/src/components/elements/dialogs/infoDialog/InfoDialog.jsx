@@ -10,6 +10,7 @@ const InfoDialog = ({title, description, buttonLabel, onClickMethod, onCloseMeth
         </div>
         <hr className={"separatorLine"}/>
         <div className={"DialogContent"}>
+          <img className={"image"} src={process.env.PUBLIC_URL + "/warning.png"} alt={"warning"}/>
           <p className={"description"}>{description}</p>
           <button onClick={() => onClickMethod()}>{buttonLabel}</button>
         </div>
