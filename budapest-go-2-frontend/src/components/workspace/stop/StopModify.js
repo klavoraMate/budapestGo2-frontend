@@ -3,7 +3,8 @@ import useMultiFetch from '../../api/useMultiFetch';
 import Loading from "../../elements/loadingIndicator/Loading";
 import {useNavigate} from "react-router-dom";
 import { role } from '../../token/TokenDecoder';
-import ConfirmDialog from "../../elements/confirmDialog/ConfirmDialog";
+import ConfirmDialog from "../../elements/dialogs/confirmDialog/ConfirmDialog";
+import InfoDialog from "../../elements/dialogs/infoDialog/InfoDialog";
 function StopModify() {
   const [listOfStops, setListOfStops] = useState();
   const stopDropdown = useRef();
@@ -59,36 +60,40 @@ function StopModify() {
   }
 
   if (isDataLoaded() && role() === "EMPLOYEE") {
-    return (
-      <>
-        <div className='pageContent'>
-          <h2>Modify transportation stop</h2>
-          <div className='pagePanel'>
-            <div className='pageElement'>
-              <div className='routeDetail'>
-                <p>Select existing route:</p>
-                <select ref={stopDropdown}>
-                  {listOfStops.map((stop) => <option key={stop.name}>{stop.name}</option>)}
-                </select>
-                <p>Rename selected route</p>
-                <input ref={stopNewName}/>
-                <p>Set latitude</p>
-                <input type="number" step="0.000001" ref={stopLatitude}/>
-                <p>Set longitude</p>
-                <input type="number" step="0.000001" ref={stopLongitude}/>
+    if (listOfStops.length !== 0) {
+      return (
+        <>
+          <div className='pageContent'>
+            <h2>Modify transportation stop</h2>
+            <div className='pagePanel'>
+              <div className='pageElement'>
+                <div className='routeDetail'>
+                  <p>Select existing route:</p>
+                  <select ref={stopDropdown}>
+                    {listOfStops.map((stop) => <option key={stop.name}>{stop.name}</option>)}
+                  </select>
+                  <p>Rename selected route</p>
+                  <input ref={stopNewName}/>
+                  <p>Set latitude</p>
+                  <input type="number" step="0.000001" ref={stopLatitude}/>
+                  <p>Set longitude</p>
+                  <input type="number" step="0.000001" ref={stopLongitude}/>
+                </div>
+                <button onClick={() => updateStop()}>Update</button>
+                {!isDeletion && <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
               </div>
-              <button onClick={() => updateStop()}>Update</button>
-              {!isDeletion && <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
             </div>
           </div>
-        </div>
-        {isDeletion && <ConfirmDialog category={"Stop"}
-                                     confirmString={stopDropdown.current.value}
-                                     onClickMethod={() => handleDeleteButtonClick()}
-                                     onCloseMethod={() => setIsDeletion(false)}/>
-        }
-      </>
-    )
+          {isDeletion && <ConfirmDialog category={"Stop"}
+                                       confirmString={stopDropdown.current.value}
+                                       onClickMethod={() => handleDeleteButtonClick()}
+                                       onCloseMethod={() => setIsDeletion(false)}/>
+          }
+        </>
+      )
+    } else {
+      return <InfoDialog title={"Stop modification"} description={"There is no existing stop in the database to modify."} buttonLabel={"Go Workspace"} onClickMethod={() => navigate("/workspace")} onCloseMethod={() => navigate("/workspace")}/>;
+    }
   } else {
     return <Loading/>
   }

@@ -6,7 +6,8 @@ import './routeModify.css';
 import Loading from "../../elements/loadingIndicator/Loading";
 import {useNavigate} from "react-router-dom";
 import { role } from '../../token/TokenDecoder';
-import ConfirmDialog from "../../elements/confirmDialog/ConfirmDialog";
+import ConfirmDialog from "../../elements/dialogs/confirmDialog/ConfirmDialog";
+import InfoDialog from "../../elements/dialogs/infoDialog/InfoDialog";
 
 function RouteModify() {
   const navigate = useNavigate()
@@ -21,7 +22,7 @@ function RouteModify() {
   const listViewAssignedStop = useRef();
   const [isLoaded, setIsLoaded] = useState(false);
   const [isUpdated, setIsUpdated] = useState(true);
-  const [isDeletion, setIsDeletion] = useState(false);
+  const [isDeletion, setDeletion] = useState(false);
   const { data, isLoading } = useMultiFetch();
 
   useEffect(() => {
@@ -46,7 +47,7 @@ function RouteModify() {
 
   const handleDeleteButtonClick = async () => {
     getModifiedRoute().id && await deleteRouteById(getModifiedRoute().id);
-    setIsDeletion(false);
+    setDeletion(false);
     navigate("/workspace")
   }
 
@@ -118,54 +119,58 @@ function RouteModify() {
     navigate('/workspace');
   }
   if (!isLoading) {
-  return (
-      <>
-        <div className='pageContent'>
-          <h2>Modify transportation route</h2>
-          <div className='pagePanel'>
-            <div className='pageElement'>
-              <div className='routeDetail'>
-                <p>Select existing route:</p>
-                <select ref={routeDropdown} onChange={() => changeRoute()}>
-                  {listOfRoutes.map((route) => <option key={route.name}>{route.name}</option>)}
-                </select>
-                <p>Change route category to:</p>
-                <select ref={categoryDropdown} >
-                  {listOfCategories.map((category) =>
-                  <option key={category}>{category}</option>)}
-                </select>
-                <p>Rename selected route</p>
-                <input ref={routeNewName}/>
-              </div>
-              <button onClick={() => updateRoute()}>Update</button>
-              {!isDeletion && <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
-            </div>
+    if (listOfRoutes.length !== 0) {
+      return (
+          <>
+            <div className='pageContent'>
+              <h2>Modify transportation route</h2>
+              <div className='pagePanel'>
+                <div className='pageElement'>
+                  <div className='routeDetail'>
+                    <p>Select existing route:</p>
+                    <select ref={routeDropdown} onChange={() => changeRoute()}>
+                      {listOfRoutes.map((route) => <option key={route.name}>{route.name}</option>)}
+                    </select>
+                    <p>Change route category to:</p>
+                    <select ref={categoryDropdown} >
+                      {listOfCategories.map((category) =>
+                      <option key={category}>{category}</option>)}
+                    </select>
+                    <p>Rename selected route</p>
+                    <input ref={routeNewName}/>
+                  </div>
+                  <button onClick={() => updateRoute()}>Update</button>
+                  {!isDeletion && <button className={"alertButton"} onClick={() => setDeletion(true)}>Delete</button>}
+                </div>
 
-            <div className='pageElement'>
-              <div className='listPanel'>
-                <div className='element'>
-                  <p>Available stops</p>
-                  <ListView key="available-stops" listElements={listOfStops.filter((x) => !listOfAssignedStop.map((y) => y.id).includes(x.id))} ref={listViewAvailableStop}/>
-                  <button onClick={() => addStopToList()}>{'Assign'}</button>
-                </div>
-                <div className='element'>
-                  <p>Assigned stops</p>
-                  <ListView key="assigned-stops" listElements={listOfAssignedStop} ref={listViewAssignedStop}/>
-                  <button onClick={() => removeStopFromList()}>{'Remove'}</button>
+                <div className='pageElement'>
+                  <div className='listPanel'>
+                    <div className='element'>
+                      <p>Available stops</p>
+                      <ListView key="available-stops" listElements={listOfStops.filter((x) => !listOfAssignedStop.map((y) => y.id).includes(x.id))} ref={listViewAvailableStop}/>
+                      <button onClick={() => addStopToList()}>{'Assign'}</button>
+                    </div>
+                    <div className='element'>
+                      <p>Assigned stops</p>
+                      <ListView key="assigned-stops" listElements={listOfAssignedStop} ref={listViewAssignedStop}/>
+                      <button onClick={() => removeStopFromList()}>{'Remove'}</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        {isDeletion && <ConfirmDialog category={"Route"}
-                                     confirmString={routeDropdown.current&&routeDropdown.current.value}
-                                     onClickMethod={() => handleDeleteButtonClick()}
-                                     onCloseMethod={() => setIsDeletion(false)}/>
-        }
-      </>
-  )
+            {isDeletion && <ConfirmDialog category={"Route"}
+                                         confirmString={routeDropdown.current&&routeDropdown.current.value}
+                                         onClickMethod={() => handleDeleteButtonClick()}
+                                         onCloseMethod={() => setDeletion(false)}/>
+            }
+          </>
+      )
+    } else {
+      return <InfoDialog title={"Route modification"} description={"There is no existing route in the database to modify."} buttonLabel={"Go Workspace"} onClickMethod={() => navigate("/workspace")} onCloseMethod={() => navigate("/workspace")}/>;
+    }
 } else
-    return <Loading/>
+    return <Loading/>;
 }
 
 export default RouteModify
