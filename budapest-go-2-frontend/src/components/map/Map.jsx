@@ -27,7 +27,7 @@ const Map = () => {
     const stopURL = '/stop/all';
     const routeURL = '/route/all';
     (async () => setListOfRoutes(await data(routeURL)))();
-    }, [data]
+    }, []
   );
 
   const search = (event) => {
