@@ -1,17 +1,15 @@
 import React from 'react'
 import './navigationBar.css'
 import './elements.css'
-import { email, role, time } from "../components/token/TokenDecoder";
+import { email, role, time } from "./token/TokenDecoder";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import DropMenu from "./elements/dropMenu/DropMenu";
 
 function NavigationBar() {
   const [loggedInEmail, setLoggedInEmail] = useState(null);
-  const [isHidden, setIsHidden] = useState(false);
   const [privilege, setPrivilege] = useState(null);
   const navigate = useNavigate();
-  const emailIndicator = useRef(null);
-  const optionsMenu = useRef(null);
 
   const handleLogout = () => {
    localStorage.clear();
@@ -38,27 +36,32 @@ function NavigationBar() {
 
   },[email(), role()]);
 
-  const a = [["logout", () => handleLogout()],
-    ["logout", () => handleLogout()],
-    ["logout", () => handleLogout()],
-    ["logout", () => handleLogout()],
-    ["logout", () => handleLogout()]
+  const userMenuContent = [
+    ["Log-out", () => handleLogout()],
+    ["Settings", () => console.log("//TODO: Implement settings")],
   ];
-  console.log(a[0][0])
+
+  const passMenuContent = [
+    ["Types and prices", () => handleLogout()],
+  ];
+
+  const mapMenuContent = [
+    ["Map", () => navigate("/map")]
+  ];
+  const newsMenuContent = [
+    ["News", () => navigate("/news")]
+  ];
+
   return (
     <div className='navigationBar'>
       <img className='logo' src={process.env.PUBLIC_URL + '/logo.png'} alt="logo" />
-
-      <div className={"menu"}>
-
-        <div className={"email"} onMouseEnter={() => setIsHidden(true)}>
-          {!isHidden && <p>{email()}</p>}
-        </div>
-
-        <div onMouseLeave={() => setIsHidden(false)}>
-          {isHidden && <div className={"box"}>{a.map((option) => <button onClick={option[1]} className={"menuButton"}>{option[0]}</button>)}</div>}
-        </div>
-
+      <div className={"left-content"}>
+          <DropMenu title={"Navigation"} content={mapMenuContent}/>
+          <DropMenu title={"Passes"} content={passMenuContent}/>
+          <DropMenu title={"News"} content={newsMenuContent}/>
+      </div>
+      <div className={"right-content"}>
+        <DropMenu title={email()} content={userMenuContent}/>
       </div>
     </div>
   )
