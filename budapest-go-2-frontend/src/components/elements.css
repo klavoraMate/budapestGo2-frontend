@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 button {
   border-radius: 12px;
   background-color: #FFFFFF;
@@ -14,12 +18,50 @@ button {
 
 button:hover {
   background-color: #5E276F;
+  border-color: #ffffff;
   color: #FFFFFF;
 }
 
 button:active {
   color: #9B9B9B;
 }
+
+.alertButton {
+  color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.alertButton:hover {
+  background-color: #e74c3c;
+  color: #FFFFFF;
+}
+
+input {
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 12px 24px;
+  cursor: text;
+  transition: all 0.2s ease-in-out;
+  border-style: solid;
+  border-width: thin;
+  height: 5px;
+  color: black;
+}
+
+select {
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 0 23px;
+  cursor: text;
+  transition: all 0.2s ease-in-out;
+  border-style: solid;
+  border-width: thin;
+  color: black;
+  height: 30px;
+}
+
 .pageContent {
   position: relative;
   top: 120px;

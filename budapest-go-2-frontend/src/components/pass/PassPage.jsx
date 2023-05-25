@@ -1,35 +1,30 @@
 import "./PassPage.css";
 import React, {useEffect, useState} from "react";
 import {PassList} from "./PassList";
+import Loading from "../elements/loadingIndicator/Loading";
 import { useNavigate } from "react-router-dom";
-import { id, token } from "../token/TokenDecoder";
+import { email } from "../token/TokenDecoder";
+import useMultiFetch from "../api/useMultiFetch";
 function PassPage() {
     const navigate = useNavigate();
+    const { data } = useMultiFetch();
     const [passes, setPasses] = useState([]);
     const [isFetching, setIsFetching] = useState(true);
     const [isActive, setIsActive] = useState(true);  
    
-    async function fetchActiveData() {
+    const fetchActiveData = async () => {
       setIsFetching(true);
       setIsActive(true);
-      const data = await fetch(`/pass/active/${id()}`, {
-        headers: {
-          'Authorization': `Bearer ${token()}`,
-        },
-      });
-      setPasses(await data.json());
+      const response = await data(`/pass/active/${email()}`);
+      setPasses(await response);
       setIsFetching(false);
     };
   
     const fetchExpiredData = async () => {
       setIsFetching(true);
       setIsActive(false);
-      const data = await fetch(`/pass/expired/${id()}`, {
-        headers: {
-          'Authorization': `Bearer ${token()}`,
-        },
-      });
-      const dataJSON = await data.json();
+      const response = await data(`/pass/expired/${email()}`);
+      const dataJSON = await response;
       setPasses(await dataJSON);
       setIsFetching(false);
     };
@@ -41,18 +36,18 @@ function PassPage() {
     return (
       <div id="pass">
         <div>
-        <div>
-          <button
+        <div id="passbutton">
+          <button id="buttons"
             onClick={fetchActiveData}
           >
             Active passes
           </button>
-          <button
+          <button id="buttons"
             onClick={fetchExpiredData}
           >
             Expired passes
           </button>
-          <button
+          <button id="buttons"
             onClick={()=>navigate("/purchase")}
           >
             Purchase pass
@@ -60,9 +55,7 @@ function PassPage() {
         </div>
         
         {isFetching ? (
-          <div id="loading">
-            <p id="loading-text">Loading...</p>
-          </div>
+           <Loading/>
         ) : passes.length > 0 ? (
         <div  id="passContent">
             <PassList passData={passes}

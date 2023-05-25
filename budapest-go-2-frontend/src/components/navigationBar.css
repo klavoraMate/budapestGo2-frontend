@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: flex-start;
   padding: 0 24px;
-  z-index: 2;
+  z-index: 9998;
 }
 
 .logo {
@@ -42,4 +42,26 @@
   margin: 0 0 0 0;
   border-radius: 0;
   width: 100%;
+}
+
+
+@media screen and (max-width: 960px) {
+  .navigationBar{
+    width: 90%;
+  }
+  .logo{
+    scale: 0.7;
+    margin-left: -50px;
+    margin-right: -40px;
+  }
+ 
+  .logoutButton {
+    display: block;
+    text-decoration: none;
+  }
+
+  .logoutButton {
+    width: 100%;
+  }
+
 }

@@ -1,10 +1,10 @@
 .group {
+    display: block;
     border-style: solid;
     border-width: thin;
     margin-bottom: 10px;
-    width: 400px;
     height: 90px;
-    display: flex;
+    width: fit-content;
     flex-direction: column;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 1);
 }
@@ -15,4 +15,18 @@
 button {
     height: 45px;
     width: 170px;
+}
+@media screen and (max-width: 960px) { 
+    .group {
+        max-width: 75%;
+        height: 110px;
+    }
+    button {
+        max-width: 45%;
+        height: 60px;
+    }
+}
+
+.workspaceButton {
+    width: 190px;
 }

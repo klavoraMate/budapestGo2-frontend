@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import{getCookie,isCookieAdequette} from "../components/cookie";
-import { email, role } from "../components/token/TokenDecoder";
+import{getCookie,isCookieAdequette} from "../cookie";
+import { token, role } from "../token/TokenDecoder";
 import { useNavigate } from "react-router-dom";
 import  "./LoginPage.css";
 function LoginPage() {
@@ -16,6 +16,9 @@ function LoginPage() {
     };
 
     useEffect(() => {
+        if(token() != null){
+            navigate("/home")
+        }
         return () => {
             isMounted.current = false;
         };
@@ -45,11 +48,8 @@ function LoginPage() {
             });
             if(response.ok){
                 const data = await response.json();
-                    console.log(data.token);
                 const token = data.token;
-                const id = data.id;
                 localStorage.setItem('token', token);
-                localStorage.setItem('id', id);
                 if(role() === "EMPLOYEE"){
                     navigate("/workspace");
                 }

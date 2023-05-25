@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { token } from "../token/TokenDecoder";
 
-function RegisterPage (){
+const RegisterPage = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -9,6 +10,9 @@ function RegisterPage (){
     const [hidden, setHidden] = useState(true);
     const isMounted = useRef(true);
     useEffect(() => {
+        if(token() != null){
+            navigate("/home")
+        }
         return () => {
             isMounted.current = false;
         };
@@ -28,7 +32,6 @@ function RegisterPage (){
     
     
    const postRegistration = async(email, password)=>{
-    console.log(password,email);
     fetch('/register', {
             method: 'POST',
             headers: {
@@ -55,23 +58,19 @@ function RegisterPage (){
       <div className="pageContent">
         <h1>Register</h1>
         <div hidden = {hidden}>{message}</div>
-        <div className="flex justify-center flex-col items-center text-2xl ">
-        <form onSubmit={HandleSubmit}>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input type="text" id="email" value={email} onChange={handleEmailChange} />
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input type="password" id="password" value={password} onChange={handlePasswordChange} />
-                </div>
-                <button type="submit">Register</button>
-                <h3 className="register"
-                onClick={() =>  navigate("/")}
-                >
-                Registered already?
-            </h3>
-          </form>
+          <div>
+            <form onSubmit={HandleSubmit}>
+              <div>
+                <label htmlFor="email">Email:</label>
+                <input type="text" id="email" value={email} onChange={handleEmailChange} />
+              </div>
+              <div>
+                <label htmlFor="password">Password:</label>
+                <input type="password" id="password" value={password} onChange={handlePasswordChange} />
+              </div>
+              <button type="submit">Register</button>
+              <h3 onClick={() =>  navigate("/")}>Registered already?</h3>
+            </form>
         </div>
       </div>
     );
