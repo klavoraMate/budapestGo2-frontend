@@ -12,6 +12,19 @@
 .groupContent {
     margin-left: 10px;
 }
+.passGroup{
+    border-style: solid;
+    border-width: thin;
+    margin-bottom: 10px;
+    width: 400px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 1);
+}
+.passButton {
+    height: 50px;  
+}
 button {
     height: 45px;
     width: 170px;

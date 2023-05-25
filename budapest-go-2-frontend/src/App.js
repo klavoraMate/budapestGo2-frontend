@@ -11,7 +11,10 @@ import RouteModify from './components/workspace/route/RouteModify';
 import StopCreate from './components/workspace/stop/StopCreate';
 import StopModify from './components/workspace/stop/StopModify';
 import { CategoryCreate } from './components/workspace/pass/CategoryCreate';
-import {CategoryModify} from './components/workspace/pass/CategoryModify';
+import { CategoryModify } from './components/workspace/pass/CategoryModify';
+import { NewsCreate } from './components/workspace/news/NewsCreate';
+import { NewsModify } from './components/workspace/news/NewsModify';
+import  NewsArticle  from './components/newsline/NewsArticle';
 import NavigationBar from './components/NavigationBar';
 import Map from './components/map/Map';
 
@@ -21,6 +24,7 @@ function App() {
     <Routes>
       <Route path='/' element={<LoginPage />} />
       <Route path='/Home' element={<Home />} />
+      <Route path='/article/:id' element={<NewsArticle/>} />
       <Route path='/workspace'element={<Workspace/>}/>
       <Route path='/route/add' element={<RouteCreate/>}/>
       <Route path='/route/edit' element={<RouteModify/>}/>
@@ -28,6 +32,8 @@ function App() {
       <Route path='/stop/edit' element={<StopModify/>}/>
       <Route path='/category/add' element={<CategoryCreate/>}/>
       <Route path='/category/edit' element={<CategoryModify/>}/>
+      <Route path='/news/add' element={<NewsCreate/>}/>
+      <Route path='/news/edit' element={<NewsModify/>}/>
       <Route path='/register' element={<RegisterPage/>} />
       <Route path='/pass' element={<PassPage/>} />
       <Route path='/purchase' element={<PassPurchasePage/>} />

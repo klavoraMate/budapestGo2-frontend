@@ -29,3 +29,13 @@ export const token = () => {
       }
     
 }
+
+export const time = () => {
+    try {
+        const time = localStorage.getItem('time');
+        return time;
+    } catch (error) {
+          return null;
+      }
+    
+}

@@ -11,10 +11,6 @@ export const CategoryModify = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isUpdated, setIsUpdated] = useState(true);
     const [currentValuesUpdated, setCurrentValuesUpdated] = useState('true');
-    const [currentCategory, setCurrentCategory] = useState([]);
-    const [currentDuration, setCurrentDuration] = useState([]);
-    const [currentpassExpireInDay, setCurrentPassExpireInDay] = useState([]);
-    const [currentPrice, setCurrentPrice] = useState([]);
     const { data } = useMultiFetch();
     const categoryDropdown = useRef();
     const categoryTypeField = useRef();
@@ -31,27 +27,20 @@ export const CategoryModify = () => {
         navigate("/map");
       }
       const categoryUrl = '/category/all';
-      if (isUpdated)
-        (async () => setListOfCategories(await data(categoryUrl), setIsUpdated(false)))();
+      if (isUpdated){
+        (async () => setListOfCategories(await data(categoryUrl),setCurrentValuesUpdated(await data(categoryUrl)), setIsUpdated(false)))();
+      }
       if (isDataLoaded() && !isLoaded){
-        setCurrentCategory(listOfCategories[0].category);
-        setCurrentDuration(listOfCategories[0].passDuration);
-        setCurrentPassExpireInDay(listOfCategories[0].passExpireInDay);
-        setCurrentPrice(listOfCategories[0].price);  
         setIsLoaded(true);
       }
     }, [isUpdated,currentValuesUpdated])
-  
-    const getModifiedCategory = () => listOfCategories.filter((category) => category.id == categoryDropdown.current.value);
-  
+    
+    const getModifiedCategory = () => (setCurrentValuesUpdated('thi'), listOfCategories.filter((category) => category.id == categoryDropdown.current.value));
+    
     const changeCategory = () => {
       const selectedCategory = getModifiedCategory();
       setCurrentValuesUpdated(selectedCategory);
-      setCurrentCategory(selectedCategory[0].category);      
-      setCurrentDuration(selectedCategory[0].passDuration);
-      setCurrentPassExpireInDay(selectedCategory[0].passExpireInDay);
-      setCurrentPrice(selectedCategory[0].price);
-    
+      setIsLoaded(false);
     }
   
     const updateRoute = async () => {
@@ -75,35 +64,40 @@ export const CategoryModify = () => {
     if (isDataLoaded() && isLoaded) {
     return (
           <div className='pageContent'>
-            <h2>Modify transportation route</h2>
+            <h2>Modify pass category</h2>
             <div className='pagePanel'>
               <div className='pageElement'>
                 <div className='routeDetail'>
                   <p>Select existing category:</p>
-                  <select ref={categoryDropdown} onChange={() => changeCategory()}>
-                    {listOfCategories.map((category) => <option key={category.id}>{category.id}</option>)}
+                  <select 
+                    ref={categoryDropdown} 
+                    onChange={() => changeCategory()}
+                    defaultValue={currentValuesUpdated[0].id}
+                    >
+                    {listOfCategories.map((category) => 
+                    <option key={category.id} >{category.id}</option>)}
                   </select>
                   <p>Rename category type</p>
                   <input 
                     ref={categoryTypeField}
-                    defaultValue={currentCategory}
+                    defaultValue={currentValuesUpdated[0].category}
                   />
                   <p>Rename category duration:</p>
                   <input 
                     ref={durationField}
-                    defaultValue={currentDuration}
+                    defaultValue={currentValuesUpdated[0].passDuration}
                   />
                   <p>Change expirety to:</p>
                   <input 
                     type="number" 
                     ref={expiretyField}
-                    defaultValue={currentpassExpireInDay}  
+                    defaultValue={currentValuesUpdated[0].passExpireInDay}  
                   />
                   <p>Change price to:</p>
                   <input 
                     type="number" 
                     ref={priceField}
-                    defaultValue={currentPrice}  
+                    defaultValue={currentValuesUpdated[0].price}  
                   />
                 </div>
                 <button onClick={() => updateRoute()}>Update</button>

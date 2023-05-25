@@ -1,0 +1,11 @@
+.card{
+    margin-right: 100px;
+}
+#previewImg{
+    height: 350px;
+    width: 500px;
+}
+
+#textDesc{
+    text-align: center;
+}

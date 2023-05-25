@@ -1,8 +1,9 @@
-import { email, role } from "./token/TokenDecoder";
-import { useNavigate } from "react-router-dom";
-import {useState, useEffect, useRef} from "react";
+import React from 'react'
 import './navigationBar.css'
 import './elements.css'
+import { email, role, time } from "../components/token/TokenDecoder";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 
 function NavigationBar() {
   const [loggedInEmail, setLoggedInEmail] = useState(null);
@@ -20,11 +21,21 @@ function NavigationBar() {
 }
 
   useEffect(() => {
+    if (email() && role()) {
+      setLoggedInEmail(email());
+      setPrivilege(role());
 
-       if (email() && role()) {
-        setLoggedInEmail(email());
-        setPrivilege(role());
-      } 
+      const targetDate = new Date(time());
+      const currentDate = new Date();
+      if (currentDate > targetDate) {
+          handleLogout();
+      }
+      const timeout = setTimeout(() => {
+          handleLogout();
+      }, 2 * 60 * 60 * 1000);
+    }
+
+
   },[email(), role()]);
 
   const a = [["logout", () => handleLogout()],

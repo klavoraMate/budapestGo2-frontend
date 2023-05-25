@@ -1,24 +1,4 @@
-export const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 1024 },
-      items: 2,
-      slidesToSlide: 2,
-    },
-    desktop: {
-      breakpoint: { max: 524, min: 300 },
-      items: 2,
-    },
-    tablet: {
-      breakpoint: { max: 800, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  };
-  
+
   export const newsData = [
     {
       id: 1,
@@ -26,6 +6,8 @@ export const responsive = {
         "https://vezess2.p3k.hu/app/uploads/2019/10/mtimihadak-zoltanjoo.jpg",
       name: "Colorful",
       description: "Some text about the article..",
+      text: 
+      
     },
     {
       id: 2,

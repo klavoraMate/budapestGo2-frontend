@@ -49,7 +49,9 @@ function LoginPage() {
             if(response.ok){
                 const data = await response.json();
                 const token = data.token;
+                const time = data.time;
                 localStorage.setItem('token', token);
+                localStorage.setItem('time', time);
                 if(role() === "EMPLOYEE"){
                     navigate("/workspace");
                 }

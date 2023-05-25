@@ -34,6 +34,13 @@ function Workspace() {
           <button className={"workspaceButton"} onClick={() => navigate('/category/edit')}>Modify category</button>
         </div>
       </div>
+      <div className='group'>
+      <label>Manage news</label>
+        <div className='groupContent'>
+          <button className={"workspaceButton"} onClick={() => navigate('/news/add')}>Add new article</button>
+          <button className={"workspaceButton"} onClick={() => navigate('/news/edit')}>Modify articles</button>
+        </div>
+      </div>
     </div>
     )}
 

@@ -1,0 +1,24 @@
+body,html{
+    overflow:visible;
+}
+.articleCard{
+    margin-top: 100px;
+    margin-right: 100px;
+    margin-left: 100px;
+}
+#articleImg{
+    height: 600px;
+    width: 1024px;
+}
+.card{
+    margin-bottom: 50px;
+}
+#title{
+text-align: start;
+}
+#desc{
+
+}
+#text{
+
+}
