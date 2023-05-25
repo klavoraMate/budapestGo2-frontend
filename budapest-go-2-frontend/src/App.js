@@ -17,6 +17,7 @@ import { NewsModify } from './components/workspace/news/NewsModify';
 import  NewsArticle  from './components/newsline/NewsArticle';
 import NavigationBar from './components/NavigationBar';
 import Map from './components/map/Map';
+import NotFoundPage from './components/NotFoundPage';
 
 function App() {
   return (<Router>
@@ -38,6 +39,7 @@ function App() {
       <Route path='/pass' element={<PassPage/>} />
       <Route path='/purchase' element={<PassPurchasePage/>} />
       <Route path='/map' element={<Map/>}/>
+      <Route path='*' element={<NotFoundPage/>}/>
     </Routes>
   </Router>);
 }
