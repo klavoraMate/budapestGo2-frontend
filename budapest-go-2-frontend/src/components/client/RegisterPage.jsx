@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { token } from "../token/TokenDecoder";
-
+import  "./authentication.css";
 const RegisterPage = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -69,7 +69,7 @@ const RegisterPage = () => {
                 <input type="password" id="password" value={password} onChange={handlePasswordChange} />
               </div>
               <button type="submit">Register</button>
-              <h3 onClick={() =>  navigate("/")}>Registered already?</h3>
+              <h3 className={"link"} onClick={() =>  navigate("/")}>Registered already?</h3>
             </form>
         </div>
       </div>
