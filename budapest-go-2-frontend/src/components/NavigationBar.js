@@ -7,20 +7,17 @@ import { useState, useEffect, useRef } from "react";
 import DropMenu from "./elements/dropMenu/DropMenu";
 
 function NavigationBar() {
-  const [loggedInEmail, setLoggedInEmail] = useState(null);
   const [privilege, setPrivilege] = useState(null);
   const navigate = useNavigate();
 
   const handleLogout = () => {
    localStorage.clear();
    setPrivilege(null);
-   setLoggedInEmail(null);
    navigate("/");
 }
 
   useEffect(() => {
     if (email() && role()) {
-      setLoggedInEmail(email());
       setPrivilege(role());
 
       const targetDate = new Date(time());
@@ -32,9 +29,8 @@ function NavigationBar() {
           handleLogout();
       }, 2 * 60 * 60 * 1000);
     }
-
-
   },[email(), role()]);
+
 
   const userMenuContent = [
     ["Log-out", () => handleLogout()],
@@ -52,6 +48,7 @@ function NavigationBar() {
     ["News", () => navigate("/news")]
   ];
 
+  if (privilege === "CUSTOMER")
   return (
     <div className='navigationBar'>
       <img className='logo' src={process.env.PUBLIC_URL + '/logo.png'} alt="logo" />
@@ -65,6 +62,63 @@ function NavigationBar() {
       </div>
     </div>
   )
+
+  const workspaceMenuContent = [
+    ["Workspace", null],
+
+    ["Home", () => navigate("/workspace")],
+
+    ["Transportation", null],
+
+    ["Create route", () => navigate("/route/add")],
+    ["Modify route", () => navigate("/route/edit")],
+    ["Create stop", () => navigate("/stop/add")],
+    ["Modify stop", () => navigate("/stop/edit")],
+
+    ["Transportation", null],
+
+    ["Create pass", () => navigate("/category/add")],
+    ["Modify pass", () => navigate("/category/edit")],
+
+    ["Content", null],
+
+    ["Create article", () => navigate("/news/add")],
+    ["Modify article", () => navigate("/news/edit")],
+  ]
+
+  const mapEmployeeMenuContent = [
+    ["Customer", null],
+
+    ["Map", () => navigate("/map")]
+  ];
+
+  if (privilege === "EMPLOYEE")
+    return (
+      <div className='navigationBar'>
+        <img className='logo' src={process.env.PUBLIC_URL + '/logo.png'} alt="logo" />
+        <div className={"left-content"}>
+          <DropMenu title={"Navigation"} content={mapEmployeeMenuContent}/>
+          <DropMenu title={"Workspace"} content={workspaceMenuContent}/>
+        </div>
+        <div className={"right-content"}>
+          <DropMenu title={email()} content={userMenuContent}/>
+        </div>
+      </div>
+    )
+
+  const loginMenuContent = [
+    ["Log-in", () => navigate("/")],
+    ["Register", () => navigate("/register")],
+  ];
+
+    return (
+      <div className='navigationBar'>
+        <img className='logo' src={process.env.PUBLIC_URL + '/logo.png'} alt="logo" />
+        <div className={"right-content"}>
+          <DropMenu title={"Login"} content={loginMenuContent}/>
+        </div>
+      </div>
+    )
 }
 
 export default NavigationBar
