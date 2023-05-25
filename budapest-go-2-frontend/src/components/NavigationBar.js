@@ -1,7 +1,7 @@
 import React from 'react'
 import './navigationBar.css'
 import './elements.css'
-import { email, role } from "../components/token/TokenDecoder";
+import { email, role, time } from "../components/token/TokenDecoder";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -20,11 +20,18 @@ function NavigationBar() {
   
 
   useEffect(() => {
+        
+    if(time()){
+          const targetDate = new Date(time());
+          const currentDate = new Date();
+          if (currentDate > targetDate) {
+            handleLogout();
+          }
+    }
 
        if (email() && role()) {
         setLogedInEmail(email());
         setPrivilege(role());
-        
         const timeout = setTimeout(() => {
           handleLogout();
         }, 2 * 60 * 60 * 1000); 
