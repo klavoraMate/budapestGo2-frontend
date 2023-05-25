@@ -29,7 +29,7 @@ export const NewsCreate = () => {
         async function getByteArray(event) {
           let myFile = event.target.files[0];
           let byteArray = await fileToByteArray(myFile);
-          //Do something with the byteArray
+          
           console.log(byteArray);
           imgDataField = byteArray;
       }
@@ -57,53 +57,7 @@ export const NewsCreate = () => {
         })
     }
 
-/*     const    onImageChange = (event) => {
-          const imageFile = URL.createObjectURL(event.target.files[0]);
-          createImage(imageFile, convertImage);
-        };
-      
-        const   createImage = (imageFile, callback) => {
-          const image = new Image();
-          image.onload = () => callback(image, imageFile);
-          image.src = imageFile;
-        };
-      
-        const  convertImage = (image, imageFile) => {
-          const canvas = drawImageToCanvas(image);
-          const ctx = canvas.getContext('2d');
-      
-          let result = [];
-          for (let y = 0; y < canvas.height; y++) {
-            result.push([]);
-            for (let x = 0; x < canvas.width; x++) {
-              let data = ctx.getImageData(x, y, 1, 1).data;
-              result[y].push(data[0]);
-              result[y].push(data[1]);
-              result[y].push(data[2]);
-            }
-          }
-      
-          const byteCode = convertArray(result);
-          const base64String = btoa(byteCode);
-          
-          imgDataField = base64String;
-          document.getElementById("done").style.visibility = imgDataField??  "visible";
-        };
-      
-     
 
-        const  drawImageToCanvas = (image) => {
-          const canvas = document.createElement('canvas');
-          canvas.width = image.width;
-          canvas.height = image.height;
-          canvas.getContext('2d').drawImage(image, 0, 0, image.width, image.height);
-          return canvas;
-        };
-      
-        function convertArray(array) {
-          return JSON.stringify(array).replace(/\[/g, '').replace(/\]/g, '');
-        }
- */
         useEffect(() => {
           if(role() !== "EMPLOYEE"){
             navigate("/map");
