@@ -156,7 +156,7 @@ function RouteModify() {
                   <br/>
                   <h2>Route preview</h2>
                   <h4>Showing assigned and not assigned stops</h4>
-                  {getModifiedRoute() && <MapPreview positions={listOfStops} vehicleCategory={getModifiedRoute().category}/>}
+                  {getModifiedRoute() && <MapPreview positions={listOfAssignedStop} vehicleCategory={getModifiedRoute().category}/>}
                 </div>
 
                 <div className='pageElement'>
