@@ -37,6 +37,7 @@ function LoginPage() {
     const handleGoogleLogin = async (event) => {
         const url = await data("/oauth2/authorizationPageUrl/google")
         console.log(url);
+        window.location.replace(url);
     }
 
     const handleSubmit = async (event) => {
