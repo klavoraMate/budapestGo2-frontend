@@ -24,14 +24,15 @@ const ListView = forwardRef(({ listElements }, ref) => {
             ref.current.selected = selectedObject??{};
         }
     }, [ref, selectedOption]);
+
     return (
         <div className="listBody" ref={ref}>
             <div className="column">
-                {listElements && listElements.map((element) => (
+                {listElements && listElements.length > 0 ? listElements.map((element) => (
                         <div key={element.id} className="option" onClick={(event) => handleOnOptionClick(element, event)}>
                             {element.name}
-                        </div>
-                    ))}
+                        </div>)) : <p>empty</p>
+                }
             </div>
         </div>
     );

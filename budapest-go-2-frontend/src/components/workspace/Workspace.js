@@ -16,29 +16,29 @@ function Workspace() {
       <div className='group'>
         <label>Manage routes</label>
         <div className='groupContent'>
-          <button onClick={() => navigate('/route/add')}>Add new routes</button>
-          <button onClick={() => navigate('/route/edit')}>Modify routes</button>
+          <button className={"workspaceButton"} onClick={() => navigate('/route/add')}>Add new routes</button>
+          <button className={"workspaceButton"} onClick={() => navigate('/route/edit')}>Modify routes</button>
         </div>
       </div>
       <div className='group'>
       <label>Manage stops</label>
         <div className='groupContent'>
-          <button onClick={() => navigate('/stop/add')}>Add new stops</button>
-          <button onClick={() => navigate('/stop/edit')}>Modify stops</button>
+          <button className={"workspaceButton"} onClick={() => navigate('/stop/add')}>Add new stops</button>
+          <button className={"workspaceButton"} onClick={() => navigate('/stop/edit')}>Modify stops</button>
         </div>
       </div>
       <div className='passGroup'>
       <label>Manage pass categories</label>
         <div className='groupContent'>
-          <button className='passButton' onClick={() => navigate('/category/add')}>Add new category</button>
-          <button className='passButton' onClick={() => navigate('/category/edit')}>Modify category</button>
+          <button className={"workspaceButton"} onClick={() => navigate('/category/add')}>Add new category</button>
+          <button className={"workspaceButton"} onClick={() => navigate('/category/edit')}>Modify category</button>
         </div>
       </div>
       <div className='group'>
       <label>Manage news</label>
         <div className='groupContent'>
-          <button onClick={() => navigate('/news/add')}>Add new article</button>
-          <button onClick={() => navigate('/news/edit')}>Modify articles</button>
+          <button className={"workspaceButton"} onClick={() => navigate('/news/add')}>Add new article</button>
+          <button className={"workspaceButton"} onClick={() => navigate('/news/edit')}>Modify articles</button>
         </div>
       </div>
     </div>

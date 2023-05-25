@@ -12,7 +12,7 @@ function PassPage() {
     const [isFetching, setIsFetching] = useState(true);
     const [isActive, setIsActive] = useState(true);  
    
-    async function fetchActiveData() {
+    const fetchActiveData = async () => {
       setIsFetching(true);
       setIsActive(true);
       const response = await data(`/pass/active/${email()}`);

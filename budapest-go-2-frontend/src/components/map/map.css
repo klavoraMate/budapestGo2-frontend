@@ -1,6 +1,6 @@
 .mapContent{
     position: fixed;
-    top: 80px; /* Adjust this value to match the height of your navigation bar */
+    top: 80px;
     left: 0;
     right: 0;
     bottom: 0;

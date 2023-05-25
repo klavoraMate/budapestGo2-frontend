@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: flex-start;
   padding: 0 24px;
-  z-index: 2;
+  z-index: 9998;
 }
 
 .logo {
@@ -28,20 +28,26 @@
   position: absolute;
   left: 89%;
 }
-.box{
+.box {
+  position: absolute;
+  transform: translate(0, -10px);
     background-color: white;
     border-radius: 4px;
-    margin-top: 60px;
     width: 120px;
-    height: 90px;
+    height: fit-content;
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.751),
-    0 5px 3px 0 rgba(0, 0, 0, 0.719); 
-  
+    0 5px 3px 0 rgba(0, 0, 0, 0.719);
 }
-.logoutButton {
+.menuButton {
   margin: 0 0 0 0;
   border-radius: 0;
   width: 100%;
+}
+
+.menu {
+  display: flex;
+  align-content: center;
+  justify-content: center;
 }
 
 
