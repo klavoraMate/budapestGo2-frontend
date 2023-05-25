@@ -5,6 +5,7 @@
     height: 350px;
     width: 500px;
 }
-.card{
-    margin-bottom: 50px;
+
+#textDesc{
+    text-align: center;
 }

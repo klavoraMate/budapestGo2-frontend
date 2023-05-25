@@ -81,8 +81,7 @@ export const NewsCreate = () => {
             </div>
              <div className='routeDetail'>
               <p>Set picture of the article:</p>
-              <input type="file" onChange={(event) => getByteArray(event)}/>
-              <label id="done">done</label>;
+              <input className='upload' type="file" onChange={(event) => getByteArray(event)}/>
             </div> 
             <button onClick={() => createNews()}>Create</button>
           </div>

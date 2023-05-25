@@ -15,6 +15,7 @@ export default function NewsArticle() {
 
   useEffect(() => {
       fetchArticle();
+      document.body.style.overflow = "visible";
   }, []);
 
   if (article.length < 0) {

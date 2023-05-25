@@ -32,8 +32,11 @@
   font-size: 18px;
 }
   .Home{
-    margin-top: 20px;
+    margin-top: 10px;
   }
 .card button:hover {
   opacity: 0.7;
+}
+.pageContent{
+  margin-top: -15px;
 }

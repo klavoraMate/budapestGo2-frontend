@@ -1,3 +1,6 @@
+body,html{
+    overflow:visible;
+}
 .articleCard{
     margin-top: 100px;
     margin-right: 100px;
