@@ -38,14 +38,14 @@ function NavigationBar() {
   ];
 
   const passMenuContent = [
-    ["Types and prices", () => handleLogout()],
+    ["Types and prices", navigate("purchase")],
   ];
 
   const mapMenuContent = [
     ["Map", () => navigate("/map")]
   ];
   const newsMenuContent = [
-    ["News", () => navigate("/news")]
+    ["News", () => navigate("/home")]
   ];
 
   if (privilege === "CUSTOMER")
