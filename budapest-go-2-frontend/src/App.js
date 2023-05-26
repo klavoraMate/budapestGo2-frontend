@@ -39,7 +39,7 @@ function App() {
       <Route path='/pass' element={<PassPage/>} />
       <Route path='/purchase' element={<PassPurchasePage/>} />
       <Route path='/map' element={<Map/>}/>
-       <Route path='*' element={<NotFoundPage/>}/> 
+      <Route path='/*' element={<NotFoundPage/>}/>
     </Routes>
   </Router>);
 }
