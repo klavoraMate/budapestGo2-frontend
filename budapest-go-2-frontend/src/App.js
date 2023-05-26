@@ -26,7 +26,7 @@ function App() {
       <Route path='/' element={<LoginPage />} />
       <Route path='/Home' element={<Home />} />
       <Route path='/article/:id' element={<NewsArticle/>} />
-      <Route path='/workspace'element={<Workspace/>}/>
+      <Route path='/workspace' element={<Workspace/>}/>
       <Route path='/route/add' element={<RouteCreate/>}/>
       <Route path='/route/edit' element={<RouteModify/>}/>
       <Route path='/stop/add' element={<StopCreate/>}/>
@@ -39,7 +39,7 @@ function App() {
       <Route path='/pass' element={<PassPage/>} />
       <Route path='/purchase' element={<PassPurchasePage/>} />
       <Route path='/map' element={<Map/>}/>
-      <Route path='*' element={<NotFoundPage/>}/>
+       <Route path='*' element={<NotFoundPage/>}/> 
     </Routes>
   </Router>);
 }

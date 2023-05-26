@@ -3,7 +3,6 @@ import { getCookie, isCookieAdequette } from "../cookie";
 import { token, role } from "../token/TokenDecoder";
 import { useNavigate } from "react-router-dom";
 import useMultiFetch from "../api/useMultiFetch";
-import "./LoginPage.css";
 import  "./authentication.css";
 function LoginPage() {
     const [email, setEmail] = useState('');

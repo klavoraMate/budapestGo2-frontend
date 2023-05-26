@@ -5,29 +5,34 @@ import { email, role, time } from "./token/TokenDecoder";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import DropMenu from "./elements/dropMenu/DropMenu";
+import InfoDialog from './elements/dialogs/infoDialog/InfoDialog';
 
 function NavigationBar() {
   const [privilege, setPrivilege] = useState(null);
+  const [alert, setAlert] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    setAlert(false);
    localStorage.clear();
    setPrivilege(null);
    navigate("/");
 }
-
-  useEffect(() => {
-    if (email() && role()) {
-      setPrivilege(role());
+useEffect(() => {
+  if (email() && role()) {
+    setPrivilege(role());
+    
+    setTimeout(() => {
+      setAlert(true);
+    }, 2 * 60 * 60 * 1000);
+    
 
       const targetDate = new Date(time());
       const currentDate = new Date();
       if (currentDate > targetDate) {
           handleLogout();
       }
-      const timeout = setTimeout(() => {
-          handleLogout();
-      }, 2 * 60 * 60 * 1000);
+      
     }
   },[email(), role()]);
 
@@ -38,7 +43,7 @@ function NavigationBar() {
   ];
 
   const passMenuContent = [
-    ["Types and prices", navigate("purchase")],
+    ["Types and prices", () => navigate("purchase")],
   ];
 
   const mapMenuContent = [
@@ -112,12 +117,15 @@ function NavigationBar() {
   ];
 
     return (
+      <>
       <div className='navigationBar'>
         <img className='logo' src={process.env.PUBLIC_URL + '/logo.png'} alt="logo" />
         <div className={"right-content"}>
           <DropMenu title={"Login"} content={loginMenuContent}/>
         </div>
       </div>
+      {alert && <InfoDialog title={"Session expired"} description={"You have been automatically logged out"} buttonLabel={"Go Login"} onClickMethod={() => handleLogout()} onCloseMethod={() => handleLogout()} />}
+      </>
     )
 }
 
