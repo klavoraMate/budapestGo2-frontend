@@ -38,7 +38,7 @@ function NavigationBar() {
   ];
 
   const passMenuContent = [
-    ["Types and prices", navigate("purchase")],
+    ["Types and prices", () => navigate("purchase")],
   ];
 
   const mapMenuContent = [
