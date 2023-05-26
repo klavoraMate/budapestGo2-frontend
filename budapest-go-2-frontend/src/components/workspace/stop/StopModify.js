@@ -5,6 +5,8 @@ import {useNavigate} from "react-router-dom";
 import { role } from '../../token/TokenDecoder';
 import ConfirmDialog from "../../elements/dialogs/confirmDialog/ConfirmDialog";
 import InfoDialog from "../../elements/dialogs/infoDialog/InfoDialog";
+import './stopMap.css'
+import MapEditor from "../../elements/mapEditor/MapEditor";
 function StopModify() {
   const [listOfStops, setListOfStops] = useState();
   const stopDropdown = useRef();
@@ -12,8 +14,10 @@ function StopModify() {
   const stopLatitude = useRef();
   const stopLongitude = useRef();
   const [isDeletion, setIsDeletion] = useState(false);
+  const markerRef = useRef([0, 0]);
+  const locationOfBudapest = [47.486208, 19.108459];
   const navigate = useNavigate();
-  const {data} = useMultiFetch();
+  const { data, isLoading } = useMultiFetch();
 
 
   useEffect(() => {
@@ -23,10 +27,6 @@ function StopModify() {
     const stopURL = '/stop/all';
     (async () => setListOfStops(await data(stopURL)))();
   }, [])
-
-  const isDataLoaded = () => {
-    return !!listOfStops;
-  };
 
   const handleDeleteButtonClick = async () => {
     await deleteStopById(selectedStop().id);
@@ -47,6 +47,28 @@ function StopModify() {
     return (inputField.current.value.length > 0);
   }
 
+  function updateInputLatAndLng() {
+    stopLatitude.current.value = (markerRef.current?.value.lat);
+    stopLongitude.current.value = (markerRef.current?.value.lng);
+  }
+
+  const updateMapLatAndLng = () => {
+    markerRef.current.value.lat = stopLatitude.current?.value;
+    markerRef.current.value.lng = stopLongitude.current?.value;
+    updateMarker();
+  }
+
+  const [markerKey, setMarkerKey] = useState(0);
+  const updateMarker = () => {
+    setMarkerKey(prevKey => prevKey + 1);
+  }
+  const changeStop = () => {
+    const stop = selectedStop();
+    stopLatitude.current.value = stop.latitude;
+    stopLongitude.current.value = stop.longitude;
+    updateMapLatAndLng();
+  }
+
   const updateStop = async () => {
     const stopURL = '/stop/update'
     const stopObject = {
@@ -59,36 +81,44 @@ function StopModify() {
     navigate('/workspace');
   }
 
-  if (isDataLoaded() && role() === "EMPLOYEE") {
-    if (listOfStops.length !== 0) {
+  if (!isLoading && role() === "EMPLOYEE") {
+    if (listOfStops) {
       return (
         <>
-          <div className='pageContent'>
-            <h2>Modify transportation stop</h2>
-            <div className='pagePanel'>
-              <div className='pageElement'>
+          <div className='as'>
                 <div className='routeDetail'>
+            <h2>Modify transportation stop</h2>
                   <p>Select existing route:</p>
-                  <select ref={stopDropdown}>
+                  <select ref={stopDropdown} onChange={() => changeStop()}>
                     {listOfStops.map((stop) => <option key={stop.name}>{stop.name}</option>)}
                   </select>
                   <p>Rename selected route</p>
                   <input ref={stopNewName}/>
-                  <p>Set latitude</p>
-                  <input type="number" step="0.000001" ref={stopLatitude}/>
-                  <p>Set longitude</p>
-                  <input type="number" step="0.000001" ref={stopLongitude}/>
-                </div>
-                <button onClick={() => updateStop()}>Update</button>
-                {!isDeletion && <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
+                  <p>Set latitude:</p>
+                  <input type="number" step="0.000001"
+                         ref={stopLatitude}
+                         onChange={() => updateMapLatAndLng()}
+                         defaultValue={locationOfBudapest[0]}
+                  />
+                  <p>Set longitude:</p>
+                  <input type="number" step="0.000001"
+                         ref={stopLongitude}
+                         onChange={() => updateMapLatAndLng()}
+                         defaultValue={locationOfBudapest[1]}
+                  />
               </div>
-            </div>
+                <button className={"stopButton"} onClick={() => updateStop()}>Update</button>
+                {!isDeletion && <button className={"alertButton"} onClick={() => setIsDeletion(true)}>Delete</button>}
           </div>
+          <MapEditor
+            onClick={() => updateInputLatAndLng()}
+            ref={markerRef} vehicleCategory={"default"}
+            markerKey={markerKey}
+          />
           {isDeletion && <ConfirmDialog category={"Stop"}
-                                       confirmString={stopDropdown.current.value}
-                                       onClickMethod={() => handleDeleteButtonClick()}
-                                       onCloseMethod={() => setIsDeletion(false)}/>
-          }
+                                        confirmString={stopDropdown.current?.value}
+                                        onClickMethod={() => handleDeleteButtonClick()}
+                                        onCloseMethod={() => setIsDeletion(false)}/>}
         </>
       )
     } else {
