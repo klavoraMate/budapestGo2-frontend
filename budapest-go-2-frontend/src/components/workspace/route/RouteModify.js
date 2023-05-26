@@ -32,6 +32,7 @@ function RouteModify() {
     }
     const stopURL = '/stop/all';
     const routeURL = '/route/all';
+
     if (isUpdated)
       (async () => {
         setListOfStops(await data(stopURL));
@@ -46,6 +47,7 @@ function RouteModify() {
   const isRouteExistsByName = (oldName, newName) => {
     return listOfRoutes.filter((route) => route.name !== oldName).find((route) => route.name === newName);
   }
+
   const getModifiedRoute = () => {
     return listOfRoutes.find((route) => route.name === routeDropdown.current?.value) || listOfRoutes[0];
   };
@@ -73,10 +75,11 @@ function RouteModify() {
     const nameofStop = listViewAvailableStop.current.value;
     const stopObject = {id: listViewAvailableStop.current.selected.id, name: nameofStop};
     if (listOfAssignedStop.every((stop) => (stop.id !== stopObject.id))) {
-      listOfAssignedStop.push(stopObject)
+      listOfAssignedStop.push(stopObject);
     }
     setIsUpdated(true);
   }
+
   const removeStopFromList = () => {
     const stopToRemove = listViewAssignedStop.current.selected;
     const index = listOfAssignedStop.findIndex((stop) => stop.id === stopToRemove.id && stop.name === stopToRemove.name);
@@ -125,9 +128,11 @@ function RouteModify() {
     }));
     navigate('/workspace');
   }
+
   if (isLoading && !isLoaded) {
     return <Loading/>;
   }
+
   if (listOfRoutes.length !== 0) {
     return (
       <>
