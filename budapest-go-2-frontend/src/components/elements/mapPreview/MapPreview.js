@@ -1,20 +1,9 @@
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import { getIcon } from "../../api/GetMapIcon";
 import React from "react";
-import L from "leaflet";
 import "./mapPreview.css"
-const getIconPath = (vehicleCategory) => {
-  const iconName = "-marker-icon.png";
-  const publicPath = process.env.PUBLIC_URL + "/map/";
-  return publicPath + (vehicleCategory ? vehicleCategory.toLowerCase() : "default") + iconName;
-}
-const getIcon = (vehicleCategory) => {
-  return L.icon({
-    iconUrl: getIconPath(vehicleCategory),
-    iconSize: [25, 41]
-  })
-}
-const calculateCenter = (positions) => {
   const locationOfBudapest = [47.486208, 19.108459];
+const calculateCenter = (positions) => {
   if (!positions || positions.length === 0)
     return locationOfBudapest;
 
@@ -24,7 +13,7 @@ const calculateCenter = (positions) => {
   positions && positions.forEach((pos) => {latitude += pos.latitude; longitude += pos.longitude})
   latitude = latitude / positions.length;
   longitude = longitude / positions.length
-  return [latitude, longitude];
+  return [latitude.toFixed(6), longitude.toFixed(6)];
 }
 
 const calculateZoom = (positions) => {
@@ -48,20 +37,27 @@ const calculateZoom = (positions) => {
   return Math.floor(Math.log2(360 / distance) + zoomFactor);
 };
 const MapPreview = ({positions, vehicleCategory}) => {
-console.log(positions)
   return (
     <div className={"MapPreviewContent"}>
-      <MapContainer className="map" center={() => calculateCenter(positions)} zoom={() => calculateZoom(positions)} scrollWheelZoom={true}>
+      <MapContainer className="map" center={calculateCenter(positions)} zoom={calculateZoom(positions)} zoomControl={false} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {positions&&positions.map(stop =>
-          <Marker key={stop.id} icon={getIcon(vehicleCategory)} position={[stop.latitude, stop.longitude]}>
-            <Popup>
-              {stop.name}
-            </Popup>
-          </Marker>)}
+        {positions &&
+          positions.map((stop) =>
+            stop.location ? (
+              <Marker
+                key={stop.id}
+                icon={getIcon(vehicleCategory)}
+                position={[stop.location.latitude, stop.location.longitude]}
+              >
+                <Popup>
+                  {stop.name}
+                </Popup>
+              </Marker>
+            ) : null
+          )}
       </MapContainer>
     </div>
   )
