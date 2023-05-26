@@ -14,19 +14,20 @@
 
 .logo {
   height: 48px;
-  margin-right: 16px;
 }
 
 .left-content {
   display: flex;
   position: relative;
   top: -5%;
+  left: -2%;
 }
 
 .right-content {
   position: absolute;
   left: 82%;
-  top: -98%;
+  top: -75%;
+
 }
 
 @media screen and (max-width: 960px) {
