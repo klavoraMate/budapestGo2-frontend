@@ -1,0 +1,15 @@
+.as {
+  position: absolute;
+  z-index: 5;
+  background: white;
+  top: 100px;
+  left: 20px;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.751),
+  0 5px 3px 0 rgba(0, 0, 0, 0.719);
+  width: fit-content;
+  height: fit-content;
+}
+
+.routeDetail, .stopButton {
+  margin: 10px 10px 10px 10px;
+}
