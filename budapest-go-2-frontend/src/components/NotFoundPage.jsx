@@ -7,5 +7,4 @@ const NotFoundPage = () => {
     <InfoDialog title={"Page not found"} description={"404"} onClickMethod={() => navigate("/")} onCloseMethod={() => navigate("/")} buttonLabel={"Go Home"}/>
   )
 }
-
 export default NotFoundPage;
