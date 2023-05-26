@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import{getCookie,isCookieAdequette} from "../cookie";
+import { getCookie, isCookieAdequette } from "../cookie";
 import { token, role } from "../token/TokenDecoder";
 import { useNavigate } from "react-router-dom";
+import useMultiFetch from "../api/useMultiFetch";
+import "./LoginPage.css";
 import  "./authentication.css";
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -10,13 +12,14 @@ function LoginPage() {
     const [hidden, setHidden] = useState(true);
     const isMounted = useRef(true);
     const navigate = useNavigate()
+    const { data } = useMultiFetch();
 
     const navigateTo = (urlEnd) => {
         navigate(urlEnd);
     };
 
     useEffect(() => {
-        if(token() != null){
+        if (token() != null) {
             navigate("/home")
         }
         return () => {
@@ -69,7 +72,7 @@ function LoginPage() {
     return (
         <div className='pageContent'>
             <h1>Login</h1>
-            <div hidden = {hidden}>{message}</div>
+            <div hidden={hidden}>{message}</div>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="email">Email:</label>
@@ -81,9 +84,9 @@ function LoginPage() {
                 </div>
                 <button type="submit">Login</button>
             </form>
-            <h3 className="link"
-             onClick={() =>  navigateTo("/register")}
-             >
+            <h3 className="register"
+                onClick={() => navigateTo("/register")}
+            >
                 Not registered yet?
             </h3>
         </div>

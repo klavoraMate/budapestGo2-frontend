@@ -1,5 +1,5 @@
 import { token } from "../token/TokenDecoder";
-import {useState} from "react";
+import { useState } from "react";
 
 const useMultiFetch = () => {
   const [isLoading, setLoading] = useState(true);
@@ -7,13 +7,18 @@ const useMultiFetch = () => {
     try {
       setLoading(true);
       const tokenValue = token();
+      const headers = tokenValue ?
+        {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${tokenValue}`,
+        } :
+        {
+          "Content-Type": "application/json",
+        }
       const response = await fetch((url[0] === "/" ? "" : "/") + url, {
         method: method ?? "GET",
         body: answerObject ? JSON.stringify(answerObject) : undefined,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${tokenValue}`,
-        },
+        headers: headers,
       });
 
       if (response.ok) {
