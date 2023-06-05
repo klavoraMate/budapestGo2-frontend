@@ -2,22 +2,23 @@ import useMultiFetch from "../../api/useMultiFetch";
 import { useEffect,useState, useRef } from "react";
 import {useNavigate} from "react-router-dom";
 import { role } from '../../token/TokenDecoder';
-//import './routeModify.css';
+import './ArticleEditor.css';
 import Loading from "../../elements/loadingIndicator/Loading";
-
+import ConfirmDialog from "../../elements/dialogs/confirmDialog/ConfirmDialog";
+import InfoDialog from "../../elements/dialogs/infoDialog/InfoDialog";
 export const NewsModify = () => {
     const navigate = useNavigate()
     const [listOfNews, setListOfNews] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isUpdated, setIsUpdated] = useState(true);
+    const [isDeletion, setDeletion] = useState(false);
     const [currentTitleUpdated, setCurrentTitleUpdated] = useState(true);
-    
     const { data } = useMultiFetch();
     const titleDropdown = useRef();
     const titleTypeField = useRef();
     const descriptionField = useRef();
     const articleTextField = useRef();
-    let imgField = '';
+    let imageField = '';
 
     const isDataLoaded = () => {
       return listOfNews.length > 0;
@@ -46,9 +47,7 @@ export const NewsModify = () => {
   async function getByteArray(event) {
       let myFile = event.target.files[0];
       let byteArray = await fileToByteArray(myFile);
-      
-      console.log(byteArray);
-      imgField = byteArray;
+      imageField = byteArray;
   }
   
   function fileToByteArray(file) {
@@ -73,26 +72,34 @@ export const NewsModify = () => {
         } 
     })
 }
-  
-    const updateRoute = async () => {
+const handleDeleteButtonClick = async () => {
+  currentTitleUpdated[0].id && await deleteNewsById(currentTitleUpdated[0].id);
+  setDeletion(false);
+  navigate("/workspace")
+}
+const deleteNewsById = async (id) => {
+  const newsUrl = '/news/api/' + id;
+  await data(newsUrl, 'DELETE');
+}
+    const updateNews = async () => {
       const newsTitle = titleTypeField.current.value;
       const newsDescription = descriptionField.current.value;
       const newsArticleText = articleTextField.current.value;
-      const newsImgData = imgField.current.value;
   
       const newsUpdateURL = '/news/api';
       const newsObject = {
+        id:currentTitleUpdated[0].id,
         title: newsTitle,
         description: newsDescription,
         articleText: newsArticleText,
-        imgField: newsImgData
+        imgData: imageField.length > 1 ? imageField : currentTitleUpdated[0].imgData
       }
       await data(newsUpdateURL, 'PUT', newsObject);
       navigate('/workspace');
     }
     if (isDataLoaded() && isLoaded) {
     return (
-          <div className='pageContent'>
+          <div><div className='pageContent'>
             <h2>Modify news article</h2>
             <div className='pagePanel'>
               <div className='pageElement'>
@@ -117,13 +124,38 @@ export const NewsModify = () => {
                     defaultValue={currentTitleUpdated[0].articleText}  
                   />
                   <p>Change image to:</p>
-                  <input type="file" onChange={(event) => getByteArray(event)}/>
+                  <input className='upload' type="file" onChange={(event) => getByteArray(event)}/>
                 </div>
-                <button onClick={() => updateRoute()}>Update</button>
+                <button onClick={() => updateNews()}>Update</button>
+                <div>
+                {!isDeletion && <button className={"alertButton"} onClick={() => setDeletion(true)}>Delete</button>}
+                </div>
               </div>
             </div>
+            {isDeletion && <ConfirmDialog category={"Article"}
+                                      confirmString={titleDropdown.current && titleDropdown.current.value}
+                                      onClickMethod={() => handleDeleteButtonClick()}
+                                      onCloseMethod={() => setDeletion(false)}/>
+        }
+          </div>
+          <div className="content">
+          {currentTitleUpdated[0].imgData && 
+           <div className="articleCard">
+           <h1 id="title">{currentTitleUpdated[0].title}</h1>
+           <h3 id="desc">{currentTitleUpdated[0].description}</h3>
+          <img id="articleImg" src={"data:image/png;base64,"+currentTitleUpdated[0].imgData} alt="news image" />
+          <div id="text"> 
+            {currentTitleUpdated[0].articleText}
+          </div>
+          </div>  }</div>
           </div>
     )
-  } else
+  }else if(isLoaded && listOfNews.length < 1){
+    return <InfoDialog title={"News modification"}
+    description={"There is no existing news in the database to modify."}
+    buttonLabel={"Go Workspace"} onClickMethod={() => navigate("/workspace")}
+    onCloseMethod={() => navigate("/workspace")}/>;
+  }
+   else
       return <Loading/> 
 }

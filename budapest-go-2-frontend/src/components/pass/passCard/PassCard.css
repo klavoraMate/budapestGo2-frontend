@@ -1,6 +1,6 @@
 :root {
 --barcode: white;
---grey: #7b0263;
+--purple: #7b0263;
 --ticket-body: #161616;
 }
 
@@ -64,7 +64,7 @@ position: relative;
 }
 
 .ticket-body p {
-color: var(--grey);
+color: var(--purple);
 font-size: 12px;
 }
 

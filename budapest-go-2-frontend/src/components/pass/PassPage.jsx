@@ -53,7 +53,6 @@ function PassPage() {
             Purchase pass
           </button>
         </div>
-        
         {isFetching ? (
            <Loading/>
         ) : passes.length > 0 ? (

@@ -11,6 +11,13 @@ function NavigationBar() {
   const [privilege, setPrivilege] = useState(null);
   const [alert, setAlert] = useState(false);
   const navigate = useNavigate();
+  let url = window.location.href.split("/");
+  let currentUrlPath = url[url.length-2];
+  if(currentUrlPath !== "article" || currentUrlPath !== "news" ){
+    document.body.style.overflow = "hidden";
+  }else{
+    document.body.style.overflow = "visible";
+  }
 
   const handleLogout = () => {
     setAlert(false);

@@ -1,16 +1,6 @@
 
  :root {
     --size: 1;
-    --background: #000;
-    --whiteBackground:#ffff;
-     --color1: #d25778;
-    --color2: #ec585c;
-    --color3: #e7d155;
-    --color4: #56a8c6;
-    --color1: #5E276F;
-    --color2: #7d3293;
-    --color3: #8d38a7;
-    --color4: #973bb3;
   }
   .pass_visual{
     background-color: white;

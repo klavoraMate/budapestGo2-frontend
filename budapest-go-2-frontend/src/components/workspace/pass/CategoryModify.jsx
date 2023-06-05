@@ -2,14 +2,15 @@ import useMultiFetch from "../../api/useMultiFetch";
 import { useEffect,useState, useRef } from "react";
 import {useNavigate} from "react-router-dom";
 import { role } from '../../token/TokenDecoder';
-//import './routeModify.css';
 import Loading from "../../elements/loadingIndicator/Loading";
-
+import ConfirmDialog from "../../elements/dialogs/confirmDialog/ConfirmDialog";
+import InfoDialog from "../../elements/dialogs/infoDialog/InfoDialog";
 export const CategoryModify = () => {
     const navigate = useNavigate()
     const [listOfCategories, setListOfCategories] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [isUpdated, setIsUpdated] = useState(true);
+    const [isDeletion, setDeletion] = useState(false);
     const [currentValuesUpdated, setCurrentValuesUpdated] = useState('true');
     const { data } = useMultiFetch();
     const categoryDropdown = useRef();
@@ -17,7 +18,6 @@ export const CategoryModify = () => {
     const durationField = useRef();
     const expiretyField = useRef();
     const priceField = useRef();
-
     const isDataLoaded = () => {
       return listOfCategories.length > 0;
     };
@@ -35,6 +35,16 @@ export const CategoryModify = () => {
       }
     }, [isUpdated,currentValuesUpdated])
     
+    const handleDeleteButtonClick = async () => {
+      currentValuesUpdated[0].id && await deleteCategoryById(currentValuesUpdated[0].id);
+      setDeletion(false);
+      navigate("/workspace")
+    }
+    const deleteCategoryById = async (id) => {
+      const newsUrl = '/category/api/' + id;
+      await data(newsUrl, 'DELETE');
+    }
+
     const getModifiedCategory = () => (setCurrentValuesUpdated('thi'), listOfCategories.filter((category) => category.id == categoryDropdown.current.value));
     
     const changeCategory = () => {
@@ -42,9 +52,9 @@ export const CategoryModify = () => {
       setCurrentValuesUpdated(selectedCategory);
       setIsLoaded(false);
     }
-  
+    
     const updateRoute = async () => {
-      const categoryId = getModifiedCategory("id").id;
+      const categoryId = currentValuesUpdated[0].id;
       const categoryName = categoryTypeField.current.value;
       const durationOfCategory = durationField.current.value;
       const expirationOfCategory = expiretyField.current.value;
@@ -101,10 +111,24 @@ export const CategoryModify = () => {
                   />
                 </div>
                 <button onClick={() => updateRoute()}>Update</button>
+                <div>
+                {!isDeletion && <button className={"alertButton"} onClick={() => setDeletion(true)}>Delete</button>}
+                </div>
               </div>
             </div>
+            {isDeletion && <ConfirmDialog category={"Category"}
+                                      confirmString={categoryDropdown.current && categoryDropdown.current.value}
+                                      onClickMethod={() => handleDeleteButtonClick()}
+                                      onCloseMethod={() => setDeletion(false)}/>
+        }
           </div>
     )
-  } else
+  } else if (isLoaded && listOfCategories.length < 1) {
+    return <InfoDialog title={"Category modification"}
+    description={"There is no existing category in the database to modify."}
+    buttonLabel={"Go Workspace"} onClickMethod={() => navigate("/workspace")}
+    onCloseMethod={() => navigate("/workspace")}/>;
+  }
+  else
       return <Loading/> 
 }

@@ -1,0 +1,31 @@
+.upload{
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    color: #5E276F;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 22px 2px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border-style: solid;
+    border-width: 0;
+    margin: 10px 10px 10px 0;  
+}
+.pageContent{
+}
+.content{
+    max-width: 100%;
+    top: -25%;
+    left: 0%;
+    position:absolute;
+    scale: 0.6;
+}
+@media screen and (max-width: 960px) {
+    .content{
+        max-width: 80%;
+        top: 40%;
+        left: 0%;
+        display: flex;
+        scale: 0.6;
+    }
+}

@@ -4,9 +4,15 @@
     position: absolute;
     top: 40%;
     padding-top: 100px; 
-    left: 25%;
+    left: 40%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+.notify{
+    top: 40%;
+    margin-left: 270px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 .canvas {
     margin-left: 300px;
@@ -69,6 +75,9 @@ label {
    
 }
 @media screen and (max-width: 960px) {
+    #purchase{
+        left: 25%;
+    }
     #button,#cart {
         width: 100%;
         max-width: 200px;

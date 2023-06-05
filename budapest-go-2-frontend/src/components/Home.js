@@ -21,7 +21,6 @@ const Home = () => {
 
   useEffect(() => {
     fetchActiveData();
-    document.body.style.overflow = "hidden";
 }, []);
       
 const responsive = {

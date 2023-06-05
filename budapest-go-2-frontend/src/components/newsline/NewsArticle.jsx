@@ -15,9 +15,7 @@ export default function NewsArticle() {
 
   useEffect(() => {
       fetchArticle();
-      document.body.style.overflow = "visible";
   }, []);
-
   if (article.length < 0) {
       return <Loading />;
   }else
@@ -26,9 +24,9 @@ export default function NewsArticle() {
         <h1 id="title">{article.title}</h1>
         <h3 id="desc">{article.description}</h3>
         <img id="articleImg" src={"data:image/png;base64,"+article.imgData} alt="news image" />
-        <h4 id="text"> 
+        <div id="text"> 
          {article.articleText}
-        </h4> 
-      </div>
+        </div>
+        </div> 
     );
   }

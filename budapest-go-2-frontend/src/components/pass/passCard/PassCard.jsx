@@ -4,10 +4,7 @@ export const PassCard = ({key, passType,passCategory, expirationDate,active}) =>
     const expirateTime = new Date(expirationDate).toISOString().substring(0, 10).replace("T", " ");
     
     return (
-      <div
-      id="passCard"
-      key={key}
-      >
+      <div id="passCard" key={key} >
       <div className="fluid ">
         <div >
           <div className="ticket light" id={active ? "": "expired"}>
@@ -49,6 +46,5 @@ export const PassCard = ({key, passType,passCategory, expirationDate,active}) =>
     </div>
   </div>
   </div>
-</div>
-    );
+</div>);
 };

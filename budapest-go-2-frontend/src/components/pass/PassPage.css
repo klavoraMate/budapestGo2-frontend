@@ -1,6 +1,7 @@
 #pass{
     margin-top: 100px;
     display:grid;
+    margin-left: 10px;
 }
 #passContent{
     margin-top: 50px;
@@ -9,7 +10,7 @@
     column-gap: 0px;
 }
 
-#noData{
+#logos2{
    
 }
 
@@ -41,6 +42,9 @@
     color: #9B9B9B;
   }
 @media screen and (max-width: 960px) { 
+    #pass{
+    margin-left: -5px;
+    }
     #passContent {
         column-count: 1;
         margin-left: 10px;

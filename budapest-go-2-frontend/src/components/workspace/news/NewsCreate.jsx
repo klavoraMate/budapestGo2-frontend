@@ -1,26 +1,27 @@
+import "./ArticleEditor.css";
 import useMultiFetch from "../../api/useMultiFetch";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {useNavigate} from "react-router-dom";
 import { role } from '../../token/TokenDecoder';
 export const NewsCreate = () => {
+        const { data } = useMultiFetch();
+        const navigate = useNavigate();
         const titleField = useRef();
         const descriptionField = useRef();
         const articleTextField = useRef();
-        const navigate = useNavigate();
-        const { data } = useMultiFetch();
-        let imgDataField = null;
+        const [imgDataField, setImgDataField ]= useState('');
+        
         const createNews = async () => {
           const titleOfNews = titleField.current.value;
           const descriptionOfNews = descriptionField.current.value;
           const articleTextOfNews = articleTextField.current.value;
-          const imgDataOfNews = imgDataField;
     
           const newsURL = '/news/api/register';
           const newsObject = {
               title: titleOfNews,
               description: descriptionOfNews,
               articleText: articleTextOfNews,
-              imgData:imgDataOfNews
+              imgData:imgDataField
           }
           await data(newsURL, 'POST', newsObject);
           navigate('/workspace');
@@ -29,9 +30,7 @@ export const NewsCreate = () => {
         async function getByteArray(event) {
           let myFile = event.target.files[0];
           let byteArray = await fileToByteArray(myFile);
-          
-          console.log(byteArray);
-          imgDataField = byteArray;
+          setImgDataField(byteArray);
       }
       
       function fileToByteArray(file) {
@@ -65,6 +64,7 @@ export const NewsCreate = () => {
         }, [])
         
         return (
+          <div>
           <div className='pageContent'>
             <h2>Create new news article</h2>
             <div className='routeDetail'>
@@ -84,6 +84,7 @@ export const NewsCreate = () => {
               <input className='upload' type="file" onChange={(event) => getByteArray(event)}/>
             </div> 
             <button onClick={() => createNews()}>Create</button>
+          </div>
           </div>
         )
 }
