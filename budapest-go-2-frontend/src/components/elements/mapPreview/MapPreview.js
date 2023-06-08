@@ -13,7 +13,7 @@ const calculateCenter = (positions) => {
   positions && positions.forEach((pos) => {latitude += pos.latitude; longitude += pos.longitude})
   latitude = latitude / positions.length;
   longitude = longitude / positions.length
-  return [latitude.toFixed(6), longitude.toFixed(6)];
+  return [latitude, longitude];
 }
 
 const calculateZoom = (positions) => {
