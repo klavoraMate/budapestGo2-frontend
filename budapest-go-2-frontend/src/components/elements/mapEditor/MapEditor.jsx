@@ -28,7 +28,7 @@ const MapEditor = forwardRef(({onClick, markerKey }, ref) => {
           eventHandlers={{
             dragend: (e) => {
               const LatLng = e.target.getLatLng();
-              const pos = {lat: Number(LatLng.lat.toFixed(6)), lng: Number(LatLng.lng.toFixed(6))};
+              const pos = {lat: Number(LatLng.lat), lng: Number(LatLng.lng)};
               setMarkerPosition(pos??locationOfBudapest);
               onClick();
             }
